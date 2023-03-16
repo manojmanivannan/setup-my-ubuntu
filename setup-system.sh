@@ -73,7 +73,9 @@ then
     print_green "Installing Essentials"
     apt-get -y install \
                    git \
-                   curl
+                   curl \
+                   wget \
+                   zsh
 fi
 
 #####################################
@@ -82,6 +84,7 @@ fi
 
 if [ ${INSTALL} -eq 1 ]
 then
-    sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-    chsh -s $(which zsh) $(whoami)
+    chsh -s $(which zsh)
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 fi
