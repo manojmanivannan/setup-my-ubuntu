@@ -61,5 +61,17 @@ done
 if [ ${UPDATE} -eq 1 ]
 then
     print_green "Updating system"
-    sudo apt-get -y update
+    apt-get -y update
+fi
+
+#####################################
+#       INSTALL COMMON LIBS         #
+#####################################
+
+if [ ${INSTALL} -eq 1 ]
+then
+    print_green "Updating system"
+    apt-get -y install \
+                   git \
+                   curl
 fi
