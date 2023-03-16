@@ -60,5 +60,6 @@ done
 
 if [ ${UPDATE} -eq 1 ]
 then
-  sudo apt-get -y update
+    print_green "Updating system"
+    sudo apt-get -y update
 fi
