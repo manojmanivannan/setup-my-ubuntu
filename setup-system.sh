@@ -70,8 +70,18 @@ fi
 
 if [ ${INSTALL} -eq 1 ]
 then
-    print_green "Updating system"
+    print_green "Installing Essentials"
     apt-get -y install \
                    git \
                    curl
+fi
+
+#####################################
+#       INSTALL ZSH SHELL          #
+#####################################
+
+if [ ${INSTALL} -eq 1 ]
+then
+    sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    chsh -s $(which zsh) $(whoami)
 fi
