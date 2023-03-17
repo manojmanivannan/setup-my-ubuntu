@@ -85,6 +85,9 @@ if [ ${INSTALL} -eq 1 ]
 then
     print_green "Setup ZSH"
     echo "How do you wish to install ZSH?"
+    echo "1 ) via zsh4humans"
+    echo "2 ) via oh-my-zsh"
+    echo "q ) quit"
     select yn in "1" "2" "q"; do
         case $yn in
             1 ) print_green "Setup ZSH via zsh4humans";
