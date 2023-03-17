@@ -69,7 +69,7 @@ function setup_vscode
 function setup_java
 {
   print_green "Setting up JAVA"
-  sudo apt install default-jre default-jdk
+  sudo apt install -y default-jre default-jdk
 }
 
 function setup_via_zsh4humans
