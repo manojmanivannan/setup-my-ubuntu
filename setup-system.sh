@@ -51,7 +51,7 @@ function setup_via_oh_my_zsh
     echo "Backing up oh-my-zsh folder"
     mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh-backup-$(date +%H_%M_%d_%h_%y)"
   fi
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended ;
 
   echo "Loading zshrc configurations to $HOME/.zshrc"
   if [ -f "$HOME/.zshrc" ]; then
