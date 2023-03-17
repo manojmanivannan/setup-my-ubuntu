@@ -61,7 +61,7 @@ done
 if [ ${UPDATE} -eq 1 ]
 then
     print_green "Updating system"
-    apt-get -y update
+    sudo apt-get -y update
 fi
 
 #####################################
@@ -71,7 +71,7 @@ fi
 if [ ${INSTALL} -eq 1 ]
 then
     print_green "Installing Essentials"
-    apt-get -y install \
+    sudo apt-get -y install \
                    git \
                    curl \
                    wget
@@ -83,13 +83,18 @@ fi
 
 if [ ${INSTALL} -eq 1 ]
 then
-    print_green "Setup ZSH"
-    
-    # https://github.com/romkatv/zsh4humans
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-    
-    print_green "Setup oh-my-zsh"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    
 
+    echo "Do you wish to install this program?"
+    select yn in "1" "2" "q"; do
+        case $yn in
+            1 ) print_green "Setup ZSH via zsh4humans";
+                  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)";  # https://github.com/romkatv/zsh4humans 
+                  break;;
+            2 ) print_green "Setup ZSH via oh-my-zsh";
+                  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
+                  break;;
+            q ) exit;;
+        esac
+    done
+    
 fi
