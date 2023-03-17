@@ -230,8 +230,6 @@ function glast-tag(){
 # Last line should the syntax highlighting
 source /home/manoj/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-source ~/.local/bin/virtualenvwrapper.sh
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
