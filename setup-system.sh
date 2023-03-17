@@ -46,7 +46,12 @@ function setup_via_oh_my_zsh
   echo "Installing ZSH with elevated permissions"
   sudo apt-get -y install zsh;
   
+  echo "Installing oh-my-zsh"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
+
+  echo "Loading zshrc configurations to $HOME/.zshrc"
+  mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date)"
+  cp etc/.zshrc "$HOME/.zshrc"
 }
 
 
