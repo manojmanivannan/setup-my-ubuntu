@@ -4,7 +4,6 @@ export PATH=$PATH:$HOME/.local/bin
 export WORKON_HOME=~/.virtualenvs
 # Path to your oh-my-zsh installation.
 export ZSH="/home/manoj/.oh-my-zsh"
-export OPENAI_API_KEY="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"
 export DOCKER_BUILDKIT=0
 export COMPOSE_DOCKER_CLI_BUILD=0
 

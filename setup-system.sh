@@ -14,8 +14,9 @@ function print_help
 function do_header
 {
   printf "%0$(tput cols)d" 0|tr '0' '='
-  echo ""
+  echo "\n"
   echo "$*"
+  echo "\n"
   printf "%0$(tput cols)d" 0|tr '0' '='
   echo ""
   echo -e "\e[39m"
@@ -35,8 +36,11 @@ function print_red
 
 function setup_py_env
 {
+  # PYTHON RELATED SETUP
   print_green "Setting up PyENV"
   curl https://pyenv.run | bash
+  mkdir -p $HOME/.scripts
+  cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
 }
 
 function setup_via_zsh4humans
@@ -72,6 +76,9 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
+
+  print_green "Loading custom prompt"
+
 
 }
 
