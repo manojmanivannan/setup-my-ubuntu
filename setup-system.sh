@@ -47,14 +47,14 @@ function setup_via_oh_my_zsh
   sudo apt-get -y install zsh;
   
   echo "Installing oh-my-zsh"
-  if [ -z "$HOME/.oh-my-zsh" ]; then
+  if [ -d "$HOME/.oh-my-zsh" ]; then
     echo "Backing up oh-my-zsh folder"
     mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh-backup-$(date +%H_%M_%d_%h_%y)"
   fi
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
 
   echo "Loading zshrc configurations to $HOME/.zshrc"
-  if [ -z "$HOME/.zshrc" ]; then
+  if [ -f "$HOME/.zshrc" ]; then
     echo "Backing up $HOME/.zshrc"
     mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date +%H_%M_%d_%h_%y)"
   fi
