@@ -85,18 +85,16 @@ if [ ${INSTALL} -eq 1 ]
 then
     print_green "Setup ZSH"
     echo "How do you wish to install ZSH?"
-    echo "1 ) via zsh4humans"
-    echo "2 ) via oh-my-zsh"
-    echo "q ) quit"
-    select yn in "1" "2" "q"; do
-        case $yn in
-            1 ) print_green "Setup ZSH via zsh4humans";
+    options=("zsh4humans" "oh-my-zsh" "quit")
+    select opt in "${options[@]}"; do
+        case $opt in
+            "zsh4humans" ) print_green "Setup ZSH via zsh4humans";
                   sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)";  # https://github.com/romkatv/zsh4humans 
                   break;;
-            2 ) print_green "Setup ZSH via oh-my-zsh";
+            "oh-my-zsh" ) print_green "Setup ZSH via oh-my-zsh";
                   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
                   break;;
-            q ) exit;;
+            "q" ) exit;;
             * ) echo "Invalid input. Please select 1, 2, or q.";;
         esac
     done
