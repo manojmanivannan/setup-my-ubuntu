@@ -13,7 +13,7 @@ Usage:
   bash setup-system.sh [OPTIONS]
 
   OPTIONS:-
-    --update      Update apt package and install basic packages
+    --update      Update apt package and install curl,wget,fonts-powerline,make,java
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
   "
@@ -113,6 +113,10 @@ function setup_via_oh_my_zsh
 
 }
 
+if [ "$#" -lt 0 ]; then
+  print_help
+  exit 0
+fi
 
 while [ "$#" -gt 0 ]; do
   case $1 in
@@ -126,6 +130,9 @@ while [ "$#" -gt 0 ]; do
       VSCODE_INSTALL=1
       ;;
     --pyenv)
+      PYENV_INSTALL=1
+      ;;
+    --java)
       PYENV_INSTALL=1
       ;;
     *)
@@ -160,10 +167,8 @@ then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
     sudo apt-get -y install \
-                   git \
-                   curl \
-                   wget \
-                   fonts-powerline
+                   git curl wget fonts-powerline \
+                   make 
 fi
 
 #####################################
