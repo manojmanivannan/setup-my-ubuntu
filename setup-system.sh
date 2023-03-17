@@ -4,6 +4,13 @@
 INSTALL=0
 UPDATE=0
 
+function print_help
+{
+  echo -e "Automatically Setup Ubuntu"
+  echo -e "Usage:"
+  echo -e "setup-system.sh --install --update"
+}
+
 function do_header
 {
   printf "%0$(tput cols)d" 0|tr '0' '='
@@ -26,6 +33,18 @@ function print_red
   do_header $*
 }
 
+function setup_via_zsh4humans
+{
+  print_green "Setup ZSH via zsh4humans";
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)";  # https://github.com/romkatv/zsh4humans 
+}
+
+function setup_via_oh_my_zsh
+{
+  print_green "Setup ZSH via oh-my-zsh";
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
+}
+
 
 while [ "$#" -gt 0 ]; do
   case $1 in
@@ -45,6 +64,7 @@ while [ "$#" -gt 0 ]; do
       ;;
     *)
       echo "Unknown parameter: $1"
+      print_help
       exit 1
       ;;
   esac
@@ -88,14 +108,10 @@ then
     options=("zsh4humans" "oh-my-zsh" "quit")
     select opt in "${options[@]}"; do
         case $opt in
-            "zsh4humans" ) print_green "Setup ZSH via zsh4humans";
-                  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)";  # https://github.com/romkatv/zsh4humans 
-                  break;;
-            "oh-my-zsh" ) print_green "Setup ZSH via oh-my-zsh";
-                  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
-                  break;;
+            "zsh4humans" ) setup_via_zsh4humans; break;;
+            "oh-my-zsh" ) setup_via_oh_my_zsh; break;;
             "quit" ) exit;;
-            * ) echo "Invalid input. Please select 1, 2, or q.";;
+            * ) echo "Invalid input. Please select 1, 2, or 3";;
         esac
     done
     
