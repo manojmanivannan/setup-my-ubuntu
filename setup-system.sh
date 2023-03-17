@@ -57,7 +57,8 @@ function setup_via_oh_my_zsh
   print_green "Setup ZSH via oh-my-zsh";
   
   echo "Installing ZSH with elevated permissions"
-  sudo apt-get -y install zsh;
+  sudo apt-get -y install zsh
+  chsh -s $(which zsh)
   
   echo "Installing oh-my-zsh"
   if [ -d "$HOME/.oh-my-zsh" ]; then
