@@ -97,6 +97,7 @@ then
                   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
                   break;;
             q ) exit;;
+            * ) echo "Invalid input. Please select 1, 2, or q.";;
         esac
     done
     
