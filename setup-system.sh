@@ -158,4 +158,6 @@ then
     done
     
     setup_py_env
+
+    print_green "FINISHED !!!"
 fi
