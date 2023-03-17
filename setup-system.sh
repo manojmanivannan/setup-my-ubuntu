@@ -43,6 +43,7 @@ function setup_py_env
   fi
   curl https://pyenv.run | bash
   mkdir -p $HOME/.scripts
+  cd $HOME/setup-my-ubuntu
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
 }
 
