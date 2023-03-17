@@ -94,7 +94,7 @@ then
             "oh-my-zsh" ) print_green "Setup ZSH via oh-my-zsh";
                   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
                   break;;
-            "q" ) exit;;
+            "quit" ) exit;;
             * ) echo "Invalid input. Please select 1, 2, or q.";;
         esac
     done
