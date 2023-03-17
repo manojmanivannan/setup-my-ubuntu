@@ -58,6 +58,8 @@ function setup_via_oh_my_zsh
   
   echo "Installing ZSH with elevated permissions"
   sudo apt-get -y install zsh
+  echo ""
+  echo "Need permission to set zsh as default shell"
   chsh -s $(which zsh)
   
   echo "Installing oh-my-zsh"
