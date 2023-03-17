@@ -73,9 +73,6 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
 
-  setup_py_env
-
-
 }
 
 
@@ -150,4 +147,5 @@ then
         esac
     done
     
+    setup_py_env
 fi
