@@ -33,6 +33,12 @@ function print_red
   do_header $*
 }
 
+function setup_py_env
+{
+  print_green "Setting up PyENV"
+  curl https://pyenv.run | bash
+}
+
 function setup_via_zsh4humans
 {
   print_green "Setup ZSH via zsh4humans";
@@ -66,7 +72,10 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
-  
+
+  setup_py_env
+
+
 }
 
 
