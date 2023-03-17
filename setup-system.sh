@@ -74,6 +74,7 @@ function setup_via_oh_my_zsh
 
   echo "Loading zshrc configurations to $HOME/.zshrc"
   cp etc/.zshrc "$HOME/.zshrc"
+  cp etc/amuse.zsh-theme "$HOME/.oh-my-zsh/themes/amuse.zsh-theme
 
   print_green "Setting up zsh plugins"
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
