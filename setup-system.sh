@@ -81,6 +81,7 @@ done
 if [ ${UPDATE} -eq 1 ]
 then
     print_green "Updating system"
+    echo -e "Running 'apt-get -y update' with elevated permissions"
     sudo apt-get -y update
 fi
 
@@ -91,6 +92,7 @@ fi
 if [ ${INSTALL} -eq 1 ]
 then
     print_green "Installing Essentials"
+    echo -e "Running 'apt-get -y install' with elevated permissions"
     sudo apt-get -y install \
                    git \
                    curl \
