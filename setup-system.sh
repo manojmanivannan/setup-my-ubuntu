@@ -115,7 +115,7 @@ function setup_via_oh_my_zsh
 
 if [ "$#" -lt 0 ]; then
   print_help
-  exit 0
+  exit 1
 fi
 
 while [ "$#" -gt 0 ]; do
