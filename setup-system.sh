@@ -38,6 +38,9 @@ function setup_py_env
 {
   # PYTHON RELATED SETUP
   print_green "Setting up PyENV"
+  if [ -d "$HOME/.pyenv" ]; then
+    rm -rf "$HOME/.pyenv"
+  fi
   curl https://pyenv.run | bash
   mkdir -p $HOME/.scripts
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
