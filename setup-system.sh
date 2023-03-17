@@ -87,9 +87,10 @@ function setup_via_oh_my_zsh
 
   print_green "Setting up Fonts"
   cd $HOME
-  git clone --filter=blob:none --sparse git@github.com:ryanoasis/nerd-fonts
+  git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts.git
   cd nerd-fonts
   git sparse-checkout add patched-fonts/JetBrainsMono && ./install.sh JetBrainsMono
+  cd $HOME/setup-my-ubuntu
 
 
 
