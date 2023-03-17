@@ -52,13 +52,21 @@ function setup_via_oh_my_zsh
     mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh-backup-$(date +%H_%M_%d_%h_%y)"
   fi
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended ;
+  print_green "oh-my-zsh install complete"
 
-  echo "Loading zshrc configurations to $HOME/.zshrc"
   if [ -f "$HOME/.zshrc" ]; then
     echo "Backing up $HOME/.zshrc"
     mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date +%H_%M_%d_%h_%y)"
   fi
+
+  echo "Loading zshrc configurations to $HOME/.zshrc"
   cp etc/.zshrc "$HOME/.zshrc"
+
+  print_green "Setting up zsh plugins"
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
+  
 }
 
 
