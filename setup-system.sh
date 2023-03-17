@@ -74,8 +74,7 @@ then
     apt-get -y install \
                    git \
                    curl \
-                   wget \
-                   zsh
+                   wget
 fi
 
 #####################################
@@ -84,7 +83,13 @@ fi
 
 if [ ${INSTALL} -eq 1 ]
 then
-    chsh -s $(which zsh)
+    print_green "Setup ZSH"
+    
+    # https://github.com/romkatv/zsh4humans
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+    
+    print_green "Setup oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    
 
 fi
