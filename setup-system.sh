@@ -42,6 +42,7 @@ function setup_via_zsh4humans
 function setup_via_oh_my_zsh
 {
   print_green "Setup ZSH via oh-my-zsh";
+  sudo apt-get -y install git;
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)";
 }
 
