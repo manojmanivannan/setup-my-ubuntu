@@ -14,9 +14,9 @@ function print_help
 function do_header
 {
   printf "%0$(tput cols)d" 0|tr '0' '='
-  echo "\n"
+  echo " "
   echo "$*"
-  echo "\n"
+  echo " "
   printf "%0$(tput cols)d" 0|tr '0' '='
   echo ""
   echo -e "\e[39m"
