@@ -113,7 +113,7 @@ function setup_via_oh_my_zsh
 
 }
 
-if [ "$#" -lt 0 ]; then
+if [ "$#" -lt 1 ]; then
   print_help
   exit 1
 fi
