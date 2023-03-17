@@ -5,6 +5,7 @@ ZSH_INSTALL=0
 UPDATE=0
 VSCODE_INSTALL=0
 PYENV_INSTALL=0
+JAVA_INSTALL=0
 
 function print_help
 {
@@ -13,9 +14,10 @@ Usage:
   bash setup-system.sh [OPTIONS]
 
   OPTIONS:-
-    --update      Update apt package and install curl,wget,fonts-powerline,make,java
+    --update      Update apt package and install curl,wget,fonts-powerline,make
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
+    --java        Setup Java
   "
 }
 
@@ -57,10 +59,17 @@ function setup_py_env
 
 function setup_vscode
 {
+  print_green "Setting up VS code"
   DOWNLOAD_VS_CODE_LINK=$(curl -s 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' | grep -o "http[^ ]*")
   DOWNLOADED_VS_CODE_FILE=$(echo $DOWNLOAD_VS_CODE_LINK | grep -o 'code.*')
   wget $DOWNLOAD_VS_CODE_LINK
   sudo apt install -y ./$DOWNLOADED_VS_CODE_FILE
+}
+
+function setup_java
+{
+  print_green "Setting up JAVA"
+  sudo apt install default-jre default-jdk
 }
 
 function setup_via_zsh4humans
@@ -133,7 +142,7 @@ while [ "$#" -gt 0 ]; do
       PYENV_INSTALL=1
       ;;
     --java)
-      PYENV_INSTALL=1
+      JAVA_INSTALL=1
       ;;
     *)
       echo "Unknown parameter: $1"
@@ -200,6 +209,10 @@ then
   setup_py_env
 fi
     
+if [ ${JAVA_INSTALL} -eq 1 ]
+then
+  setup_java
+fi
 
 print_green "FINISHED !!!"
 
