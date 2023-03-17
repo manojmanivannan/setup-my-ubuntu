@@ -1,14 +1,22 @@
 #!/bin/bash
 
 
-INSTALL=0
+ZSH_INSTALL=0
 UPDATE=0
+VSCODE_INSTALL=0
+PYENV_INSTALL=0
 
 function print_help
 {
-  echo -e "Automatically Setup Ubuntu"
-  echo -e "Usage:"
-  echo -e "setup-system.sh --install --update"
+  echo -e "Automatically Setup Linux Machine
+Usage:
+  bash setup-system.sh [OPTIONS]
+
+  OPTIONS:-
+    --update      Update apt package and install basic packages
+    --zsh         Setup zsh via zsh4humans or oh-my-zsh
+    --pyenv       Setup Python version management tool PyENV
+  "
 }
 
 function do_header
@@ -45,6 +53,14 @@ function setup_py_env
   mkdir -p $HOME/.scripts
   cd $HOME/setup-my-ubuntu
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
+}
+
+function setup_vscode
+{
+  DOWNLOAD_VS_CODE_LINK=$(curl -s 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' | grep -o "http[^ ]*")
+  DOWNLOADED_VS_CODE_FILE=$(echo $DOWNLOAD_VS_CODE_LINK | grep -o 'code.*')
+  wget $DOWNLOAD_VS_CODE_LINK
+  sudo apt install -y ./$DOWNLOADED_VS_CODE_FILE
 }
 
 function setup_via_zsh4humans
@@ -100,19 +116,17 @@ function setup_via_oh_my_zsh
 
 while [ "$#" -gt 0 ]; do
   case $1 in
-    --install)
-      INSTALL=1
+    --zsh)
+      ZSH_INSTALL=1
       ;;
     --update)
       UPDATE=1
       ;;
-  --argument1)
-      shift
-      GIT_REPO_URL=$1
+    --vscode)
+      VSCODE_INSTALL=1
       ;;
-  --argument2)
-      shift
-      GET_VERSION_ONLY=1
+    --pyenv)
+      PYENV_INSTALL=1
       ;;
     *)
       echo "Unknown parameter: $1"
@@ -141,21 +155,22 @@ fi
 #       INSTALL COMMON LIBS         #
 #####################################
 
-if [ ${INSTALL} -eq 1 ]
+if [ ${UPDATE} -eq 1 ]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
     sudo apt-get -y install \
                    git \
                    curl \
-                   wget
+                   wget \
+                   fonts-powerline
 fi
 
 #####################################
 #       INSTALL ZSH SHELL          #
 #####################################
 
-if [ ${INSTALL} -eq 1 ]
+if [ ${ZSH_INSTALL} -eq 1 ]
 then
     print_green "Setup ZSH"
     echo "How do you wish to install ZSH?"
@@ -168,8 +183,18 @@ then
             * ) echo "Invalid input. Please select 1, 2, or 3";;
         esac
     done
-    
-    setup_py_env
-
-    print_green "FINISHED !!!"
 fi
+
+if [ ${VSCODE_INSTALL} -eq 1 ]
+then
+  setup_vscode
+fi
+
+if [ ${PYENV_INSTALL} -eq 1 ]
+then
+  setup_py_env
+fi
+    
+
+print_green "FINISHED !!!"
+
