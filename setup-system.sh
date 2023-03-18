@@ -16,6 +16,7 @@ PYENV_INSTALL=0
 JAVA_INSTALL=0
 ALL_INSTALL=0
 SSH_KEY_INSTALL=0
+SPARK_INSTALL=0
 
 function print_help
 {
@@ -209,6 +210,9 @@ while [ "$#" -gt 0 ]; do
     --java)
       JAVA_INSTALL=1;UPDATE=1;
       ;;
+    --spark)
+      SPARK_INSTALL=1;UPDATE=1;
+      ;;
     --sshkey)
       SSH_KEY_INSTALL=1;UPDATE=1;
     --all)
@@ -280,6 +284,11 @@ fi
 if [[ ${JAVA_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_java
+fi
+
+if [[ ${SPARK_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_spark
 fi
 
 if [[ ${SSH_KEY_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
