@@ -1,0 +1,42 @@
+[user]
+	email = manojm18@live.in
+	name = Manoj Manivannan
+[rerere]
+	enabled = 1
+
+[diff]
+	tool = kdiff3
+	context = 2
+[difftool "kdiff3"]
+	path = /usr/bin/kdiff3
+	trustExitCode = false
+[alias]
+    tree = log --all --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    # ATTENTION: All aliases prefixed with ! run in /bin/sh make sure you use sh syntax, not bash/zsh or whatever
+    recentb = for-each-ref --count=20 --sort=-committerdate refs/heads/ --format='%(authordate:short) %(color:red)%(objectname:short) %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset))'
+[filter "lfs"]
+	useJGitBuiltin = true
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+
+# [merge]
+#     keepBackup = false;
+#     tool = p4merge
+# [mergetool "p4merge"]
+#     cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+#     keepTemporaries = false
+#     trustExitCode = false
+#     keepBackup = false
+# [diff]
+#     tool = kdiff3
+# [difftool]
+#     prompt = false
+# [difftool "p4merge"]
+#     cmd = p4merge "$LOCAL" "$REMOTE"
+#     keepTemporaries = false
+#     trustExitCode = false
+#     keepBackup = false
+
