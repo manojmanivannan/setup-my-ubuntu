@@ -15,6 +15,7 @@ VSCODE_INSTALL=0
 PYENV_INSTALL=0
 JAVA_INSTALL=0
 ALL_INSTALL=0
+SSH_KEY_INSTALL=0
 
 function print_help
 {
@@ -27,6 +28,7 @@ Usage:
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
     --vscode      Setup Microsoft Visual Studio Code
+    --sshkey      Setup ssh key pair
     --all         Setup everything (same as passing all flags)
   "
 }
@@ -67,6 +69,13 @@ function apt_get_install
   sudo apt-get install -y $PACKAGE_NAMES
 
 }
+
+function setup_ssh_key
+{
+  echo "Enter your email ID for ssh key setup (Uses empty passphrase): "
+  read EMAIL_ID
+  ssh-keygen -t rsa -b 2048 -C "$EMAIL_ID" -f $HOME/.ssh/id_rsa
+}
 function setup_py_env
 {
   # PYTHON RELATED SETUP
@@ -97,8 +106,42 @@ function setup_java
   print_green "Setting up JAVA"
   apt_get_update
   apt_get_install default-jre default-jdk
+  if [[ ${ZSH_INSTALL} -eq 1 ]]
+  then
+    TARGET_PROFILE="$HOME/.zshrc"
+  else
+    TARGET_PROFILE="$HOME/.bashrc"
+  fi
+
+  # JAVA HOME
+  echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> "$TARGET_PROFILE"
+  echo 'export PATH=$JAVA_HOME/bin:$PATH' >> "$TARGET_PROFILE"
+
 }
 
+function setup_spark
+{
+  local SPARK_VERSION="3.3.2"
+  local HADOOP_VERSION="3"
+  print_green "Setting up Spark $SPARK_VERSION with hadoop $HADOOP_VERSION"
+  setup_java
+  apt_get_install scala
+  "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
+  tar xvf spark-*
+  sudo mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
+
+  if [[ ${ZSH_INSTALL} -eq 1 ]]
+  then
+    TARGET_PROFILE="$HOME/.zshrc"
+  else
+    TARGET_PROFILE="$HOME/.bashrc"
+  fi
+
+  echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
+  echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
+  echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
+
+}
 function setup_via_zsh4humans
 {
   print_green "Setup ZSH via zsh4humans";
@@ -116,6 +159,8 @@ function setup_via_oh_my_zsh
   chsh -s $(which zsh)
   
   echo "Installing oh-my-zsh"
+
+  # If ~/.oh-y-zsh already exists, make a backup
   if [ -d "$HOME/.oh-my-zsh" ]; then
     echo "Backing up oh-my-zsh folder"
     mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh-backup-$(date +%H_%M_%d_%h_%y)"
@@ -123,6 +168,7 @@ function setup_via_oh_my_zsh
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended ;
   print_green "oh-my-zsh install complete"
 
+  # If ~/.zshrc already exists, make a backup
   if [ -f "$HOME/.zshrc" ]; then
     echo "Backing up $HOME/.zshrc"
     mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date +%H_%M_%d_%h_%y)"
@@ -139,6 +185,7 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
+  git clone https://github.com/DarrinTisdale/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
   # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
   print_green "Setting up Fonts"
@@ -171,6 +218,8 @@ while [ "$#" -gt 0 ]; do
     --java)
       JAVA_INSTALL=1;UPDATE=1;
       ;;
+    --sshkey)
+      SSH_KEY_INSTALL=1;UPDATE=1;
     --all)
       ALL_INSTALL=1;
       ;;
@@ -205,7 +254,7 @@ if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
-    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https #fonts-powerline
+    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa #fonts-powerline
 fi
 
 #####################################
@@ -240,6 +289,11 @@ fi
 if [[ ${JAVA_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_java
+fi
+
+if [[ ${SSH_KEY_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_ssh_key
 fi
 
 print_green "FINISHED !!!"
