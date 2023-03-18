@@ -25,3 +25,9 @@ bash setup-system.sh [OPTIONS]
     --java        Setup Java
     --vscode      Setup Microsoft Visual Studio Code
 ```
+
+## Coverage
+- [ ] Implement grecent (in .zshrc)
+- [x] Basic ZSH setup
+- [x] zsh amuse theme with custom prompt
+- [ ] 
