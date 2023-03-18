@@ -106,12 +106,8 @@ function setup_java
   print_green "Setting up JAVA"
   apt_get_update
   apt_get_install default-jre default-jdk
-  if [[ ${ZSH_INSTALL} -eq 1 ]]
-  then
-    TARGET_PROFILE="$HOME/.zshrc"
-  else
-    TARGET_PROFILE="$HOME/.bashrc"
-  fi
+
+  TARGET_PROFILE="$HOME/.zshrc"
 
   # JAVA HOME
   echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> "$TARGET_PROFILE"
@@ -129,13 +125,8 @@ function setup_spark
   "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
   tar xvf spark-*
   sudo mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
-
-  if [[ ${ZSH_INSTALL} -eq 1 ]]
-  then
-    TARGET_PROFILE="$HOME/.zshrc"
-  else
-    TARGET_PROFILE="$HOME/.bashrc"
-  fi
+  
+  TARGET_PROFILE="$HOME/.zshrc"
 
   echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
   echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
