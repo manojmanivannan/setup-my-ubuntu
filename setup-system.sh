@@ -28,6 +28,7 @@ Usage:
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
+    --spark       Setup Apache Spark
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
     --all         Setup everything (same as passing all flags)
@@ -215,6 +216,7 @@ while [ "$#" -gt 0 ]; do
       ;;
     --sshkey)
       SSH_KEY_INSTALL=1;UPDATE=1;
+      ;;
     --all)
       ALL_INSTALL=1;
       ;;
