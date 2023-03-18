@@ -38,6 +38,7 @@ Usage:
 function do_header
 {
   printf "%0$(tput cols)d" 0|tr '0' '='
+  echo ""
   echo "$*"
   printf "%0$(tput cols)d" 0|tr '0' '='
   echo -e "\e[39m"
@@ -124,7 +125,10 @@ function setup_spark
   print_green "Setting up Spark $SPARK_VERSION with hadoop $HADOOP_VERSION"
   setup_java
   apt_get_install scala
-  wget "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
+  if ! [[ -f "$spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz" ]]
+  then
+    wget "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
+  fi
   tar xf spark-*
   sudo mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
   rm -rf spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz
