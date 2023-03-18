@@ -38,11 +38,8 @@ Usage:
 function do_header
 {
   printf "%0$(tput cols)d" 0|tr '0' '='
-  echo " "
   echo "$*"
-  echo " "
   printf "%0$(tput cols)d" 0|tr '0' '='
-  echo ""
   echo -e "\e[39m"
 }
 
@@ -112,8 +109,11 @@ function setup_java
   TARGET_PROFILE="$HOME/.zshrc"
 
   # JAVA HOME
-  echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> "$TARGET_PROFILE"
-  echo 'export PATH=$JAVA_HOME/bin:$PATH' >> "$TARGET_PROFILE"
+  if [[ -z $SPARK_HOME ]]
+  then 
+    echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> "$TARGET_PROFILE"
+    echo 'export PATH=$JAVA_HOME/bin:$PATH' >> "$TARGET_PROFILE"
+  fi
 
 }
 
@@ -125,14 +125,18 @@ function setup_spark
   setup_java
   apt_get_install scala
   wget "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
-  tar xvf spark-*
+  tar xf spark-*
   sudo mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
+  rm -rf spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz
   
   TARGET_PROFILE="$HOME/.zshrc"
 
-  echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
-  echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
-  echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
+  if [[ -z $SPARK_HOME ]]
+  then 
+    echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
+    echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
+    echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
+  fi
 
 }
 function setup_via_zsh4humans
