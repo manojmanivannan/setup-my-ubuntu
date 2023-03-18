@@ -110,12 +110,11 @@ function setup_java
   TARGET_PROFILE="$HOME/.zshrc"
 
   # JAVA HOME
-  if [[ -z $JAVA_HOME ]]
+  if [[ "$(grep -q 'export JAVA_HOME' $TARGET_PROFILE)" -eq 1 ]]
   then 
     echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> "$TARGET_PROFILE"
     echo 'export PATH=$JAVA_HOME/bin:$PATH' >> "$TARGET_PROFILE"
   fi
-  source $TARGET_PROFILE
 
 }
 
@@ -136,13 +135,12 @@ function setup_spark
   
   TARGET_PROFILE="$HOME/.zshrc"
 
-  if [[ -z $SPARK_HOME ]]
+  if [[ "$(grep -q 'export SPARK_HOME' $TARGET_PROFILE)" -eq 1 ]]
   then 
     echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
     echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
     echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
   fi
-  source $TARGET_PROFILE
 
 }
 
