@@ -125,7 +125,7 @@ function setup_spark
   print_green "Setting up Spark $SPARK_VERSION with hadoop $HADOOP_VERSION"
   setup_java
   apt_get_install scala
-  if [[ ! -f "$spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz" ]]
+  if [[ ! -f "spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz" ]]
   then
     wget "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
   fi
