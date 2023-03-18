@@ -339,8 +339,6 @@ csv() {
 
 export PATH=${PATH}:~/.local/bin
 
-# JAVA HOME
-JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
