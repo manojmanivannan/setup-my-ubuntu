@@ -14,16 +14,14 @@ A simple script to setup your linux machine (ubuntu)
 ## Usage
 1. Clone this repository
 2. `cd setup-my-ubuntu`
-3. `chmod +x setup-system.sh`
-4. `bash setup-system.sh [OPTIONS]`
+3. `bash setup-system.sh [OPTIONS]`
 
 ```bash
-Usage:
-  bash setup-system.sh [OPTIONS]
+bash setup-system.sh [OPTIONS]
 
   OPTIONS:-
-    --update      Update apt package and install curl,wget,fonts-powerline,make
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
+    --vscode      Setup Microsoft Visual Studio Code
 ```

@@ -23,7 +23,6 @@ Usage:
   bash setup-system.sh [OPTIONS]
 
   OPTIONS:-
-    --update      Update apt package and install curl,wget,fonts-powerline,make
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
@@ -158,22 +157,19 @@ fi
 while [ "$#" -gt 0 ]; do
   case $1 in
     --zsh)
-      ZSH_INSTALL=1
-      ;;
-    --update)
-      UPDATE=1
+      ZSH_INSTALL=1;UPDATE=1;
       ;;
     --vscode)
-      VSCODE_INSTALL=1
+      VSCODE_INSTALL=1;UPDATE=1;
       ;;
     --pyenv)
-      PYENV_INSTALL=1
+      PYENV_INSTALL=1;UPDATE=1;
       ;;
     --java)
-      JAVA_INSTALL=1
+      JAVA_INSTALL=1;UPDATE=1;
       ;;
     --all)
-      ALL_INSTALL=1
+      ALL_INSTALL=1;
       ;;
     *)
       echo "Unknown parameter: $1"
