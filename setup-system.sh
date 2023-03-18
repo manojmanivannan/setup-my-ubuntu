@@ -44,6 +44,19 @@ function print_red
   do_header $*
 }
 
+function apt_get_update
+{
+  print_green "Updating APT repos"
+  sudo apt-get update -y
+}
+
+function apt_get_install
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Installing $PACKAGE_NAMES"
+  sudo apt-get install -y $PACKAGE_NAMES
+
+}
 function setup_py_env
 {
   # PYTHON RELATED SETUP
@@ -60,16 +73,17 @@ function setup_py_env
 function setup_vscode
 {
   print_green "Setting up VS code"
-  DOWNLOAD_VS_CODE_LINK=$(curl -s 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' | grep -o "http[^ ]*")
-  DOWNLOADED_VS_CODE_FILE=$(echo $DOWNLOAD_VS_CODE_LINK | grep -o 'code.*')
-  wget $DOWNLOAD_VS_CODE_LINK
-  sudo apt install -y ./$DOWNLOADED_VS_CODE_FILE
+  # Install Visual Studio Code
+  wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+  sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+  apt_get_update
+  apt_get_install code
 }
 
 function setup_java
 {
   print_green "Setting up JAVA"
-  sudo apt install -y default-jre default-jdk
+  apt_get_install default-jre default-jdk
 }
 
 function setup_via_zsh4humans
@@ -164,7 +178,7 @@ if [ ${UPDATE} -eq 1 ]
 then
     print_green "Updating system"
     echo -e "Running 'apt-get -y update' with elevated permissions"
-    sudo apt-get -y update
+    apt_get_update
 fi
 
 #####################################
@@ -175,9 +189,7 @@ if [ ${UPDATE} -eq 1 ]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
-    sudo apt-get -y install \
-                   git curl wget fonts-powerline \
-                   make 
+    apt_get_install git curl wget fonts-powerline make 
 fi
 
 #####################################
