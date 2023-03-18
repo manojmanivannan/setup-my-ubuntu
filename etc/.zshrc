@@ -114,7 +114,7 @@ command-not-found
 web-search
 kubectl
 zsh-aliases-exa
-zsh-z
+z
 virtualenv
 )
 export ZSH_HIGHLIGHT_MAXLENGTH=500
