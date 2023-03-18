@@ -1,11 +1,20 @@
 #!/bin/bash
 
+####################################
+# A script to setup some tools for
+# your linux machine (ubuntu)
+# 
+# Date Created: 18-Mar-2023
+# Author:       Manoj Manivannan
+# 
+####################################
 
 ZSH_INSTALL=0
 UPDATE=0
 VSCODE_INSTALL=0
 PYENV_INSTALL=0
 JAVA_INSTALL=0
+ALL_INSTALL=0
 
 function print_help
 {
@@ -18,6 +27,8 @@ Usage:
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
+    --vscode      Setup Microsoft Visual Studio Code
+    --all         Setup everything (same as passing all flags)
   "
 }
 
@@ -74,7 +85,7 @@ function setup_vscode
 {
   print_green "Setting up VS code"
   # Install Visual Studio Code
-  wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+  wget -q https://packages.microsoft.com/keys/microsoft.asc ||- | sudo apt-key add -
   sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
   apt_get_update
   apt_get_install code
@@ -83,6 +94,7 @@ function setup_vscode
 function setup_java
 {
   print_green "Setting up JAVA"
+  apt_get_update
   apt_get_install default-jre default-jdk
 }
 
@@ -158,6 +170,9 @@ while [ "$#" -gt 0 ]; do
     --java)
       JAVA_INSTALL=1
       ;;
+    --all)
+      ALL_INSTALL=1
+      ;;
     *)
       echo "Unknown parameter: $1"
       print_help
@@ -174,7 +189,7 @@ done
 #        UPDATE SYSTEM              #
 #####################################
 
-if [ ${UPDATE} -eq 1 ]
+if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Updating system"
     echo -e "Running 'apt-get -y update' with elevated permissions"
@@ -185,7 +200,7 @@ fi
 #       INSTALL COMMON LIBS         #
 #####################################
 
-if [ ${UPDATE} -eq 1 ]
+if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
@@ -196,7 +211,7 @@ fi
 #       INSTALL ZSH SHELL          #
 #####################################
 
-if [ ${ZSH_INSTALL} -eq 1 ]
+if [[ ${ZSH_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Setup ZSH"
     echo "How do you wish to install ZSH?"
@@ -211,17 +226,17 @@ then
     done
 fi
 
-if [ ${VSCODE_INSTALL} -eq 1 ]
+if [[ ${VSCODE_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_vscode
 fi
 
-if [ ${PYENV_INSTALL} -eq 1 ]
+if [[ ${PYENV_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_py_env
 fi
     
-if [ ${JAVA_INSTALL} -eq 1 ]
+if [[ ${JAVA_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_java
 fi
