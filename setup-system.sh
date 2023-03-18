@@ -85,8 +85,10 @@ function setup_vscode
 {
   print_green "Setting up VS code"
   # Install Visual Studio Code
-  wget -q https://packages.microsoft.com/keys/microsoft.asc ||- | sudo apt-key add -
-  sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
+  sudo install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f /tmp/packages.microsoft.gpg
   apt_get_update
   apt_get_install code
 }
@@ -204,7 +206,7 @@ if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
-    apt_get_install git curl wget fonts-powerline make software-properties-common
+    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https #fonts-powerline
 fi
 
 #####################################
