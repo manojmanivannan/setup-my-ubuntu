@@ -204,7 +204,7 @@ if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
-    apt_get_install git curl wget fonts-powerline make 
+    apt_get_install git curl wget fonts-powerline make software-properties-common
 fi
 
 #####################################
