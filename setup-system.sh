@@ -9,6 +9,8 @@
 # 
 ####################################
 
+set -e # Fail on any error
+
 ZSH_INSTALL=0
 UPDATE=0
 VSCODE_INSTALL=0
@@ -80,7 +82,7 @@ function setup_py_env
 {
   # PYTHON RELATED SETUP
   print_green "Setting up PyENV"
-  apt_get_install build-essential
+  apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev
   if [ -d "$HOME/.pyenv" ]; then
     rm -rf "$HOME/.pyenv"
   fi
