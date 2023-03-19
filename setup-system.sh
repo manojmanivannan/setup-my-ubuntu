@@ -78,7 +78,7 @@ function apt_get_install
   print_green "Installing $PACKAGE_NAMES"
   for PKG in $PACKAGE_NAMES; 
   do 
-    sudo apt-get install --ignore-missing -y $PKG  || echo -e "\e[31m ======> Unable to install $PKG \e[39m"
+    echo -e "\e[32m Installing package: '$PKG'"  && sudo apt-get install --ignore-missing -y $PKG  || echo -e "\e[31m ======> Unable to install '$PKG' package \e[39m"
   done
 
 
