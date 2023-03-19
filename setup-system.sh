@@ -26,7 +26,7 @@ function print_help
 Usage:
   bash setup-system.sh [OPTIONS]
 
-  OPTIONS:-
+  OPTIONS:
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java

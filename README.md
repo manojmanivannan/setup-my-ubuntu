@@ -19,15 +19,21 @@ A simple script to setup your linux machine (ubuntu)
 ```bash
 bash setup-system.sh [OPTIONS]
 
-  OPTIONS:-
+  OPTIONS:
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
+    --spark       Setup Apache Spark
     --vscode      Setup Microsoft Visual Studio Code
+    --sshkey      Setup ssh key pair
+    --all         Setup everything (same as passing all flags)
 ```
 
 ## Coverage
-- [ ] Implement grecent (in .zshrc)
 - [x] Basic ZSH setup
 - [x] zsh amuse theme with custom prompt
-- [ ] 
+- [x] Java
+- [x] PyENV
+- [ ] VLC
+- [ ] OBS
+- [x] VS Code
