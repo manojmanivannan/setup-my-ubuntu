@@ -260,7 +260,7 @@ if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
-    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa #fonts-powerline
+    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat #fonts-powerline
 fi
 
 #####################################
