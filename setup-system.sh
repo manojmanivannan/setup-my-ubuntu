@@ -80,6 +80,7 @@ function setup_py_env
 {
   # PYTHON RELATED SETUP
   print_green "Setting up PyENV"
+  apt_get_install build-essential
   if [ -d "$HOME/.pyenv" ]; then
     rm -rf "$HOME/.pyenv"
   fi
