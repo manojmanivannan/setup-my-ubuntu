@@ -76,7 +76,11 @@ function apt_get_install
 {
   local PACKAGE_NAMES="$*"
   print_green "Installing $PACKAGE_NAMES"
-  sudo apt-get install --ignore-missing -y $PACKAGE_NAMES
+  for PKG in $PACKAGE_NAMES; 
+  do 
+    sudo apt-get install --ignore-missing -y $PKG  || echo -e "\e[31m ======> Unable to install $PKG \e[39m"
+  done
+
 
 }
 
