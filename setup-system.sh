@@ -82,7 +82,7 @@ function setup_py_env
 {
   # PYTHON RELATED SETUP
   print_green "Setting up PyENV"
-  apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev
+  apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python-tk python3-tk tk-dev
   if [ -d "$HOME/.pyenv" ]; then
     rm -rf "$HOME/.pyenv"
   fi
