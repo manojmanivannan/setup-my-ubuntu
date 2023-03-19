@@ -272,7 +272,7 @@ then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
     apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat #fonts-powerline
-    exit_on_failure $?
+    exit_on_failure "$?"
 fi
 
 #####################################
