@@ -37,6 +37,14 @@ Usage:
   "
 }
 
+function exit_on_failure
+{
+  local RET_CODE="$1"
+  if [[ $RET_CODE -ne 0 ]]
+  then
+    print_red "Script failed"
+  fi
+}
 function do_header
 {
   printf "%0$(tput cols)d" 0|tr '0' '='
@@ -264,6 +272,7 @@ then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
     apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat #fonts-powerline
+    exit_on_failure $?
 fi
 
 #####################################
