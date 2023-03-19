@@ -76,7 +76,7 @@ function apt_get_install
 {
   local PACKAGE_NAMES="$*"
   print_green "Installing $PACKAGE_NAMES"
-  sudo apt-get install -y $PACKAGE_NAMES
+  sudo apt-get install --ignore-missing -y $PACKAGE_NAMES
 
 }
 
@@ -272,8 +272,6 @@ then
     print_green "Installing Essentials"
     echo -e "Running 'apt-get -y install' with elevated permissions"
     apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat #fonts-powerline
-    RET="$?"; echo "Exit code $RET"
-    exit_on_failure "$RET"
 fi
 
 #####################################
