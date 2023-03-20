@@ -13,7 +13,7 @@ set -e # Fail on any error
 
 source installer/setup-docker.sh
 source installer/setup-vscode.sh
-source installer/*
+source installer/setup-py.sh
 source installer/print-helper.sh
 source installer/apt-helper.sh
 
