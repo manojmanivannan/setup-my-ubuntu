@@ -1,14 +1,20 @@
 # setup-my-ubuntu
 
-A simple script to setup your linux machine (ubuntu)
+A simple script to setup your personal linux machine (Bbuntu)
 
-## Covers the below items
-1. zsh shell 
-   1. via zsh4humans or
-   2. via oh-my-zsh
-2. py-env for managing python versions
-3. Java
-4. vscode
+## Coverage
+
+- [x] ZSH
+  - [x] oh-my-zsh (custom prompt)
+  - [x] zsh4humans
+- [x] Java
+- [x] Spark
+- [x] PyENV
+- [x] Docker & docker-compose
+- [ ] VLC
+- [ ] OBS
+- [x] VS Code
+- [x] SSH keys
 
 
 ## Usage
@@ -26,14 +32,7 @@ bash setup-system.sh [OPTIONS]
     --spark       Setup Apache Spark
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
+    --docker      Setup docker and docker-compose
     --all         Setup everything (same as passing all flags)
 ```
 
-## Coverage
-- [x] Basic ZSH setup
-- [x] zsh amuse theme with custom prompt
-- [x] Java
-- [x] PyENV
-- [ ] VLC
-- [ ] OBS
-- [x] VS Code
