@@ -22,6 +22,7 @@ JAVA_INSTALL=0
 ALL_INSTALL=0
 SSH_KEY_INSTALL=0
 SPARK_INSTALL=0
+DOCKER_INSTALL=0
 
 function print_help
 {
@@ -245,6 +246,9 @@ while [ "$#" -gt 0 ]; do
     --sshkey)
       SSH_KEY_INSTALL=1;UPDATE=1;
       ;;
+    --docker)
+      DOCKER_INSTALL=1;UPDATE=1;
+      ;;
     --all)
       ALL_INSTALL=1;
       ;;
@@ -325,6 +329,12 @@ if [[ ${SSH_KEY_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_ssh_key
 fi
+
+if [[ ${DOCKER_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_docker
+fi
+
 
 print_green "FINISHED !!!"
 
