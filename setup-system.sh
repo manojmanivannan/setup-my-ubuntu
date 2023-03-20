@@ -11,6 +11,9 @@
 
 set -e # Fail on any error
 
+source setup/setup-docker.sh
+
+
 ZSH_INSTALL=0
 UPDATE=0
 VSCODE_INSTALL=0
@@ -33,6 +36,7 @@ Usage:
     --spark       Setup Apache Spark
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
+    --docker      Setup docker and docker-compose
     --all         Setup everything (same as passing all flags)
   "
 }
