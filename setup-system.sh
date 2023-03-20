@@ -53,23 +53,7 @@ function exit_on_failure
 }
 
 
-function apt_get_update
-{
-  print_green "Updating APT repos"
-  sudo apt-get update -y
-}
 
-function apt_get_install
-{
-  local PACKAGE_NAMES="$*"
-  print_green "Installing $PACKAGE_NAMES"
-  for PKG in $PACKAGE_NAMES; 
-  do 
-    echo -e "\e[32m Installing package: '$PKG' \e[39m"  && sudo apt-get install --ignore-missing -y $PKG  || echo -e "\e[31m ======> Unable to install '$PKG' package \e[39m"
-  done
-
-
-}
 
 function setup_ssh_key
 {
@@ -96,8 +80,8 @@ function setup_vscode
   print_green "Setting up VS code"
   # Install Visual Studio Code
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
-  sudo install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+  echo $SUDO_PASSWORD | sudo -S sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
   rm -f /tmp/packages.microsoft.gpg
   apt_get_update
   apt_get_install code
@@ -132,7 +116,7 @@ function setup_spark
     wget "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
   fi
   tar xf spark-*
-  sudo mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
+  echo $SUDO_PASSWORD | sudo -S mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
   rm -rf spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz
   
   TARGET_PROFILE="$HOME/.zshrc"
@@ -154,15 +138,11 @@ function setup_via_zsh4humans
 
 function setup_via_oh_my_zsh
 {
-  print_green "Setup ZSH via oh-my-zsh";
+  print_green "Installing ZSH";
+  apt_get_install zsh
+  echo $SUDO_PASSWORD | sudo -S chsh $USER -s $(which zsh)
   
-  echo "Installing ZSH with elevated permissions"
-  sudo apt-get -y install zsh
-  echo ""
-  echo "Need permission to set zsh as default shell"
-  chsh -s $(which zsh)
-  
-  echo "Installing oh-my-zsh"
+  print_green "Installing oh-my-zsh"
 
   # If ~/.oh-y-zsh already exists, make a backup
   if [ -d "$HOME/.oh-my-zsh" ]; then
@@ -244,6 +224,11 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
+#####################################
+#        GET SUDO PASSWORD          #
+#####################################
+echo -en "since many commands need elevated permissions\nEnter your password for '$USER' :"
+read -s SUDO_PASSWORD   
 
 
 #####################################
