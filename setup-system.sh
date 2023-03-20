@@ -13,6 +13,7 @@ set -e # Fail on any error
 
 source installer/setup-docker.sh
 source installer/print-helper.sh
+source installer/apt-helper.sh
 
 
 ZSH_INSTALL=0
