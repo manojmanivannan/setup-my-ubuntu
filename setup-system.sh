@@ -76,17 +76,6 @@ function setup_py_env
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
 }
 
-function setup_vscode
-{
-  print_green "Setting up VS code"
-  # Install Visual Studio Code
-  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
-  echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-  echo $SUDO_PASSWORD | sudo -S sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-  rm -f /tmp/packages.microsoft.gpg
-  apt_get_update
-  apt_get_install code
-}
 
 function setup_java
 {
@@ -239,7 +228,6 @@ read -s SUDO_PASSWORD
 if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Updating system"
-    echo -e "Running 'apt-get -y update' with elevated permissions"
     apt_get_update
 fi
 
@@ -250,7 +238,6 @@ fi
 if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
-    echo -e "Running 'apt-get -y install' with elevated permissions"
     apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat #fonts-powerline
 fi
 
