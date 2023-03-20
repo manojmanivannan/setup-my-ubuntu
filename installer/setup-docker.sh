@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source installer/print-helper.sh
-
 function setup_docker
 {
     print_green "Installing docker"
