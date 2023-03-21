@@ -22,7 +22,7 @@ function apt_get_install
   print_green "Installing $PACKAGE_NAMES"
   for PKG in $PACKAGE_NAMES; 
   do 
-    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | sudo -S apt-get install --ignore-missing -y $PKG  || echo -e "\e[31m ======> Unable to install '$PKG' package \e[39m"
+    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | sudo -S apt-get install -qq --ignore-missing -y $PKG  || echo -e "\e[31m ======> Unable to install '$PKG' package \e[39m"
   done
 
 
