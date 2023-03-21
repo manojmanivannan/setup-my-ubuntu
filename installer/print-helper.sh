@@ -29,3 +29,8 @@ function text_yellow
 {
   echo -e "${BYellow}$*${Color_Off}"
 }
+
+function text_red
+{
+  echo -e "${BRed}$*${Color_Off}"
+}
