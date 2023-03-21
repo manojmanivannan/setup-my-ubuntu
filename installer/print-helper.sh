@@ -9,18 +9,19 @@ function do_header
   echo ""
   echo "$*"
   printf "%0$(tput cols)d" 0|tr '0' '='
-  echo -e "\e[39m"
 }
 
 function print_green
 {
-  echo -e "\e[32m"
+  echo -e "${BGreen}"
   do_header $*
+  echo -e "${Color_Off}"
 }
 
 function print_red
 {
-  echo -e "\e[31m"
+  echo -e "${BRed}"
   do_header $*
+  echo -e "${Color_Off}"
 }
 
