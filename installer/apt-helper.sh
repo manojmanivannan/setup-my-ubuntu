@@ -8,8 +8,9 @@ function exit_on_failure
   if [[ $RET_CODE -ne 0 ]]
   then
     print_red "SCRIPT FAILED $MSG"
+    exit 1
   fi
-  exit 1
+  
 }
 
 function apt_get_update
