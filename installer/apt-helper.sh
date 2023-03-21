@@ -8,6 +8,7 @@ function exit_on_failure
   then
     print_red "Script failed"
   fi
+  exit 1
 }
 
 function apt_get_update
