@@ -25,3 +25,7 @@ function print_red
   echo -e "${Color_Off}"
 }
 
+function text_yellow
+{
+  echo -e "${BYellow}$*${Color_Off}"
+}
