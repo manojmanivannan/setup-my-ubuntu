@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+function exit_on_failure
+{
+  local RET_CODE="$1"
+  if [[ $RET_CODE -ne 0 ]]
+  then
+    print_red "Script failed"
+  fi
+}
+
 function apt_get_update
 {
   print_green "Updating APT repos"

@@ -49,15 +49,6 @@ Usage:
   "
 }
 
-function exit_on_failure
-{
-  local RET_CODE="$1"
-  if [[ $RET_CODE -ne 0 ]]
-  then
-    print_red "Script failed"
-  fi
-}
-
 
 
 if [ "$#" -lt 1 ]; then
