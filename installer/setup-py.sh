@@ -9,6 +9,7 @@ function setup_py_env
     rm -rf "$HOME/.pyenv"
   fi
   curl https://pyenv.run | bash
+  exit_on_failure $? "Failed to setup PyENV"
   mkdir -p $HOME/.scripts
   cd $HOME/setup-my-ubuntu
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
