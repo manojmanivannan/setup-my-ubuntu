@@ -37,14 +37,14 @@ Usage:
   ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${Yellow}[OPTIONS]${Color_Off}
 
   OPTIONS:
-    ${BYellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
-    ${BYellow}--pyenv${Color_Off}       Setup Python version management tool PyENV
-    ${BYellow}--java${Color_Off}        Setup Java
-    ${BYellow}--spark${Color_Off}       Setup Apache Spark
-    ${BYellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
-    ${BYellow}--sshkey${Color_Off}      Setup ssh key pair
-    ${BYellow}--docker${Color_Off}      Setup docker and docker-compose
-    ${BYellow}--all${Color_Off}         Setup everything (same as passing all flags)
+    ${Yellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
+    ${Yellow}--pyenv${Color_Off}       Setup Python version management tool PyENV
+    ${Yellow}--java${Color_Off}        Setup Java
+    ${Yellow}--spark${Color_Off}       Setup Apache Spark
+    ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
+    ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
+    ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
+    ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
   "
 }
 
