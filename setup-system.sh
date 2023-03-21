@@ -176,7 +176,7 @@ then
   setup_docker
 fi
 
-(trap - INT; my_prog)
+(trap - INT;)
 
 print_green "FINISHED !!!"
 
