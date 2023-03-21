@@ -34,7 +34,7 @@ function print_help
 {
   echo -e "Automatically Setup Linux Machine
 Usage:
-  ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${BYellow}[OPTIONS]${Color_Off}
+  ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${Yellow}[OPTIONS]${Color_Off}
 
   OPTIONS:
     ${BYellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
