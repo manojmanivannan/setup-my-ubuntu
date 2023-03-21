@@ -17,7 +17,7 @@ function apt_get_update
 {
   print_green "Updating APT repos"
   echo $SUDO_PASSWORD | sudo -S apt-get update -y
-  exit_on_failure $?
+  exit_on_failure $? "Failed to update repositories"
 }
 
 function apt_get_install
@@ -26,7 +26,7 @@ function apt_get_install
   print_green "Installing $PACKAGE_NAMES"
   for PKG in $PACKAGE_NAMES; 
   do 
-    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | sudo -S apt-get install -qq --ignore-missing -y $PKG  || exit_on_failure $? "Failed to install $PKG"
+    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | sudo -S apt-get install -qq --ignore-missing -y $PKG  || exit_on_failure $? "Failed to install package '$PKG'"
   done
 
 
