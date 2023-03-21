@@ -9,13 +9,14 @@
 # 
 ####################################
 
-set -e # Fail on any error
+# set -e # Fail on any error
 
 source installer/setup-docker.sh
 source installer/setup-vscode.sh
 source installer/setup-py.sh
 source installer/setup-zsh.sh
 source installer/setup-java.sh
+source installer/setup-ssh.sh
 source installer/print-helper.sh
 source installer/apt-helper.sh
 
@@ -56,21 +57,6 @@ function exit_on_failure
     print_red "Script failed"
   fi
 }
-
-
-
-
-function setup_ssh_key
-{
-  echo -e "\nEnter your email ID for ssh key setup (Uses empty passphrase): "
-  read EMAIL_ID
-  ssh-keygen -t rsa -b 2048 -C "$EMAIL_ID" -f $HOME/.ssh/id_rsa
-}
-
-
-
-
-
 
 
 
@@ -121,6 +107,14 @@ done
 echo -en "since many commands need elevated permissions\nEnter your password for '$USER' :"
 read -s SUDO_PASSWORD   
 
+
+function no_ctrlc()
+{
+    print_red "Script interrupted"
+    exit
+}
+
+trap no_ctrlc SIGINT
 
 #####################################
 #        UPDATE SYSTEM              #
@@ -191,6 +185,7 @@ then
   setup_docker
 fi
 
+(trap - INT; my_prog)
 
 print_green "FINISHED !!!"
 
