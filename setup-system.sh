@@ -37,14 +37,14 @@ Usage:
   bash setup-system.sh [OPTIONS]
 
   OPTIONS:
-    --zsh         Setup zsh via zsh4humans or oh-my-zsh
-    --pyenv       Setup Python version management tool PyENV
-    --java        Setup Java
-    --spark       Setup Apache Spark
-    --vscode      Setup Microsoft Visual Studio Code
-    --sshkey      Setup ssh key pair
-    --docker      Setup docker and docker-compose
-    --all         Setup everything (same as passing all flags)
+    ${BYellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
+    ${BYellow}--pyenv${Color_Off}       Setup Python version management tool PyENV
+    ${BYellow}--java${Color_Off}        Setup Java
+    ${BYellow}--spark${Color_Off}       Setup Apache Spark
+    ${BYellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
+    ${BYellow}--sshkey${Color_Off}      Setup ssh key pair
+    ${BYellow}--docker${Color_Off}      Setup docker and docker-compose
+    ${BYellow}--all${Color_Off}         Setup everything (same as passing all flags)
   "
 }
 

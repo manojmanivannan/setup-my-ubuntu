@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source installer/font-colors.sh
+
 
 function do_header
 {
