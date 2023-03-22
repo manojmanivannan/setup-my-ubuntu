@@ -30,6 +30,7 @@ ALL_INSTALL=0
 SSH_KEY_INSTALL=0
 SPARK_INSTALL=0
 DOCKER_INSTALL=0
+TERMINAL_INSTALL=0
 
 function print_help
 {
@@ -45,6 +46,7 @@ Usage:
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
     ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
+    ${Yellow}--terminal${Color_Off}    Setup Gnome terminator
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
   "
 }
@@ -78,6 +80,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --docker)
       DOCKER_INSTALL=1;UPDATE=1;
+      ;;
+    --terminal)
+      TERMINAL_INSTALL=1;UPDATE=1;
       ;;
     --all)
       ALL_INSTALL=1;
@@ -175,6 +180,12 @@ if [[ ${DOCKER_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_docker
 fi
+
+if [[ ${TERMINAL_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_terminal
+fi
+
 
 (trap - INT;)
 
