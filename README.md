@@ -35,6 +35,7 @@ bash setup-system.sh [OPTIONS]
     --sshkey      Setup ssh key pair
     --docker      Setup docker and docker-compose
     --terminal    Setup Gnome terminator
+    --sublt       Setup Sublime text
     --all         Setup everything (same as passing all flags)
 ```
 
