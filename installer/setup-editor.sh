@@ -18,3 +18,12 @@ function setup_vscode
       apt_get_install code ;;
   esac
 }
+
+function setup_sublime_text
+{
+  apt_get_install dirmngr gnupg ca-certificates
+  curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+  sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+  apt_get_update
+  apt_get_install sublime-text
+}
