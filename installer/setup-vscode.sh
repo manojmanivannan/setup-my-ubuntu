@@ -5,9 +5,8 @@ function setup_vscode
   print_green "Setting up VS code"
   # Install Visual Studio Code
 
-  echo -en "Do you want to install vscode from snap ? (y/n): "
-  read VS_CODE_SNAP_INSTALL
-  read -p "$* [y/n]: " yn
+  echo -en "Do you want to install vscode from snap ? [Y/n]: "
+  read yn
   case $yn in
     [Yy]*) echo $SUDO_PASSWORD | sudo -S snap install --classic code ;;
     [Nn]*) 
