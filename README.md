@@ -15,6 +15,7 @@ A simple script to setup your personal linux machine (Bbuntu)
 - [ ] OBS
 - [x] VS Code
 - [x] SSH keys
+- [x] Terminator
 
 
 ## Usage
@@ -33,6 +34,7 @@ bash setup-system.sh [OPTIONS]
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
     --docker      Setup docker and docker-compose
+    --terminal    Setup Gnome terminator
     --all         Setup everything (same as passing all flags)
 ```
 
