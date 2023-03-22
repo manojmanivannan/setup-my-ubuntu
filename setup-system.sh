@@ -12,7 +12,7 @@
 # set -e # Fail on any error
 
 source installer/setup-docker.sh
-source installer/setup-vscode.sh
+source installer/setup-editor.sh
 source installer/setup-py.sh
 source installer/setup-zsh.sh
 source installer/setup-java.sh
@@ -31,6 +31,7 @@ SSH_KEY_INSTALL=0
 SPARK_INSTALL=0
 DOCKER_INSTALL=0
 TERMINAL_INSTALL=0
+SUBLIME_TXT_INSTALL=0
 
 function print_help
 {
@@ -47,6 +48,7 @@ Usage:
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
     ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
     ${Yellow}--terminal${Color_Off}    Setup Gnome terminator
+    ${Yellow}--sublt${Color_Off}       Setup Sublime text
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
   "
 }
@@ -65,6 +67,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --vscode)
       VSCODE_INSTALL=1;UPDATE=1;
+      ;;
+    --sublt)
+      SUBLIME_TXT_INSTALL=1;UPDATE=1;
       ;;
     --pyenv)
       PYENV_INSTALL=1;UPDATE=1;
@@ -154,6 +159,11 @@ fi
 if [[ ${VSCODE_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_vscode
+fi
+
+if [[ ${SUBLIME_TXT_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_sublime_text
 fi
 
 if [[ ${PYENV_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
