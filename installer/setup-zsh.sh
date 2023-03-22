@@ -48,5 +48,13 @@ function setup_via_oh_my_zsh
   cd nerd-fonts
   git sparse-checkout add patched-fonts/JetBrainsMono && ./install.sh JetBrainsMono
   cd $HOME/setup-my-ubuntu
+  rm -rf $HOME/nerd-fonts
 
+}
+
+function setup_terminal
+{
+  echo $SUDO_PASSWORD | sudo -S add-apt-repository -y ppa:gnome-terminator
+  apt_get_update
+  apt_get_install terminator
 }
