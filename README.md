@@ -16,6 +16,7 @@ A simple script to setup your personal linux machine (Bbuntu)
 - [x] VS Code
 - [x] SSH keys
 - [x] Terminator
+- [x] Sublime Text
 
 
 ## Usage
