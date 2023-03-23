@@ -1,6 +1,6 @@
 # setup-my-ubuntu
 
-A simple script to setup your personal linux machine (Bbuntu)
+A simple script to setup your personal linux machine (Ubuntu)
 
 ## Coverage
 
