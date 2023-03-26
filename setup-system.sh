@@ -32,6 +32,7 @@ SPARK_INSTALL=0
 DOCKER_INSTALL=0
 TERMINAL_INSTALL=0
 SUBLIME_TXT_INSTALL=0
+MAVEN_INSTALL=0
 
 function print_help
 {
@@ -44,6 +45,7 @@ Usage:
     ${Yellow}--pyenv${Color_Off}       Setup Python version management tool PyENV
     ${Yellow}--java${Color_Off}        Setup Java
     ${Yellow}--spark${Color_Off}       Setup Apache Spark
+    ${Yellow}--maven${Color_Off}       Setup Maven
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
     ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
@@ -79,6 +81,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --spark)
       SPARK_INSTALL=1;UPDATE=1;
+      ;;
+    --maven)
+      MAVEN_INSTALL=1;UPDATE=1;
       ;;
     --sshkey)
       SSH_KEY_INSTALL=1;UPDATE=1;
@@ -179,6 +184,11 @@ fi
 if [[ ${SPARK_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_spark
+fi
+
+if [[ ${MAVEN_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_maven
 fi
 
 if [[ ${SSH_KEY_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]

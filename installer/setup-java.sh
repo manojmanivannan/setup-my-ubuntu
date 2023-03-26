@@ -52,3 +52,8 @@ function setup_spark
   fi
 
 }
+
+function setup_maven
+{
+  apt_get_install maven
+}
