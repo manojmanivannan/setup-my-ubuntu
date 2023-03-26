@@ -9,6 +9,7 @@ A simple script to setup your personal linux machine (Ubuntu)
   - [x] zsh4humans
 - [x] Java
 - [x] Spark
+- [x] Maven
 - [x] PyENV
 - [x] Docker & docker-compose
 - [ ] VLC
@@ -31,6 +32,7 @@ bash setup-system.sh [OPTIONS]
     --zsh         Setup zsh via zsh4humans or oh-my-zsh
     --pyenv       Setup Python version management tool PyENV
     --java        Setup Java
+    --maven       Setup Maven
     --spark       Setup Apache Spark
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
