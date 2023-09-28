@@ -70,7 +70,7 @@ function setup_kafka
     wget "https://dlcdn.apache.org/kafka/$KAFKA_VERSION/kafka_2.13-$KAFKA_VERSION.tgz"
   fi
   tar xf kafka*
-  echo $SUDO_PASSWORD | sudo -S mv kafka_2.13-3.5.1 /usr/local/kafka
+  echo $SUDO_PASSWORD | sudo -S mv kafka_2.13-$KAFKA_VERSION /usr/local/kafka
   rm -rf kafka_2.13-$KAFKA_VERSION.tgz
 
   echo $SUDO_PASSWORD | sudo -S cp etc/kafka/zookeeper.service > /etc/systemd/system/zookeeper.service  
