@@ -5,7 +5,7 @@ function setup_py_env
   # PYTHON RELATED SETUP
   print_green "Setting up PyENV"
   apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python-tk python3-tk tk-dev python3-pip python3-venv
-  python3 -m pip install inquirer
+  pip_install inquirer
   if [ -d "$HOME/.pyenv" ]; then
     rm -rf "$HOME/.pyenv"
   fi
