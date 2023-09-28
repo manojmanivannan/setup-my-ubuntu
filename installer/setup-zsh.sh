@@ -50,6 +50,7 @@ function setup_via_oh_my_zsh
   cd $HOME/setup-my-ubuntu
   rm -rf $HOME/nerd-fonts
 
+  print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
 }
 
 function setup_terminal
