@@ -72,19 +72,27 @@ function setup_kafka
   tar xf kafka*
   echo $SUDO_PASSWORD | sudo -S mv kafka_2.13-3.5.1 /usr/local/kafka
   rm -rf kafka_2.13-$KAFKA_VERSION.tgz
+
+  echo $SUDO_PASSWORD | sudo -S cp etc/kafka/zookeeper.service > /etc/systemd/system/zookeeper.service  
+  echo $SUDO_PASSWORD | sudo -S cp etc/kafka/kafka.service > /etc/systemd/system/kafka.service
+
+  echo $SUDO_PASSWORD | sudo -S sudo systemctl daemon-reload
+  echo $SUDO_PASSWORD | sudo -S systemctl start zookeeper
+  echo $SUDO_PASSWORD | sudo -S systemctl start kafka
+
   
-  TARGET_PROFILE="$HOME/.zshrc"
+  # TARGET_PROFILE="$HOME/.zshrc"
 
-  if ! [[ -f $TARGET_PROFILE ]]
-  then
-    TARGET_PROFILE="$HOME/.bashrc"
-  fi
+  # if ! [[ -f $TARGET_PROFILE ]]
+  # then
+  #   TARGET_PROFILE="$HOME/.bashrc"
+  # fi
 
-  if ! grep -q 'export SPARK_HOME' "$TARGET_PROFILE"
-  then 
-    echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
-    echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
-    echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
-  fi
+  # if ! grep -q 'export SPARK_HOME' "$TARGET_PROFILE"
+  # then 
+  #   echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
+  #   echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
+  #   echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
+  # fi
 
 }

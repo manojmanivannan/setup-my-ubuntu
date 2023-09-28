@@ -29,6 +29,7 @@ JAVA_INSTALL=0
 ALL_INSTALL=0
 SSH_KEY_INSTALL=0
 SPARK_INSTALL=0
+KAFKA_INSTALL=0
 DOCKER_INSTALL=0
 TERMINAL_INSTALL=0
 SUBLIME_TXT_INSTALL=0
@@ -81,6 +82,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --spark)
       SPARK_INSTALL=1;UPDATE=1;
+      ;;
+    --kafka)
+      KAFKA_INSTALL=1;UPDATE=1;
       ;;
     --maven)
       MAVEN_INSTALL=1;UPDATE=1;
@@ -184,6 +188,11 @@ fi
 if [[ ${SPARK_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_spark
+fi
+
+if [[ ${KAFKA_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_kafka
 fi
 
 if [[ ${MAVEN_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
