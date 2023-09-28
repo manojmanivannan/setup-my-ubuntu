@@ -22,13 +22,13 @@ ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 # %{$fg_bold[green]%}%~%{$reset_color%}$(git_prompt_info) ⌚ %{$fg_bold[red]%}%*%{$reset_color%}
 # $ '
 
-PROMPT='%{$fg_bold[green]%}$(_fishy_collapsed_wd)%{$reset_color%}$(git_prompt_info) $ '
+PROMPT='%{$fg_bold[green]%}$(_fishy_collapsed_wd)%{$reset_color%}$(git_prompt_info)$(virtualenv_prompt_info) $ '
 
 RPROMPT='$(ruby_prompt_info)'
+RPROMPT='⌚ %{$fg_bold[blue]%}%D{%L:%M:%S}%{$reset_color%}'$RPROMPT
 
 VIRTUAL_ENV_DISABLE_PROMPT=0
-ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX=" %{$fg[green]%}🐍"
-ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX=" %{$fg[cyan]%}🐍 ("
+ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX=")%{$reset_color%}"
 ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
-
