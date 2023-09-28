@@ -583,13 +583,6 @@ fpath+=~/.zfunc
 
 
 
-
-# export SPARK_HOME=/home/mmanivannan/Documents/pluralsight/spark-3.3.1-bin-hadoop3/
-# export KAFKA_HOME=/home/mmanivannan/Documents/pluralsight/kafka_2.12-3.3.1/
-
-
-export PATH="$PATH:$SPARK_HOME/bin:$KAFKA_HOME/bin"
-
 #### PYENV #########
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
