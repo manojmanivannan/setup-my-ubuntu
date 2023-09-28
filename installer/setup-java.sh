@@ -57,3 +57,34 @@ function setup_maven
 {
   apt_get_install maven
 }
+
+function setup_kafka
+{
+  # https://www.linuxtechi.com/how-to-install-apache-kafka-on-ubuntu/
+  local KAFKA_VERSION="3.5.0"
+  print_green "Setting up KAFKA $KAFKA_VERSION"
+  setup_java
+
+  if [[ ! -f "kafka_2.13-$KAFKA_VERSION.tgz" ]]
+  then
+    wget "https://dlcdn.apache.org/kafka/$KAFKA_VERSION/kafka_2.13-$KAFKA_VERSION.tgz"
+  fi
+  tar xf kafka*
+  echo $SUDO_PASSWORD | sudo -S mv kafka_2.13-3.5.1 /usr/local/kafka
+  rm -rf kafka_2.13-$KAFKA_VERSION.tgz
+  
+  TARGET_PROFILE="$HOME/.zshrc"
+
+  if ! [[ -f $TARGET_PROFILE ]]
+  then
+    TARGET_PROFILE="$HOME/.bashrc"
+  fi
+
+  if ! grep -q 'export SPARK_HOME' "$TARGET_PROFILE"
+  then 
+    echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
+    echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
+    echo 'export PYSPARK_PYTHON=/usr/bin/python3' >> "$TARGET_PROFILE"
+  fi
+
+}
