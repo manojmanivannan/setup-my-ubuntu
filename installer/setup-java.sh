@@ -32,8 +32,9 @@ function setup_spark
   if [[ ! -f "spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz" ]]
   then
     wget "https://dlcdn.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz"
+    tar xf spark-*
   fi
-  tar xf spark-*
+  
   echo $SUDO_PASSWORD | sudo -S mv spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /opt/spark
   rm -rf spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz
   
@@ -68,8 +69,9 @@ function setup_kafka
   if [[ ! -f "kafka_2.13-$KAFKA_VERSION.tgz" ]]
   then
     wget "https://dlcdn.apache.org/kafka/$KAFKA_VERSION/kafka_2.13-$KAFKA_VERSION.tgz"
+    tar xf kafka*
   fi
-  tar xf kafka*
+  
   echo $SUDO_PASSWORD | sudo -S mv kafka_2.13-$KAFKA_VERSION /usr/local/kafka
   rm -rf kafka_2.13-$KAFKA_VERSION.tgz
 
