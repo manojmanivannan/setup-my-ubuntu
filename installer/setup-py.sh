@@ -12,4 +12,5 @@ function setup_py_env
   exit_on_failure $? "Failed to setup PyENV"
   mkdir -p $HOME/.scripts
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
+  chmod +x $HOME/.scripts/py_script.py
 }
