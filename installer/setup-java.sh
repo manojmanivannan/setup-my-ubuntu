@@ -14,7 +14,7 @@ function setup_java
   fi
 
   # JAVA HOME
-  if [[ "$(grep -q 'export JAVA_HOME' $TARGET_PROFILE)" -eq 1 ]]
+  if ! grep -q 'export JAVA_HOME' "$TARGET_PROFILE"
   then 
     echo 'export JAVA_HOME=/usr/lib/jvm/default-java' >> "$TARGET_PROFILE"
     echo 'export PATH=$JAVA_HOME/bin:$PATH' >> "$TARGET_PROFILE"
@@ -24,7 +24,7 @@ function setup_java
 
 function setup_spark
 {
-  local SPARK_VERSION="3.3.2"
+  local SPARK_VERSION="3.5.0"
   local HADOOP_VERSION="3"
   print_green "Setting up Spark $SPARK_VERSION with hadoop $HADOOP_VERSION"
   setup_java
@@ -44,7 +44,7 @@ function setup_spark
     TARGET_PROFILE="$HOME/.bashrc"
   fi
 
-  if [[ "$(grep -q 'export SPARK_HOME' $TARGET_PROFILE)" -eq 1 ]]
+  if ! grep -q 'export SPARK_HOME' "$TARGET_PROFILE"
   then 
     echo 'export SPARK_HOME=/opt/spark' >> "$TARGET_PROFILE"
     echo 'export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin' >> "$TARGET_PROFILE"
