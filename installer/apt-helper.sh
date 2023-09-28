@@ -31,3 +31,13 @@ function apt_get_install
 
 
 }
+
+function pip_install
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Install Python package(s)"
+  for PKG in $PACKAGE_NAMES;
+  do
+    text_yellow "Package: '$PKG'" && python3 -m pip install $PKG || exit_on_failure $? "Failed to install python package '$PKG'"
+  done
+}
