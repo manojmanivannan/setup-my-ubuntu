@@ -46,6 +46,7 @@ Usage:
     ${Yellow}--pyenv${Color_Off}       Setup Python version management tool PyENV
     ${Yellow}--java${Color_Off}        Setup Java
     ${Yellow}--spark${Color_Off}       Setup Apache Spark
+    ${Yellow}--kakfa${Color_Off}       Setup Apache Kafka
     ${Yellow}--maven${Color_Off}       Setup Maven
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
