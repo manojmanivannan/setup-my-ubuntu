@@ -55,7 +55,6 @@ function setup_via_oh_my_zsh
 
 function setup_terminal
 {
-  echo $SUDO_PASSWORD | sudo -S add-apt-repository -y ppa:gnome-terminator
-  apt_get_update
+  apt_add_repo ppa:gnome-terminator
   apt_get_install terminator
 }
