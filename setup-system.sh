@@ -36,6 +36,7 @@ TERMINAL_INSTALL=0
 SUBLIME_TXT_INSTALL=0
 MAVEN_INSTALL=0
 VLC_INSTALL=0
+OBS_INSTALL=0
 
 function print_help
 {
@@ -54,6 +55,7 @@ Usage:
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
     ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
     ${Yellow}--vlc${Color_Off}         Setup VLC media player
+    ${Yellow}--obs${Color_Off}         Setup OBS
     ${Yellow}--terminal${Color_Off}    Setup Gnome terminator
     ${Yellow}--sublt${Color_Off}       Setup Sublime text
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
@@ -101,6 +103,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --vlc)
       VLC_INSTALL=1;UPDATE=1;
+      ;;
+    --obs)
+      OBS_INSTALL=1;UPDATE=1;
       ;;
     --terminal)
       TERMINAL_INSTALL=1;UPDATE=1;
@@ -220,6 +225,11 @@ fi
 if [[ ${VLC_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_vlc
+fi
+
+if [[ ${OBS_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_obs
 fi
 
 if [[ ${TERMINAL_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
