@@ -12,7 +12,7 @@ A simple script to setup your personal linux machine (Ubuntu)
 - [x] Maven
 - [x] PyENV
 - [x] Docker & docker-compose
-- [ ] VLC
+- [x] VLC
 - [ ] OBS
 - [x] VS Code
 - [x] SSH keys
@@ -37,6 +37,7 @@ bash setup-system.sh [OPTIONS]
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
     --docker      Setup docker and docker-compose
+    --vlc         Setup VLC media player
     --terminal    Setup Gnome terminator
     --sublt       Setup Sublime text
     --all         Setup everything (same as passing all flags)
