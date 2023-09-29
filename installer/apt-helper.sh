@@ -32,6 +32,17 @@ function apt_get_install
 
 }
 
+function apt_add_repo
+{
+  local REPO_NAMES="$*"
+  print_green "Adding repositories"
+  for REPO in $REPO_NAMES;
+  do
+    text_yellow "Repository: '$REPO'" && echo $SUDO_PASSWORD | sudo -S apt-add-repository -y $REPO
+  done
+  apt_get_update
+}
+
 function pip_install
 {
   local PACKAGE_NAMES="$*"
