@@ -18,6 +18,7 @@ source installer/setup-zsh.sh
 source installer/setup-java.sh
 source installer/setup-ssh.sh
 source installer/print-helper.sh
+source installer/setup-misc.sh
 source installer/apt-helper.sh
 
 
@@ -34,6 +35,7 @@ DOCKER_INSTALL=0
 TERMINAL_INSTALL=0
 SUBLIME_TXT_INSTALL=0
 MAVEN_INSTALL=0
+VLC_INSTALL=0
 
 function print_help
 {
@@ -51,6 +53,7 @@ Usage:
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
     ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
+    ${Yellow}--vlc${Color_Off}         Setup VLC media player
     ${Yellow}--terminal${Color_Off}    Setup Gnome terminator
     ${Yellow}--sublt${Color_Off}       Setup Sublime text
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
@@ -95,6 +98,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --docker)
       DOCKER_INSTALL=1;UPDATE=1;
+      ;;
+    --vlc)
+      VLC_INSTALL=1;UPDATE=1;
       ;;
     --terminal)
       TERMINAL_INSTALL=1;UPDATE=1;
@@ -148,7 +154,7 @@ then
 fi
 
 #####################################
-#       INSTALL ZSH SHELL          #
+#      INSTALL EVERYTHING ELSE      #
 #####################################
 
 if [[ ${ZSH_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
@@ -209,6 +215,11 @@ fi
 if [[ ${DOCKER_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_docker
+fi
+
+if [[ ${VLC_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_vlc
 fi
 
 if [[ ${TERMINAL_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
