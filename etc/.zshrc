@@ -551,31 +551,7 @@ clear_prompt(){
 alias k.clear=clear_prompt
 
 alias k.ns='echo ${KUBECONFIG}'
-alias k.central="export KUBECONFIG=~/.kube/central_config;export CLUSTER=central;set_prompt"
-alias k.edge="export KUBECONFIG=~/.kube/central_edge_config;export CLUSTER=edge;set_prompt"
-alias k.ireland="export KUBECONFIG=~/.kube/aws_config;export CLUSTER=Ireland;set_prompt"
-alias k.billerica="export KUBECONFIG=~/.kube/billerica_config;export CLUSTER=Billerica;set_prompt"
-alias k.frankfurt="export KUBECONFIG=~/.kube/aws_frankfurt;export CLUSTER=Frankfurt;set_prompt"
-alias k.demo="export KUBECONFIG=~/.kube/demo_cluster.yaml;export CLUSTER=demo;set_prompt"
-alias k.milan="export KUBECONFIG=~/.kube/milan_central;export CLUSTER=Milan;set_prompt"
-alias k.leo="export KUBECONFIG=~/.kube/leo_config;export CLUSTER=leo;set_prompt"
-alias k.london="export KUBECONFIG=~/.kube/london_config;export CLUSTER=London;set_prompt"
-alias k.singapore="export KUBECONFIG=~/.kube/aws_singapore;export CLUSTER=singapore;set_prompt"
-alias k.christian="export KUBECONFIG=~/.kube/aws_christian;export CLUSTER=christian;set_prompt"
-alias k.bhupendra="export KUBECONFIG=~/.kube/apt_bhupendra;export CLUSTER=bhupendra;set_prompt"
-alias k.stockholm="export KUBECONFIG=~/.kube/aws_stockholm;export CLUSTER=stockholm;set_prompt"
-alias k.devendra.central="export KUBECONFIG=~/.kube/devendra_config_central;export CLUSTER=devendra_central;set_prompt"
-alias k.devendra.edge="export KUBECONFIG=~/.kube/devendra_config_edge;export CLUSTER=devendra_edge;set_prompt"
-alias k.lunarosa="export KUBECONFIG=~/.kube/lunarosa;export CLUSTER=lunarosa;set_prompt"
-alias k.tokyo="export KUBECONFIG=~/.kube/tokyo;export CLUSTER=tokyo;set_prompt"
-alias k.marconi="export KUBECONFIG=~/.kube/marconi;export CLUSTER=marconi;set_prompt"
-alias k.barb="export KUBECONFIG=~/.kube/barb;export CLUSTER=barb;set_prompt"
-alias k.oregon="export KUBECONFIG=~/.kube/aws_oregon; export CLUSTER=Oregon;set_prompt"
-alias k.qa="export KUBECONFIG=~/.kube/aws_qa; export CLUSTER=QA;set_prompt"
-alias k.nla="export KUBECONFIG=~/.kube/vmware-nla; export CLUSTER=NLA;set_prompt"
-alias k.baremetal="export KUBECONFIG=~/.kube/baremetal; export CLUSTER=BAREMETAL;set_prompt"
-alias k.sys_ativa="export KUBECONFIG=~/.kube/sys_ativa; export CLUSTER=SYS-ATIVA;set_prompt"
-alias k.test="export KUBECONFIG=~/.kube/alessandro_config; export CLUSTER=SYS-ATIVA-TEST;set_prompt"
+alias k.central="export KUBECONFIG=~/.kube/config;export CLUSTER=central;set_prompt"
 
 autoload -Uz compinit
 zstyle ':completion:*' menu select
