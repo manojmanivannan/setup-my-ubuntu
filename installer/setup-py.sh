@@ -14,4 +14,20 @@ function setup_py_env
   mkdir -p $HOME/.scripts
   cp etc/scripts/py_script.py $HOME/.scripts/py_script.py
   chmod +x $HOME/.scripts/py_script.py
+
+  TARGET_PROFILE="$HOME/.zshrc"
+
+  if ! [[ -f $TARGET_PROFILE ]]
+  then
+    TARGET_PROFILE="$HOME/.bashrc"
+  fi
+
+  if ! grep -q 'export PYENV_ROOT' "$TARGET_PROFILE"
+  then 
+    echo 'export PYENV_ROOT=$HOME/.pyenv' >> "$TARGET_PROFILE"
+    echo 'command -v pyenv >/dev/null || export PATH=$PYENV_ROOT/bin:$PATH' >> "$TARGET_PROFILE"
+    echo 'eval "$(pyenv init -)"' >> "$TARGET_PROFILE"
+    echo 'eval "$(pyenv virtualenv-init -)"' >> "$TARGET_PROFILE"
+  fi
+
 }
