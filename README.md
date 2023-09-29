@@ -13,11 +13,13 @@ A simple script to setup your personal linux machine (Ubuntu)
 - [x] PyENV
 - [x] Docker & docker-compose
 - [x] VLC
-- [ ] OBS
+- [x] OBS
 - [x] VS Code
 - [x] SSH keys
 - [x] Terminator
 - [x] Sublime Text
+- [ ] Uninstall everything
+  - [ ] Uninstall single components
 
 
 ## Usage
