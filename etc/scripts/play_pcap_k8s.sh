@@ -336,7 +336,7 @@ while true;
                 if_fail_exit "$OUTPUT" "$file_full_path"
 
                 printf "\r${yel}(%s)${end}; Loop:${grn}%2.2s${end} of ${blu}%b${end}; File:${grn}%3.3s${end} of ${blu}%s${end} for ${cyn}%s${end} (%s)" \
-                        "$(date +"%Y-%b-%d %T")"       "$loop_count"              "$loops"           "$file_count"      "${#files[@]}"   "${file_name}" "${modified_speed_type}"
+                        "$(date +"%Y-%b-%d %T")"       "$loop_count"              "$loops"           "$file_count"      "${#files[@]}"   "${file_name}" "${modified_speed_type}" | tee -a traffic.log
                 printf "${red}%*.*s${end}" 0 $((padlength - ${#file_name} +1 )) "$pad"
                 wait_for "$timer"
 

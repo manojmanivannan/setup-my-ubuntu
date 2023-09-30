@@ -1,0 +1,188 @@
+#!/bin/bash
+
+BLUE='\033[0;34m'
+CYAN='\033[1;36m'
+L_CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
+MAGENTA='\033[1;35m'
+NC='\033[0m' # No Color
+
+function ProgressBar {
+    # Process data
+    let _progress=(${1}*100/${2}*100)/100
+    let _done=(${_progress}*5)/10
+    let _left=50-$_done
+    _msg=${3}
+    # Build progressbar string lengths
+    _fill=$(printf "%${_done}s")
+    _empty=$(printf "%${_left}s")
+
+    printf "\r${YELLOW}Progress :${NC} [${L_CYAN}${_fill// /▇}${_empty// /-}${NC}] ${CYAN}${_progress}%%${NC} ${MAGENTA}$_msg${NC}"
+
+}
+
+containsElement () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -d <integer> -c <string> [-t <integer>] [-v] [-r]"
+   echo -e "\t-d   Duration to capture (seconds)			[Required]"
+   echo -e "\t-f   Name of output file (w/o extension)		[Required]"
+   echo -e "\t-c   Correlator type [access,cups,gtp,mobile,sbi,voice]	[Required]"
+   echo -e "\t-t   Event type [default: 48]				[Optional,comma separated]"
+   echo -e "\t-r   Remove output file from pod			[Optional]"
+   echo -e "\t-v   Verbose"
+   exit 1 # Exit script after printing help
+}
+
+VERBOSE=0
+REMOVE=0
+CURL_SILENT="-s"
+
+while getopts "d:f:t:c:vr" opt
+do
+   case "$opt" in
+      d ) DURATION="$OPTARG" ;;
+      f ) FILENAME="$OPTARG" ;;
+      t ) EVENT_TYPE="$OPTARG" ;;
+      c ) CORR_TYPE="$OPTARG" ;;
+      v ) VERBOSE="1" ;;
+      r ) REMOVE="1" ;;
+      ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
+   esac
+done
+
+if [ "${VERBOSE}" -eq "1" ];
+then
+	CURL_SILENT="--verbose"
+fi
+# Print helpFunction in case parameters are empty
+if [ -z "$DURATION" ]
+then
+   echo "Duration cannot be empty";
+   helpFunction
+fi
+
+if [ -z "$FILENAME" ]
+then
+   echo "Filename cannot be empty";
+   helpFunction
+fi
+
+if [ -z "$EVENT_TYPE" ]
+then
+   echo "Using default event type [48] [fully_correlated_event]";
+   EVENT_TYPE=48
+fi
+
+validCorrelator(){
+	C_TYPE=$(correlator -l| cut -d- -f3 )
+        for each in $C_TYPE; do echo "$each";done
+        echo -e "\n"
+}
+
+if [ -z "$CORR_TYPE" ]
+then
+	echo -e "\nCorrelator type should be one of the following:\n";
+	validCorrelator
+	helpFunction
+fi
+
+array=("access" "cups" "gtp" "mobile" "sbi" "voice")
+
+containsElement "$CORR_TYPE" "${array[@]}"
+RET_CODE=$?
+if [ ! "${RET_CODE}" -eq 0 ]; then echo -e "Not a valid correlator service. should be one of\n"; validCorrelator; exit 1; fi
+
+set -e
+pod=$(kubectl get pods -n empirix-cloud -o name | grep netutil | cut -d/ -f2)
+set +e
+
+
+if [ -z "$pod" ]
+then
+	echo "Pod does not exist for $KUBECONFIG"
+	exit 1
+fi
+
+echo -e "Attempt to subscribe to event $EVENT_TYPE on correlator $CORR_TYPE\n"
+if [ "${VERBOSE}" -eq "1" ]; 
+then
+	echo kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header \"Content-Type: application/json\" --request POST   --data "'{\"identity\":\"sessioncorrelator\",\"format\": \"gpb\",\"addresses-to-subscribe\":\"ecc-correlator-$CORR_TYPE-sessioncorr.ecc-correlator-system.svc\",\"output-filename\":\"/data/${FILENAME}.gpb\",\"event-types\":[${EVENT_TYPE}]}'" localhost:9999/v1/sub
+fi
+kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header "Content-Type: application/json" --request POST   --data "{\"identity\":\"sessioncorrelator\",\"format\": \"gpb\",\"addresses-to-subscribe\":\"ecc-correlator-$CORR_TYPE-sessioncorr.ecc-correlator-system.svc\",\"output-filename\":\"/data/${FILENAME}.gpb\",\"event-types\":[${EVENT_TYPE}]}" localhost:9999/v1/sub
+
+RET_CODE=$?
+if [ ! "${RET_CODE}" -eq 0 ]; then echo "Subscribe failed !" ;exit 1; fi
+
+echo -e "Sleeping ${DURATION} seconds\n"
+for number in $(seq 0 ${DURATION})
+do
+	sleep 1
+	ProgressBar ${number} ${DURATION}
+done
+
+echo -e "\nStopping subscription\n"
+if [ "${VERBOSE}" -eq "1" ];
+then
+	echo kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header \"Content-Type: application/json\" --request POST   localhost:9999/v1/stop
+fi
+kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header "Content-Type: application/json" --request POST   localhost:9999/v1/stop
+
+RET_CODE=$?
+if [ ! "${RET_CODE}" -eq 0 ]; then echo "Subscription stop failed !" ;exit 1; fi
+
+if [ "${VERBOSE}" -eq "1" ];
+then
+	echo kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header \"Content-Type: application/json\" --request GET   --output /data/${FILENAME}.gpb localhost:9999/v1/data/${FILENAME}.gpb
+fi
+kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header "Content-Type: application/json" --request GET   --output /data/${FILENAME}.gpb localhost:9999/v1/data/${FILENAME}.gpb
+
+RET_CODE=$?
+if [ ! "${RET_CODE}" -eq 0 ]; then echo "GET gpb failed !" ;exit 1; fi
+
+if [ "${VERBOSE}" -eq "1" ];
+then
+	echo kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header \"Content-Type: application/json\" --request GET   --output /data/${FILENAME}.json localhost:9999/v1/data/${FILENAME}.gpb?format=json
+fi
+kubectl exec ${pod} -n empirix-cloud -c netutil -- curl "$CURL_SILENT" --header "Content-Type: application/json" --request GET   --output /data/${FILENAME}.json "localhost:9999/v1/data/${FILENAME}.gpb?format=json"
+
+if ! kubectl exec ${pod} -n empirix-cloud -c netutil -- bash -c "command -v tar &> /dev/null"
+then
+    echo "TAR could not be found, install TAR"
+    kubectl exec ${pod} -n empirix-cloud -c netutil -- bash -c "microdnf install tar"
+fi
+
+
+echo -e "\nDownloading GPB file"
+if [ "${VERBOSE}" -eq "1" ];
+then
+	echo kubectl -n empirix-cloud -c netutil cp ${pod}:/data/${FILENAME}.gpb ${FILENAME}.gpb
+fi
+kubectl -n empirix-cloud -c netutil cp ${pod}:/data/${FILENAME}.gpb ${FILENAME}.gpb
+RET_CODE=$?
+if [ ! "${RET_CODE}" -eq 0 ]; then echo "Download GPB failed !" ;exit 1; fi
+
+echo -e "\nDownloading JSON file"
+if [ "${VERBOSE}" -eq "1" ];
+then
+        echo kubectl -n empirix-cloud -c netutil cp ${pod}:/data/${FILENAME}.json ${FILENAME}.json
+fi
+kubectl -n empirix-cloud -c netutil cp ${pod}:/data/${FILENAME}.json ${FILENAME}.json
+RET_CODE=$?
+if [ ! "${RET_CODE}" -eq 0 ]; then echo "Download JSON failed !" ; exit 1; fi
+
+if [ "${REMOVE}" -eq "1" ];
+then
+	echo -e "Removing files (JSON/GPB) from pod"
+	kubectl exec ${pod} -n empirix-cloud -c netutil -- bash -c "rm -rf /data/${FILENAME}.*"
+	RET_CODE=$?
+	if [ ! "${RET_CODE}" -eq 0 ]; then echo "Removing GPB/JSON from pod failed !" ; exit 1; fi
+fi
+
