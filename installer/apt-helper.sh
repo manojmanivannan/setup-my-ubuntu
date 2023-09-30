@@ -55,15 +55,13 @@ function pip_install
 
 function append_file_content
 {
-  local SOURCE_FILE=$1
-  local SOURCE_FILE_CONTENTS=$(<$SOURCE_FILE)
-
+  local SOURCE_FILE="$1"
   local TARGET_FILE="$2"
 
   text_yellow "Appending contents of $SOURCE_FILE into $TARGET_FILE"
   echo "=====================================" >> $TARGET_FILE
   echo "======== Added by script ============" >> $TARGET_FILE
   echo "=====================================" >> $TARGET_FILE
-  echo $SOURCE_FILE_CONTENTS >> $TARGET_FILE
+  echo "$(<$SOURCE_FILE)" >> $TARGET_FILE
 
 }
