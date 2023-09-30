@@ -52,3 +52,18 @@ function pip_install
     text_yellow "Package: '$PKG'" && python3 -m pip install $PKG || exit_on_failure $? "Failed to install python package '$PKG'"
   done
 }
+
+function append_file_content
+{
+  local SOURCE_FILE=$1
+  local SOURCE_FILE_CONTENTS=$(<$SOURCE_FILE)
+
+  local TARGET_FILE="$2"
+
+  text_yellow "Appending contents of $SOURCE_FILE into $TARGET_FILE"
+  echo "=====================================" >> $TARGET_FILE
+  echo "======== Added by script ============" >> $TARGET_FILE
+  echo "=====================================" >> $TARGET_FILE
+  echo $SOURCE_FILE_CONTENTS >> $TARGET_FILE
+
+}
