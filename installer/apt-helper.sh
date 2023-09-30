@@ -59,9 +59,9 @@ function append_file_content
   local TARGET_FILE="$2"
 
   text_yellow "Appending contents of $SOURCE_FILE into $TARGET_FILE"
-  echo "=====================================" >> $TARGET_FILE
-  echo "======== Added by script ============" >> $TARGET_FILE
-  echo "=====================================" >> $TARGET_FILE
+  echo "# =====================================" >> $TARGET_FILE
+  echo "# ======== Added by script ============" >> $TARGET_FILE
+  echo "# =====================================" >> $TARGET_FILE
   echo "$(<$SOURCE_FILE)" >> $TARGET_FILE
 
 }
