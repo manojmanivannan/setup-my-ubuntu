@@ -11,6 +11,8 @@
 
 # set -e # Fail on any error
 
+ROOT_DIR="$0"
+
 source installer/setup-docker.sh
 source installer/setup-editor.sh
 source installer/setup-py.sh

@@ -43,15 +43,16 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
   git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
+  git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
   # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
   print_green "Setting up Fonts"
-  cd $HOME
+  cd /tmp
   git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts.git
-  cd nerd-fonts
+  cd /tmp/nerd-fonts
   git sparse-checkout add patched-fonts/JetBrainsMono && ./install.sh JetBrainsMono
-  cd $HOME/setup-my-ubuntu
-  rm -rf $HOME/nerd-fonts
+  cd "$(dirname "$ROOT_DIR")"
+  rm -rf /tmp/nerd-fonts
 
   print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
 }
