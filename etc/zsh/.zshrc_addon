@@ -28,7 +28,7 @@ bashcompinit
 
 function py_select() {
     # only accepts file paths are arguments
-    ~/.scripts/py_script.py $@
+    ~/.scripts/py_file_opener.py $@
 
 }
 
