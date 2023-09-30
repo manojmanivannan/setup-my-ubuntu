@@ -16,7 +16,7 @@ services:
       - DEFAULT_WORKSPACE=/gitlab #optional
     volumes:
       - /home/mmanivannan/Documents/vs-code-server-config:/config
-      - /home/mmanivannan/Gitlab:/gitlab
+      - /home/mmanivannan/Github:/gitlab
     ports:
       - 8443:8443
     restart: unless-stopped
