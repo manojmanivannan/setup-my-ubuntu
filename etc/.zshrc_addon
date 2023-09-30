@@ -319,6 +319,7 @@ alias grecent=gcorecent
 alias gclean='git clean -fd && git checkout -- .'
 alias glast-tag='git describe --tags --abbrev=0'
 alias gtree='git log --graph --online --decorate --all'
+alias gst='git status'
 
 function glast-tags-in-branch(){
     local BRANCH_NAME=${1?param missing - specify branch name}

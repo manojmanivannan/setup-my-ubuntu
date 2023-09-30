@@ -5,14 +5,7 @@ function setup_via_zsh4humans
   print_green "Setup ZSH via zsh4humans";
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)";  # https://github.com/romkatv/zsh4humans 
 
-  TARGET_PROFILE="$HOME/.zshrc"
-
-  if ! [[ -f $TARGET_PROFILE ]]
-  then
-    TARGET_PROFILE="$HOME/.bashrc"
-  fi
-
-  append_file_content etc/.zshrc_addon $TARGET_PROFILE
+  append_file_content etc/.zshrc_addon $HOME/.zshrc
 }
 
 function setup_via_oh_my_zsh
@@ -39,7 +32,7 @@ function setup_via_oh_my_zsh
 
   echo "Loading zshrc configurations to $HOME/.zshrc"
   cp etc/.zshrc "$HOME/.zshrc"
-  append_file_content etc/.zshrc_addon $TARGET_PROFILE
+  append_file_content etc/.zshrc_addon $HOME/.zshrc
   cp etc/amuse.zsh-theme "$HOME/.oh-my-zsh/themes/amuse.zsh-theme"
 
   echo "Loading GIT configuration to $HOME/.gitconfig"
