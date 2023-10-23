@@ -46,6 +46,7 @@ function apt_add_repo
 function pip_install
 {
   local PACKAGE_NAMES="$*"
+  export PIP_BREAK_SYSTEM_PACKAGES=1
   print_green "Install Python package(s)"
   for PKG in $PACKAGE_NAMES;
   do
