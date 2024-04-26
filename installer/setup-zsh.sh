@@ -51,6 +51,7 @@ function setup_via_oh_my_zsh
   git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts.git
   cd /tmp/nerd-fonts
   git sparse-checkout add patched-fonts/JetBrainsMono && ./install.sh JetBrainsMono
+  it sparse-checkout add patched-fonts/CascadiaCode && ./install.sh CascadiaCode
   cd "$(dirname "$ROOT_DIR")"
   rm -rf /tmp/nerd-fonts
 
