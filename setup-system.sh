@@ -157,7 +157,7 @@ fi
 if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
-    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat vim pv #fonts-powerline
+    apt_get_install git curl wget make software-properties-common gpg  apt-transport-https exa bat vim pv fontconfig #fonts-powerline
 fi
 
 #####################################

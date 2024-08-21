@@ -48,12 +48,26 @@ function setup_via_oh_my_zsh
 
   print_green "Setting up Fonts"
   cd /tmp
+
+  print_green "Getting Nerd font"
   git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts.git
   cd /tmp/nerd-fonts
-  git sparse-checkout add patched-fonts/JetBrainsMono && ./install.sh JetBrainsMono
-  it sparse-checkout add patched-fonts/CascadiaCode && ./install.sh CascadiaCode
+  git sparse-checkout add patched-fonts/JetBrainsMono #&& ./install.sh JetBrainsMono
+  git sparse-checkout add patched-fonts/CascadiaCode #&& ./install.sh CascadiaCode
+
+  print_green "Getting Caskaydia-cove font"
+  cd /tmp && mkdir -p ~/.local/share/fonts/NerdFonts
+  git clone https://github.com/eliheuer/caskaydia-cove.git
+
+  cp /tmp/caskaydia-cove/fonts/ttf/* ~/.local/share/fonts/NerdFonts/.
+  cp /tmp/nerd-fonts/patched-fonts/JetBrainsMono/*/*/*.ttf  ~/.local/share/fonts/NerdFonts/.
+  cp /tmp/nerd-fonts/patched-fonts/CascadiaCode/*/*.ttf ~/.local/share/fonts/NerdFonts/.
+
+  print_green "Installing"
+  echo $SUDO_PASSWORD | sudo -S fc-cache -fv ~/.local/share/fonts
+
   cd "$(dirname "$ROOT_DIR")"
-  rm -rf /tmp/nerd-fonts
+  rm -rf /tmp/nerd-fonts /tmp/caskaydia-cove
 
   print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
 }
