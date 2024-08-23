@@ -47,13 +47,13 @@ function setup_via_oh_my_zsh
   # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
   print_green "Setting up Fonts"
-  FONT_DIR=~/.local/share/fonts/NerdFonts
-  mkdir -p $FONT_DIR
-  find etc/fonts/ -type f -name "*.ttf" -exec cp {} $FONT_DIR/. \;
+  FONT_DIR=~/.local/share/fonts
+  mkdir -p $FONT_DIR/NerdFonts
+  find etc/fonts/ -type f -name "*.ttf" -exec cp {} $FONT_DIR/NerdFonts/. \;
 
 
   print_green "Installing"
-  echo $SUDO_PASSWORD | sudo -S fc-cache -fv ~/.local/share/fonts
+  echo $SUDO_PASSWORD | sudo -S fc-cache -fv $FONT_DIR
 
   cd "$(dirname "$ROOT_DIR")"
 
