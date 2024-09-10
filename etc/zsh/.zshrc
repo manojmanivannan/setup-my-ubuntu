@@ -113,7 +113,7 @@ colorize
 command-not-found
 web-search
 kubectl
-zsh-aliases-exa
+zsh-eza
 z
 virtualenv
 )
