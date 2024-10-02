@@ -11,9 +11,6 @@ function setup_py_env
   fi
   curl https://pyenv.run | bash
   exit_on_failure $? "Failed to setup PyENV"
-  mkdir -p $HOME/.scripts
-  cp etc/scripts/py_file_opener.py $HOME/.scripts/py_file_opener.py
-  chmod +x $HOME/.scripts/py_file_opener.py
 
   TARGET_PROFILE="$HOME/.zshrc"
 
