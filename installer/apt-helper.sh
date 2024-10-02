@@ -38,7 +38,7 @@ function pipx_install
   print_green "Installing $PACKAGE_NAMES"
   for PKG in $PACKAGE_NAMES; 
   do 
-    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | pipx install $PKG  || exit_on_failure $? "Failed to install package '$PKG'"
+    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | pipx install $PKG --force  || exit_on_failure $? "Failed to install package '$PKG'"
   done
 
 
