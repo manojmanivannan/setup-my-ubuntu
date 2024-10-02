@@ -32,6 +32,18 @@ function apt_get_install
 
 }
 
+function pipx_install
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Installing $PACKAGE_NAMES"
+  for PKG in $PACKAGE_NAMES; 
+  do 
+    text_yellow "Package: '$PKG'"  && echo $SUDO_PASSWORD | pipx install $PKG  || exit_on_failure $? "Failed to install package '$PKG'"
+  done
+
+
+}
+
 function apt_add_repo
 {
   local REPO_NAMES="$*"
