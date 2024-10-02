@@ -42,32 +42,21 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
-  git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
+  # git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
+  git clone https://github.com/z-shell/zsh-eza.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-eza
   git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
   # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
   print_green "Setting up Fonts"
-  cd /tmp
+  FONT_DIR=~/.local/share/fonts
+  mkdir -p $FONT_DIR/NerdFonts
+  find etc/fonts/ -type f -name "*.ttf" -exec cp {} $FONT_DIR/NerdFonts/. \;
 
-  print_green "Getting Nerd font"
-  git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts.git
-  cd /tmp/nerd-fonts
-  git sparse-checkout add patched-fonts/JetBrainsMono #&& ./install.sh JetBrainsMono
-  git sparse-checkout add patched-fonts/CascadiaCode #&& ./install.sh CascadiaCode
-
-  print_green "Getting Caskaydia-cove font"
-  cd /tmp && mkdir -p ~/.local/share/fonts/NerdFonts
-  git clone https://github.com/eliheuer/caskaydia-cove.git
-
-  cp /tmp/caskaydia-cove/fonts/ttf/* ~/.local/share/fonts/NerdFonts/.
-  cp /tmp/nerd-fonts/patched-fonts/JetBrainsMono/*/*/*.ttf  ~/.local/share/fonts/NerdFonts/.
-  cp /tmp/nerd-fonts/patched-fonts/CascadiaCode/*/*.ttf ~/.local/share/fonts/NerdFonts/.
 
   print_green "Installing"
-  echo $SUDO_PASSWORD | sudo -S fc-cache -fv ~/.local/share/fonts
+  echo $SUDO_PASSWORD | sudo -S fc-cache -fv $FONT_DIR
 
   cd "$(dirname "$ROOT_DIR")"
-  rm -rf /tmp/nerd-fonts /tmp/caskaydia-cove
 
   print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
 }
