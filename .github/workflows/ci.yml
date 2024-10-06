@@ -1,0 +1,30 @@
+name: Test Ubuntu Setup Scripts
+
+on: [push, pull_request]
+
+jobs:
+  test-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl wget git
+        
+    - name: Run setup script with test options
+      run: |
+        chmod +x setup-system.sh
+        # You can test specific components or all at once
+        ./setup-system.sh --pyenv
+      env:
+        # You can set sudo password if required for your scripts to simulate user input
+        SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
+
+    - name: Check for expected installations
+      run: |
+        # Check if pyenv is installed
+        pyenv versions
