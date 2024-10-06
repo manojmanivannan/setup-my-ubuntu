@@ -21,13 +21,13 @@ jobs:
         ./setup-system.sh --pyenv
       env:
         # You can set sudo password if required for your scripts to simulate user input
-        SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
+        # SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
         TERM: xterm
 
     - name: Check for expected installations
       run: |
         # Check if pyenv is installed
-        TARGET_PROFILE="$HOME/.zshrc"
-        if ! [[ -f $TARGET_PROFILE ]]; then TARGET_PROFILE="$HOME/.bashrc"; fi
-        source $TARGET_PROFILE
+        export PYENV_ROOT="$HOME/.pyenv"
+        [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init -)"
         pyenv --version
