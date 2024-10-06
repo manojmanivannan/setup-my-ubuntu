@@ -128,9 +128,10 @@ done
 #####################################
 #        GET SUDO PASSWORD          #
 #####################################
-echo -en "since many commands need elevated permissions\nEnter your password for '$USER' :"
-read -s SUDO_PASSWORD   
-
+if [ -z "$SUDO_PASSWORD" ]; then
+  echo -en "since many commands need elevated permissions\nEnter your password for '$USER' :"
+  read -s SUDO_PASSWORD   
+fi
 
 function no_ctrlc()
 {
