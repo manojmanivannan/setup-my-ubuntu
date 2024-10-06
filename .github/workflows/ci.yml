@@ -13,7 +13,6 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y curl wget git
         
     - name: Run setup script with test options
       run: |
@@ -28,7 +27,7 @@ jobs:
     - name: Check for expected installations
       run: |
         # Check if pyenv is installed
-        TARGET_PROFILE="$HOME/.zshrc"; 
-        if ! [[ -f $TARGET_PROFILE ]]; then TARGET_PROFILE="$HOME/.bashrc"; fi
+        TARGET_PROFILE="~/.zshrc"
+        if ! [[ -f $TARGET_PROFILE ]]; then TARGET_PROFILE="~/.bashrc"; fi
         source $TARGET_PROFILE
-        pyenv versions
+        pyenv --version
