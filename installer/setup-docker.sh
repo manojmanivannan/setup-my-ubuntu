@@ -7,6 +7,6 @@ function setup_docker
     echo $SUDO_PASSWORD | sudo -S sh get-docker.sh || exit_on_failure $? "Failed to install docker"
     echo $SUDO_PASSWORD | sudo -S usermod -aG docker $USER || exit_on_failure $? "Failed to assign docker in sudo group"
     rm get-docker.sh
-    apt_get_install docker-compose
+    apt_get_install docker-compose-plugin
     exit_on_failure $? "Failed to install docker-composee"
 }
