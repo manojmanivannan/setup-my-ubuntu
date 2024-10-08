@@ -18,7 +18,7 @@ jobs:
       run: |
         chmod +x setup-system.sh
         # You can test specific components or all at once
-        ./setup-system.sh --pyenv
+        ./setup-system.sh --pyenv --docker
       env:
         # You can set sudo password if required for your scripts to simulate user input
         # SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
@@ -31,3 +31,5 @@ jobs:
         [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
         eval "$(pyenv init -)"
         pyenv --version
+        ## Check docker
+        docker --version
