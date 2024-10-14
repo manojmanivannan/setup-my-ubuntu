@@ -23,10 +23,9 @@ jobs:
         # You can set sudo password if required for your scripts to simulate user input
         # SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
         TERM: xterm
+        INSTALL_FROM_SNAP: 1
 
     - name: Check for expected installations
-      env:
-        INSTALL_FROM_SNAP: 1
       run: |
         # Check if pyenv is installed
         export PYENV_ROOT="$HOME/.pyenv"
