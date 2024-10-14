@@ -25,6 +25,8 @@ jobs:
         TERM: xterm
 
     - name: Check for expected installations
+      env:
+        INSTALL_FROM_SNAP: 1
       run: |
         # Check if pyenv is installed
         export PYENV_ROOT="$HOME/.pyenv"
