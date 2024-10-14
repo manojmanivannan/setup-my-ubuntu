@@ -6,7 +6,7 @@ function setup_vscode
   # Install Visual Studio Code
 
   # If INSTALL_FROM_SNAP is set, dont ask for confirmation
-  if [ "$INSTALL_FROM_SNAP" -eq 1 ]; then
+  if [[ ${INSTALL_FROM_SNAP} -eq 1 ]]; then
     yn="y"
   else
     echo -en "Do you want to install vscode from snap ?(recommended) [Y/n]: "
