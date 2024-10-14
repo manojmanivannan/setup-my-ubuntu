@@ -31,10 +31,10 @@ jobs:
         export PYENV_ROOT="$HOME/.pyenv"
         [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
         eval "$(pyenv init -)"
-        pyenv --version
+        echo "check PYENV" && pyenv --version
         ## Check docker
-        docker --version
+        echo "check DOCKER" && docker --version
         ## Check vscode
-        code --version
+        echo "check VSCODE" && code --version
         ## Check maven
-        mvn --version
+        echo "check MAVEN" && mvn --version
