@@ -1,6 +1,7 @@
 
 alias bat="batcat"
 alias sz='source ~/.zshrc'
+alias gitzip="git archive HEAD -o ${PWD##*/}.zip"
 autoload -U bashcompinit
 bashcompinit
 
