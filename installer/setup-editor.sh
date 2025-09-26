@@ -13,8 +13,8 @@ Suites: stable
 Components: main
 Architectures: amd64,arm64,armhf
 Signed-By: /usr/share/keyrings/microsoft.gpg
-EOF;
-      rm -f microsoft.gpg
+EOF
+  rm -f microsoft.gpg
 }
 
 function setup_vscode
