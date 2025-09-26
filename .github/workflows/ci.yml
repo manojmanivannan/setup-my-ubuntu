@@ -7,31 +7,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        
-    - name: Run setup script with test options
-      run: |
-        chmod +x setup-system.sh
-        # You can test specific components or all at once
-        ./setup-system.sh --pyenv --docker --vscode --maven
-      env:
-        # You can set sudo password if required for your scripts to simulate user input
-        # SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
-        TERM: xterm
-        INSTALL_FROM_SNAP: 1
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
 
-    - name: Check for expected installations
-      run: |
-        # Check if uv is installed
-        echo "check UV" && uv --version
-        ## Check docker
-        echo "check Docker" && docker --version
-        ## Check vscode
-        echo "check vscode" && code --version
-        ## Check maven
-        echo "check Maven" && mvn --version
+      - name: Run setup script with test options
+        run: |
+          chmod +x setup-system.sh
+          # You can test specific components or all at once
+          ./setup-system.sh --pyenv --docker --vscode --maven
+        env:
+          # You can set sudo password if required for your scripts to simulate user input
+          # SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
+          TERM: xterm
+          SUDO_PASSWORD: ubuntu
+          ZSH_INSTALL_TYPE: oh-my-zsh
+          VSCODE_INSTALL_FROM_SNAP: false
+          SUBLIME_INSTALL_FROM_SNAP: false
+
+      - name: Check for expected installations
+        run: |
+          # Check if uv is installed
+          echo "check UV" && uv --version
+          ## Check docker
+          echo "check Docker" && docker --version
+          ## Check vscode
+          echo "check vscode" && code --version
+          ## Check maven
+          echo "check Maven" && mvn --version
