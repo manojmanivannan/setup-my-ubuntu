@@ -66,6 +66,16 @@ function pip_install
   done
 }
 
+function pipx_install
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Installing $PACKAGE_NAMES"
+  for PKG in $PACKAGE_NAMES; 
+  do 
+    text_yellow "Package: '$PKG'"  && pipx install $PKG --force  || exit_on_failure $? "Failed to install package '$PKG'"
+  done
+}
+
 function append_file_content
 {
   local SOURCE_FILE="$1"

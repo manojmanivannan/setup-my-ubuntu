@@ -2,15 +2,19 @@
 
 function setup_py_env
 {
-  # PYTHON RELATED SETUP
-  print_green "Setting up PyENV"
-  apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python3-tk tk-dev python3-pip python3-venv
-  pip_install inquirer
-  if [ -d "$HOME/.pyenv" ]; then
-    rm -rf "$HOME/.pyenv"
+  # uninstall is set, then uninstall and return
+  if [[ ${UNINSTALL} -eq 1 ]]; then
+    uninstall_py_env
+    exit 0
   fi
-  curl https://pyenv.run | bash
-  exit_on_failure $? "Failed to setup PyENV"
+
+  # PYTHON RELATED SETUP
+  print_green "Setting up UV"
+  #apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python3-tk tk-dev python3-pip python3-venv
+  pipx_install inquirer
+
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  exit_on_failure $? "Failed to setup UV"
 
   TARGET_PROFILE="$HOME/.zshrc"
 
@@ -21,10 +25,18 @@ function setup_py_env
 
   if ! grep -q 'export PYENV_ROOT' "$TARGET_PROFILE"
   then 
-    echo 'export PYENV_ROOT=$HOME/.pyenv' >> "$TARGET_PROFILE"
-    echo 'command -v pyenv >/dev/null || export PATH=$PYENV_ROOT/bin:$PATH' >> "$TARGET_PROFILE"
-    echo 'eval "$(pyenv init -)"' >> "$TARGET_PROFILE"
-    echo 'eval "$(pyenv virtualenv-init -)"' >> "$TARGET_PROFILE"
+    echo 'eval "$(uv generate-shell-completion zsh)"' >> "$TARGET_PROFILE"
+    echo 'eval "$(uvx --generate-shell-completion bash)"' >> "$TARGET_PROFILE"
   fi
 
+}
+
+# Uninstall Python environment (uv)
+function uninstall_py_env
+{
+  print_green "Uninstalling UV and cleaning up Python environment"
+  uv cache clean
+  rm -rf "$(uv python dir)"
+  rm -rf "$(uv tool dir)"
+  rm -f ~/.local/bin/uv ~/.local/bin/uvx
 }
