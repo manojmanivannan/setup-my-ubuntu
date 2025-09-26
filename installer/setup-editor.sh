@@ -5,6 +5,20 @@ function setup_vscode
   print_green "Setting up VS code"
   # Install Visual Studio Code
 
+  # create non-interactive way to proceed using env variables
+  if [[ -n "$VSCODE_INSTALL_FROM_SNAP" ]]; then
+    if [[ "$VSCODE_INSTALL_FROM_SNAP" == "true" ]]; then
+      yn="y"
+      INSTALL_FROM_SNAP=1
+    else
+      yn="n"
+      INSTALL_FROM_SNAP=0
+    fi
+
+  else
+    echo -en "Do you want to install vscode from snap ? [Y/n]: "
+    read yn
+  fi
   # If INSTALL_FROM_SNAP is set, dont ask for confirmation
   if [[ ${INSTALL_FROM_SNAP} -eq 1 ]]; then
     yn="y"
