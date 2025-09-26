@@ -9,10 +9,8 @@ function setup_vscode
   if [[ -n "$VSCODE_INSTALL_FROM_SNAP" ]]; then
     if [[ "$VSCODE_INSTALL_FROM_SNAP" == "true" ]]; then
       yn="y"
-      INSTALL_FROM_SNAP=1
     else
       yn="n"
-      INSTALL_FROM_SNAP=0
     fi
 
   else
@@ -23,7 +21,7 @@ function setup_vscode
   case $yn in
     [Yy]*) echo $SUDO_PASSWORD | sudo -S snap install --classic code ;;
     [Nn]*) 
-      setup_vscode_dependencies
+      setup_vscode_dependencies;
       apt_get_update;
       apt_get_install code ;;
   esac
