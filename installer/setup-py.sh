@@ -8,6 +8,14 @@ function setup_py_env
     exit 0
   fi
 
+  # if uv is already installed, then return
+  if command -v uv &> /dev/null
+  then
+    print_yellow "UV is already installed, skipping installation"
+    return
+  fi
+
+
   # PYTHON RELATED SETUP
   print_green "Setting up UV"
   apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python3-tk tk-dev python3-pip python3-venv
