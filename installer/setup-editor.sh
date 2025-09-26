@@ -23,14 +23,27 @@ function setup_vscode
   case $yn in
     [Yy]*) echo $SUDO_PASSWORD | sudo -S snap install --classic code ;;
     [Nn]*) 
-      wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
-      echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg;
-      rm -f microsoft.gpg
+      setup_vscode_dependencies
       apt_get_update;
       apt_get_install code ;;
   esac
 }
 
+function setup_vscode_dependencies
+{
+  print_green "Setting up dependencies for VS code"
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
+  echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg;
+  cat <<EOF > /etc/apt/sources.list.d/microsoft.list
+Types: deb
+URIs: https://packages.microsoft.com/repos/code
+Suites: stable
+Components: main
+Architectures: amd64,arm64,armhf
+Signed-By: /usr/share/keyrings/microsoft.gpg
+EOF;
+      rm -f microsoft.gpg
+}
 function setup_sublime_text
 {
   print_green "Setting up Sublime text"
