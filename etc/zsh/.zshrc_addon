@@ -26,7 +26,75 @@ bashcompinit
 #
 # pprint.pprint(requests.get("https://api.github.com/users/{m}".format(m=args.member)).json())
 
+# Exports
+export COMPOSE_DOCKER_CLI_BUILD=0
 
+
+function py_select() {
+    # only accepts file paths are arguments
+    ~/.scripts/py_file_opener.py $@
+
+}
+
+function banner {
+    lines=$(tput lines)
+    cols=$(tput cols)
+
+    # Calculate the length of the line
+    line_length=$((cols - 1))
+
+    printf '=%.0s' $(seq 1 $line_length)
+    printf '\n'
+
+    # Print the backup work files section
+    # Convert the input string to uppercase
+    message=$(echo "$1") # | tr '[:lower:]' '[:upper:]')
+
+    # Print the converted message
+    echo "$message"
+
+    printf '=%.0s' $(seq 1 $line_length)
+    printf '\n'
+}
+
+function confirmation() {
+    # Description: 
+    #   The confirmation function is designed to prompt the user with a message and obtain confirmation through a yes/no response. 
+    #   It takes a message as input, displays it as a prompt, and expects the user to input either 'y' or 'n' (case-insensitive). 
+    #   If the user confirms by entering 'y' or 'Y', the function returns 0, indicating success. 
+    #   Otherwise, if the user declines by entering any other character or no input, the function returns 1, indicating failure.
+
+    # Parameters:
+    #   $1: The message to display as the confirmation prompt.
+
+    # Return value:
+    #   0: Success, indicating confirmation.
+    #   1: Failure, indicating denial or invalid input.
+    local message=$1
+    read "response?${message} ?[y/N] "
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            return 0 ;;
+        *)
+            return 1 ;;
+    esac
+}
+
+function choice_selection() {
+    # Description: 
+    #   The choice_selection function facilitates user selection from a list of options provided as arguments. 
+    #   It presents the options to the user using the select command, allowing them to choose one option by its corresponding number. 
+    #   Upon selection, the chosen option is returned and printed to the console.
+
+    # Parameters:
+    #   CHOICES: An array containing the list of options from which the user needs to choose.
+    
+    # Return value:
+    #   The chosen option selected by the user.
+    local CHOICES=("$@")
+    select CHOICE in ${CHOICES[@]}; do break ; done 
+    echo $CHOICE
+}
 
 
 fs() {
@@ -164,6 +232,10 @@ csv() {
     #    column -t -s, < "$filename" | less -#2 -N -S 
 }
 
+size_of() {
+	local PATH=${1?param missing - specify path}
+	/usr/bin/du -h --max-depth=1 $PATH
+}
 
 
 export PATH=${PATH}:~/.local/bin
@@ -345,37 +417,7 @@ function gmerge(){
 
 
 
-export KUBECONFIG=''
 
-alias k=kubectl
-#alias kubectl='kubectl -n empirix-cloud'
-#complete -F __start_kubectl k
-
-set_prompt(){
-    #export PROMPT='%{$fg_bold[yellow]($CLUSTER)$reset_color%} %{$fg_bold[green]%}$(_fishy_collapsed_wd)%{$reset_color%}$(git_prompt_info) $ '
-
-    N_CONTEXT=$(kubectl config get-contexts -o=name | wc -l)
-    if [[ $N_CONTEXT -eq 1 ]]; then
-        CONTEXT=$(kubectl config get-contexts -o=name)
-        kubectl config use-context $CONTEXT 
-    else
-        echo -e "Select CONTEXT:"
-        select CONTEXT in $(kubectl config get-contexts -o=name); do break ; done
-        kubectl config use-context $CONTEXT
-    fi
-    export PROMPT='%{$fg_bold[yellow]%}[$CLUSTER-($CONTEXT)] %{$reset_color%}%{$fg_bold[green]%}$(_fishy_collapsed_wd)%{$reset_color%}$(git_prompt_info) $ '
-    export POD_NAMESPACE="empirix-cloud"
-}
-clear_prompt(){
-    export PROMPT='%{$fg_bold[green]%}$(_fishy_collapsed_wd)%{$reset_color%}$(git_prompt_info) $ '
-    export KUBECONFIG=''
-    export POD_NAMESPACE=''
-}
-
-alias k.clear=clear_prompt
-
-alias k.ns='echo ${KUBECONFIG}'
-alias k.central="export KUBECONFIG=~/.kube/config;export CLUSTER=central;set_prompt"
 
 autoload -Uz compinit
 zstyle ':completion:*' menu select
