@@ -1,5 +1,21 @@
 #!/bin/bash
 
+function setup_vscode_dependencies
+{
+  print_green "Setting up dependencies for VS code"
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
+  echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg;
+  cat <<EOF > /etc/apt/sources.list.d/microsoft.list
+Types: deb
+URIs: https://packages.microsoft.com/repos/code
+Suites: stable
+Components: main
+Architectures: amd64,arm64,armhf
+Signed-By: /usr/share/keyrings/microsoft.gpg
+EOF;
+      rm -f microsoft.gpg
+}
+
 function setup_vscode
 {
   print_green "Setting up VS code"
@@ -27,21 +43,8 @@ function setup_vscode
   esac
 }
 
-function setup_vscode_dependencies
-{
-  print_green "Setting up dependencies for VS code"
-  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
-  echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg;
-  cat <<EOF > /etc/apt/sources.list.d/microsoft.list
-Types: deb
-URIs: https://packages.microsoft.com/repos/code
-Suites: stable
-Components: main
-Architectures: amd64,arm64,armhf
-Signed-By: /usr/share/keyrings/microsoft.gpg
-EOF;
-      rm -f microsoft.gpg
-}
+
+
 function setup_sublime_text
 {
   print_green "Setting up Sublime text"
