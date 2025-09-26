@@ -16,16 +16,10 @@ function setup_vscode
     fi
 
   else
-    echo -en "Do you want to install vscode from snap ? [Y/n]: "
-    read yn
-  fi
-  # If INSTALL_FROM_SNAP is set, dont ask for confirmation
-  if [[ ${INSTALL_FROM_SNAP} -eq 1 ]]; then
-    yn="y"
-  else
     echo -en "Do you want to install vscode from snap ?(recommended) [Y/n]: "
     read yn
   fi
+
   case $yn in
     [Yy]*) echo $SUDO_PASSWORD | sudo -S snap install --classic code ;;
     [Nn]*) 
