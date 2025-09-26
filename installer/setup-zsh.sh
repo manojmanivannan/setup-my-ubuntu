@@ -11,6 +11,14 @@ function setup_via_zsh4humans
 function setup_via_oh_my_zsh
 {
   print_green "Installing ZSH";
+  
+  # create scripts folder and copy all scripts
+  print_green "Creating $HOME/.scripts and copying all scripts"
+  mkdir -p $HOME/.scripts
+  cp etc/scripts/* $HOME/.scripts/
+  chmod +x $HOME/.scripts/*.sh
+
+  # install zsh and make it the default shell
   apt_get_install zsh
   echo $SUDO_PASSWORD | sudo -S chsh $USER -s $(which zsh)
   
@@ -30,12 +38,12 @@ function setup_via_oh_my_zsh
     mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date +%H_%M_%d_%h_%y)"
   fi
 
-  echo "Loading zshrc configurations to $HOME/.zshrc"
+  print_green "Loading zshrc configurations to $HOME/.zshrc"
   cp etc/zsh/.zshrc "$HOME/.zshrc"
   append_file_content etc/zsh/.zshrc_addon $HOME/.zshrc
   cp etc/zsh/amuse.zsh-theme "$HOME/.oh-my-zsh/themes/amuse.zsh-theme"
 
-  echo "Loading GIT configuration to $HOME/.gitconfig"
+  print_green "Loading GIT configuration to $HOME/.gitconfig"
   cp etc/git/.gitconfig "$HOME/.gitconfig"
 
   print_green "Setting up zsh plugins"
@@ -43,7 +51,6 @@ function setup_via_oh_my_zsh
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
   # git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
-  git clone https://github.com/z-shell/zsh-eza.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-eza
   git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
   # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
