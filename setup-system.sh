@@ -41,12 +41,17 @@ SUBLIME_TXT_INSTALL=0
 MAVEN_INSTALL=0
 VLC_INSTALL=0
 OBS_INSTALL=0
+ZSH_INSTALL_TYPE=""
 
 function print_help
 {
   echo -e "Automatically Setup Linux Machine
 Usage:
   ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${Yellow}[OPTIONS]${Color_Off}
+
+  Env variables:
+    ${Yellow}SUDO_PASSWORD${Color_Off}     Your sudo password (if not provided, will be prompted)
+    ${Yellow}ZSH_INSTALL_TYPE${Color_Off}  Type of ZSH installation: 'zsh4humans' or 'oh-my-zsh' (if not provided, will be prompted)
 
   OPTIONS:
     ${Yellow}--essential${Color_Off}   Install essential packages
@@ -180,16 +185,28 @@ fi
 if [[ ${ZSH_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Setup ZSH"
-    echo "How do you wish to install ZSH?"
-    options=("zsh4humans" "oh-my-zsh" "quit")
-    select opt in "${options[@]}"; do
-        case $opt in
-            "zsh4humans" ) setup_via_zsh4humans; break;;
-            "oh-my-zsh" ) setup_via_oh_my_zsh; break;;
-            "quit" ) exit;;
-            * ) echo "Invalid input. Please select 1, 2, or 3";;
-        esac
-    done
+    # create a non-interactive way to proceed using env variables
+    if [[ -n "$ZSH_INSTALL_TYPE" ]]; then
+        if [[ "$ZSH_INSTALL_TYPE" == "zsh4humans" ]]; then
+            setup_via_zsh4humans
+        elif [[ "$ZSH_INSTALL_TYPE" == "oh-my-zsh" ]]; then
+            setup_via_oh_my_zsh
+        else
+            print_red "Invalid ZSH_INSTALL_TYPE: $ZSH_INSTALL_TYPE. Valid options are 'zsh4humans' or 'oh-my-zsh'"
+            exit 1
+        fi
+    else
+      echo "How do you wish to install ZSH?"
+      options=("zsh4humans" "oh-my-zsh" "quit")
+      select opt in "${options[@]}"; do
+          case $opt in
+              "zsh4humans" ) setup_via_zsh4humans; break;;
+              "oh-my-zsh" ) setup_via_oh_my_zsh; break;;
+              "quit" ) exit;;
+              * ) echo "Invalid input. Please select 1, 2, or 3";;
+          esac
+      done
+    fi
 fi
 
 if [[ ${VSCODE_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
