@@ -24,6 +24,7 @@ source installer/setup-misc.sh
 source installer/apt-helper.sh
 
 
+ESSENTIAL=0
 ZSH_INSTALL=0
 UPDATE=0
 VSCODE_INSTALL=0
@@ -48,6 +49,7 @@ Usage:
   ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${Yellow}[OPTIONS]${Color_Off}
 
   OPTIONS:
+    ${Yellow}--essential${Color_Off}   Install essential packages
     ${Yellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
     ${Yellow}--pyenv${Color_Off}       Setup Python environment (UV)
     ${Yellow}--java${Color_Off}        Setup Java
@@ -75,6 +77,9 @@ fi
 
 while [ "$#" -gt 0 ]; do
   case $1 in
+    --essential)
+      ESSENTIAL=1;UPDATE=1;
+      ;;
     --zsh)
       ZSH_INSTALL=1;UPDATE=1;
       ;;
@@ -159,7 +164,7 @@ fi
 #       INSTALL COMMON LIBS         #
 #####################################
 
-if [[ ${UPDATE} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+if [[ ${ESSENTIAL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     apt_get_install git curl wget make software-properties-common gpg  apt-transport-https bat vim pv fontconfig pipx fd-find #fonts-powerline
