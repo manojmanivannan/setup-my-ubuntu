@@ -49,9 +49,10 @@ Usage:
   ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${Yellow}[OPTIONS]${Color_Off}
 
   Env variables:
-    ${Yellow}SUDO_PASSWORD${Color_Off}     Your sudo password (if not provided, will be prompted)
-    ${Yellow}ZSH_INSTALL_TYPE${Color_Off}  Type of ZSH installation: 'zsh4humans' or 'oh-my-zsh' (if not provided, will be prompted)
-    ${Yellow}VSCODE_INSTALL_FROM_SNAP${Color_Off}  Install vscode from snap if true (default: false)
+    ${Yellow}SUDO_PASSWORD${Color_Off}              Your sudo password (if not provided, will be prompted)
+    ${Yellow}ZSH_INSTALL_TYPE${Color_Off}           Type of ZSH installation: 'zsh4humans' or 'oh-my-zsh' (if not provided, will be prompted)
+    ${Yellow}VSCODE_INSTALL_FROM_SNAP${Color_Off}   Install vscode from snap if true (default: false) (if not provided, will be prompted)
+    ${Yellow}SUBLIME_INSTALL_FROM_SNAP${Color_Off}  Install sublime text from snap if true (default: false) (if not provided, will be prompted)
 
   OPTIONS:
     ${Yellow}--essential${Color_Off}   Install essential packages

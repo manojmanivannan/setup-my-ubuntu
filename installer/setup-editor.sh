@@ -45,8 +45,19 @@ function setup_sublime_text
 {
   print_green "Setting up Sublime text"
 
-  echo -en "Do you want to install Sublime text and Sublime merge from snap ? [Y/n]: "
-  read yn
+  
+  # create non-interactive way to proceed using env variables
+  if [[ -n "$SUBLIME_INSTALL_FROM_SNAP" ]]; then
+    if [[ "$SUBLIME_INSTALL_FROM_SNAP" == "true" ]]; then
+      yn="y"
+    else
+      yn="n"
+    fi
+
+  else
+    echo -en "Do you want to install Sublime text and Sublime merge from snap ? [Y/n]: "
+    read yn
+  fi
   case $yn in
     [Yy]*)
       echo $SUDO_PASSWORD | sudo -S snap install --classic sublime-text || exit_on_failure $? "Failed to install Sublime Text via snap" ;
