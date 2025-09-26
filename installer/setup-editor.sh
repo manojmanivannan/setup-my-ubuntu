@@ -6,9 +6,8 @@ function setup_vscode_dependencies
   print_green "Setting up dependencies for VS code"
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg;
   echo $SUDO_PASSWORD | sudo -S install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg;
-  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
-    sudo tee /etc/apt/sources.list.d/microsoft.list > /dev/null
-  rm -f microsoft.gpg
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/microsoft.list > /dev/null;
+  rm -f microsoft.gpg;
 }
 
 function setup_vscode
