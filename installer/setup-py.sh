@@ -32,6 +32,12 @@ function setup_py_env
 function uninstall_py_env
 {
   print_green "Uninstalling UV and cleaning up Python environment"
+  # if uv is not installed, then return
+  if ! command -v uv &> /dev/null
+  then
+    print_yellow "UV is not installed, skipping uninstallation"
+    return
+  fi
   uv cache clean
   rm -rf "$(uv python dir)"
   rm -rf "$(uv tool dir)"
