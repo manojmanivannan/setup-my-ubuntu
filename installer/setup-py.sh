@@ -10,8 +10,8 @@ function setup_py_env
 
   # PYTHON RELATED SETUP
   print_green "Setting up UV"
-  #apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python3-tk tk-dev python3-pip python3-venv
-  pipx_install inquirer
+  apt_get_install build-essential libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev python3-tk tk-dev python3-pip python3-venv
+  pip_install inquirer
 
   curl -LsSf https://astral.sh/uv/install.sh | sh
   exit_on_failure $? "Failed to setup UV"
@@ -23,11 +23,8 @@ function setup_py_env
     TARGET_PROFILE="$HOME/.bashrc"
   fi
 
-  if ! grep -q 'export PYENV_ROOT' "$TARGET_PROFILE"
-  then 
-    echo 'eval "$(uv generate-shell-completion zsh)"' >> "$TARGET_PROFILE"
-    echo 'eval "$(uvx --generate-shell-completion bash)"' >> "$TARGET_PROFILE"
-  fi
+  echo 'eval "$(uv generate-shell-completion zsh)"' >> "$TARGET_PROFILE"
+  echo 'eval "$(uvx --generate-shell-completion bash)"' >> "$TARGET_PROFILE"
 
 }
 
