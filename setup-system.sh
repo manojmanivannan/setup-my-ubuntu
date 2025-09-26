@@ -28,6 +28,7 @@ ZSH_INSTALL=0
 UPDATE=0
 VSCODE_INSTALL=0
 PYENV_INSTALL=0
+UNINSTALL=0
 JAVA_INSTALL=0
 ALL_INSTALL=0
 SSH_KEY_INSTALL=0
@@ -48,7 +49,8 @@ Usage:
 
   OPTIONS:
     ${Yellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
-    ${Yellow}--pyenv${Color_Off}       Setup Python version management tool PyENV
+    ${Yellow}--pyenv${Color_Off}       Setup Python environment (UV)
+    ${Yellow}--pyenv${Color_Off} Uninstall Python environment (UV)
     ${Yellow}--java${Color_Off}        Setup Java
     ${Yellow}--spark${Color_Off}       Setup Apache Spark
     ${Yellow}--kakfa${Color_Off}       Setup Apache Kafka
@@ -61,6 +63,7 @@ Usage:
     ${Yellow}--terminal${Color_Off}    Setup Gnome terminator
     ${Yellow}--sublt${Color_Off}       Setup Sublime text
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
+    ${Yellow}--uninstall${Color_Off}   Uninstall any packages installed via this script
   "
 }
 
@@ -84,6 +87,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --pyenv)
       PYENV_INSTALL=1;UPDATE=1;
+      ;;
+    --uninstall)
+      UNINSTALL=1
       ;;
     --java)
       JAVA_INSTALL=1;UPDATE=1;
@@ -121,7 +127,6 @@ while [ "$#" -gt 0 ]; do
       exit 1
       ;;
   esac
-
   shift
 done
 
@@ -163,8 +168,10 @@ then
 fi
 
 #####################################
-#      INSTALL EVERYTHING ELSE      #
 #####################################
+# INSTALL/UNINSTALL EVERYTHING ELSE #
+#####################################
+
 
 if [[ ${ZSH_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
