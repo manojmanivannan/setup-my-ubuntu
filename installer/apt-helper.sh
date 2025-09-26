@@ -32,6 +32,14 @@ function apt_get_install
 
 }
 
+function apt_get_install_all
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Installing $PACKAGE_NAMES"
+  echo $SUDO_PASSWORD | sudo -S apt-get install -qq --ignore-missing -y $PACKAGE_NAMES  || exit_on_failure $? "Failed to install package '$PACKAGE_NAMES'"
+
+}
+
 function pipx_install
 {
   local PACKAGE_NAMES="$*"
