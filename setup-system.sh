@@ -50,7 +50,6 @@ Usage:
   OPTIONS:
     ${Yellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
     ${Yellow}--pyenv${Color_Off}       Setup Python environment (UV)
-    ${Yellow}--pyenv${Color_Off} Uninstall Python environment (UV)
     ${Yellow}--java${Color_Off}        Setup Java
     ${Yellow}--spark${Color_Off}       Setup Apache Spark
     ${Yellow}--kakfa${Color_Off}       Setup Apache Kafka
