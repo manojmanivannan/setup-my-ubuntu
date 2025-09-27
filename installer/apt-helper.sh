@@ -32,6 +32,14 @@ function apt_get_install
 
 }
 
+function apt_get_install_all
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Installing $PACKAGE_NAMES"
+  echo $SUDO_PASSWORD | sudo -S apt-get install -qq --ignore-missing -y $PACKAGE_NAMES  || exit_on_failure $? "Failed to install package '$PACKAGE_NAMES'"
+
+}
+
 function pipx_install
 {
   local PACKAGE_NAMES="$*"
@@ -63,6 +71,16 @@ function pip_install
   for PKG in $PACKAGE_NAMES;
   do
     text_yellow "Package: '$PKG'" && python3 -m pip install $PKG || exit_on_failure $? "Failed to install python package '$PKG'"
+  done
+}
+
+function pipx_install
+{
+  local PACKAGE_NAMES="$*"
+  print_green "Installing $PACKAGE_NAMES"
+  for PKG in $PACKAGE_NAMES; 
+  do 
+    text_yellow "Package: '$PKG'"  && pipx install $PKG --force  || exit_on_failure $? "Failed to install package '$PKG'"
   done
 }
 

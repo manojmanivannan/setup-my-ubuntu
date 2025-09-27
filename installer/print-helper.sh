@@ -18,6 +18,13 @@ function print_green
   echo -e "${Color_Off}"
 }
 
+function print_yellow
+{
+  echo -e "${BYellow}"
+  do_header $*
+  echo -e "${Color_Off}"
+}
+
 function print_red
 {
   echo -e "${BRed}"
