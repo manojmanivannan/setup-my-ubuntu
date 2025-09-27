@@ -18,7 +18,7 @@ jobs:
         run: |
           chmod +x setup-system.sh
           # You can test specific components or all at once
-          ./setup-system.sh --pyenv --docker --vscode --maven --essential
+          ./setup-system.sh --pyenv --docker --vscode --maven --essential --vlc
         env:
           # You can set sudo password if required for your scripts to simulate user input
           # SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
