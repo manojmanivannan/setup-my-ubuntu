@@ -13,54 +13,60 @@ function setup_via_oh_my_zsh
   print_green "Installing ZSH"
 
   # install zsh and make it the default shell
-  apt_get_install zsh
-  echo $SUDO_PASSWORD | sudo -S chsh $USER -s $(which zsh)
-  
-  print_green "Installing oh-my-zsh"
+  # ignore if already installed
+  if command -v zsh >/dev/null 2>&1; then
+    print_green "ZSH is already installed"
+  else
+    print_green "ZSH is not installed. Installing ZSH"
+    apt_get_install zsh
+    
+    echo $SUDO_PASSWORD | sudo -S chsh $USER -s $(which zsh)
+    
+    print_green "Installing oh-my-zsh"
 
-  # If ~/.oh-y-zsh already exists, make a backup
-  if [ -d "$HOME/.oh-my-zsh" ]; then
-    echo "Backing up oh-my-zsh folder"
-    mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh-backup-$(date +%H_%M_%d_%h_%y)"
+    # If ~/.oh-y-zsh already exists, make a backup
+    if [ -d "$HOME/.oh-my-zsh" ]; then
+      echo "Backing up oh-my-zsh folder"
+      mv "$HOME/.oh-my-zsh" "$HOME/.oh-my-zsh-backup-$(date +%H_%M_%d_%h_%y)"
+    fi
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended ;
+    print_green "oh-my-zsh install complete"
+
+    # If ~/.zshrc already exists, make a backup
+    if [ -f "$HOME/.zshrc" ]; then
+      echo "Backing up $HOME/.zshrc"
+      mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date +%H_%M_%d_%h_%y)"
+    fi
+
+    print_green "Loading zshrc configurations to $HOME/.zshrc"
+    cp etc/zsh/.zshrc "$HOME/.zshrc"
+    append_file_content etc/zsh/.zshrc_addon $HOME/.zshrc
+    cp etc/zsh/amuse.zsh-theme "$HOME/.oh-my-zsh/themes/amuse.zsh-theme"
+
+    print_green "Loading GIT configuration to $HOME/.gitconfig"
+    cp etc/git/.gitconfig "$HOME/.gitconfig"
+
+    print_green "Setting up zsh plugins"
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
+    # git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
+    git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
+    # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+    print_green "Setting up Fonts"
+    FONT_DIR=~/.local/share/fonts
+    mkdir -p $FONT_DIR/NerdFonts
+    find etc/fonts/ -type f -name "*.ttf" -exec cp {} $FONT_DIR/NerdFonts/. \;
+
+
+    print_green "Installing"
+    echo $SUDO_PASSWORD | sudo -S fc-cache -fv $FONT_DIR
+
+    cd "$(dirname "$ROOT_DIR")"
+
+    print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
   fi
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended ;
-  print_green "oh-my-zsh install complete"
-
-  # If ~/.zshrc already exists, make a backup
-  if [ -f "$HOME/.zshrc" ]; then
-    echo "Backing up $HOME/.zshrc"
-    mv "$HOME/.zshrc" "$HOME/.zshrc_backup_$(date +%H_%M_%d_%h_%y)"
-  fi
-
-  print_green "Loading zshrc configurations to $HOME/.zshrc"
-  cp etc/zsh/.zshrc "$HOME/.zshrc"
-  append_file_content etc/zsh/.zshrc_addon $HOME/.zshrc
-  cp etc/zsh/amuse.zsh-theme "$HOME/.oh-my-zsh/themes/amuse.zsh-theme"
-
-  print_green "Loading GIT configuration to $HOME/.gitconfig"
-  cp etc/git/.gitconfig "$HOME/.gitconfig"
-
-  print_green "Setting up zsh plugins"
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-  git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
-  # git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
-  git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
-  # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
-  print_green "Setting up Fonts"
-  FONT_DIR=~/.local/share/fonts
-  mkdir -p $FONT_DIR/NerdFonts
-  find etc/fonts/ -type f -name "*.ttf" -exec cp {} $FONT_DIR/NerdFonts/. \;
-
-
-  print_green "Installing"
-  echo $SUDO_PASSWORD | sudo -S fc-cache -fv $FONT_DIR
-
-  cd "$(dirname "$ROOT_DIR")"
-
-  print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
-
   # ask user if they want to load from tar ball backup
   read -p "Do you want to load from a tarball backup? (y/n) " -n 1 -r
   echo    # (optional) move to a new line
