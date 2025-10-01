@@ -26,11 +26,7 @@ bashcompinit
 # pprint.pprint(requests.get("https://api.github.com/users/{m}".format(m=args.member)).json())
 
 
-function py_select() {
-    # only accepts file paths are arguments
-    ~/.scripts/.venv/bin/py-file-opener $@
 
-}
 
 function banner {
     lines=$(tput lines)
@@ -143,7 +139,7 @@ function f() {
 	local location=${2?param missing - specify directory.}
 	location="$(realpath $location)"
     
-    py_file_select -l $regex $location
+    ~/.scripts/.venv/bin/py_file_select -l $regex $location
 
     }
 
@@ -163,7 +159,7 @@ function fo(){
             array+=("$REPLY")
         done < <(f $regex $location "print")
         #echo "Array ${array[@]}"
-        py_select "$location" "${array[@]}"
+        ~/.scripts/.venv/bin/py-file-opener "$location" "${array[@]}"
     else
         echo "No files found matching: \"$1\""
     fi
