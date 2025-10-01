@@ -1,8 +1,8 @@
 #!~/.scripts/.venv/bin/python3
 
-import sys, os, pip
+import sys, os
 from time import sleep
-from subprocess import call
+from subprocess import call, check_call
 
 try:
     __import__("inquirer")
@@ -13,7 +13,7 @@ except ImportError:
         "yes",
         "y",
     ]:
-        pip.main(["install", "inquirer==2.9.2"])
+        check_call([sys.executable, "-m", "pip", "install", "inquirer==2.9.2"])
     else:
         print("Exiting..")
         sys.exit(1)
