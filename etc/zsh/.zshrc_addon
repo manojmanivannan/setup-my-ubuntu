@@ -1,7 +1,6 @@
 
-alias bat="batcat"
-alias sz='source ~/.zshrc'
-alias gitzip="git archive HEAD -o ${PWD##*/}.zip"
+
+
 autoload -U bashcompinit
 bashcompinit
 
@@ -25,9 +24,6 @@ bashcompinit
 # args = parser.parse_args()
 #
 # pprint.pprint(requests.get("https://api.github.com/users/{m}".format(m=args.member)).json())
-
-# Exports
-export COMPOSE_DOCKER_CLI_BUILD=0
 
 
 function py_select() {
@@ -97,14 +93,14 @@ function choice_selection() {
 }
 
 
-fs() {
+function fs() {
     local PATH_REGEX=${1?param missing - specify the path regex}
     local FILE_REGEX=${2?param missing - specify the file regex}
     local SEARCH_REGEX=${3?param missing - specify the string regex}
     find "$PATH_REGEX" -name "$FILE_REGEX" -print0 | xargs -0 grep -Hrin "$SEARCH_REGEX" | grep -i "$SEARCH_REGEX"
 }
 
-s() {
+function s() {
     # s 'string1.*string2' path -> for AND
     # s 'string1\|string2' path -> for OR
 	regex=${1?param missing - specify string to search} 
@@ -118,7 +114,7 @@ s() {
 	
 	grep -HErin "$regex" --include "$filename_ext" "$location";}
 
-sf() {
+function sf() {
     # s 'string1.*string2' path -> for AND
     # s 'string1\|string2' path -> for OR
         regex=${1?param missing - specify string to search}
@@ -133,7 +129,7 @@ sf() {
         grep -lrin "$regex" --include "$filename_ext" "$location";
     }
 
-sxtract(){
+function sxtract(){
     local FILE=${1?param missing - specify file name}
     local REGEX=${2?param missing - specify the starting word}
     grep -oiP '(?<='"$REGEX"'")[a-zA-Z0-9_]+' $FILE
@@ -142,7 +138,7 @@ sxtract(){
 }
 
 
-f() {	
+function f() {	
 	local regex=${1?param missing - specify string.} 
 	local location=${2?param missing - specify directory.}
 	location="$(realpath $location)"
@@ -151,15 +147,29 @@ f() {
 
     }
 
-fo(){
+function fo(){
     local regex=${1?param missing - specify string.}
     local location=${2?param missing - specify directory.}
+    local RESULT=$(f $regex $location)
+    local RESULT_LENGTH=$(echo $RESULT | tr ' ' '\n' | wc -l)
 
-    py_file_select $regex $location
-
+    if [[ ${RESULT_LENGTH} == "1" ]] && [[ ! -z ${RESULT} ]]; then
+        echo "Opening $RESULT"
+        sleep 0.5
+        vim $RESULT
+    elif [[ ${RESULT_LENGTH} -gt "1" ]] && [[ ! -z ${RESULT} ]]; then
+        local array=()
+        while IFS=  read -r -d $'\0'; do
+            array+=("$REPLY")
+        done < <(f $regex $location "print")
+        #echo "Array ${array[@]}"
+        py_select "$location" "${array[@]}"
+    else
+        echo "No files found matching: \"$1\""
+    fi
 }
 
-s_in_quotes(){
+function s_in_quotes(){
     usage(){
         echo "Search any word [matching regex: a-zA-Z0-9_] betweem quotes, preceeded by another string"
         echo "s_in_quotes -word_before 'name' -file /path/to/file"
@@ -197,7 +207,7 @@ s_in_quotes(){
     fi
 }
 
-function cd() {
+function function cd() {
   builtin cd "$@"
 
   if [[ -z "$VIRTUAL_ENV" ]] ; then
@@ -221,38 +231,34 @@ function mkdirr() {
     builtin cd "$@"
 }
 
-transpose() {
+function transpose() {
+    # TODO verify if ruby is installed
     local filename=${1?param missing - specify full file path}
     ruby -rcsv -e 'puts CSV.parse(STDIN).transpose.map &:to_csv' < "$filename" | while IFS=\, read -r a b ; do echo "$a=$b" ; done
 }
 
-csv() {
+function csv() {
+    # TODO verify if ruby is installed
     local filename=${1?param missing - specify full file path}
     tabview $filename
     #    column -t -s, < "$filename" | less -#2 -N -S 
 }
 
-size_of() {
+function size_of() {
 	local PATH=${1?param missing - specify path}
 	/usr/bin/du -h --max-depth=1 $PATH
 }
 
 
-export PATH=${PATH}:~/.local/bin
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
 # https://github.com/junegunn/fzf/wiki/Examples
 
 # fd - cd to selected directory
-fd() {
+function fd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
@@ -261,7 +267,7 @@ fd() {
 # cf - fuzzy cd from anywhere
 # ex: cf word1 word2 ... (even part of a file name)
 # zsh autoload function
-cf() {
+function cf() {
   local file
   
   file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
@@ -278,7 +284,7 @@ cf() {
 }
 
 
-count_records(){
+function count_records(){
 	dir=${1?param missing - specify directory}
 	location="$(realpath $dir)"
 	header=${2?param missing - specify number of lines to consider as header rows}
@@ -327,7 +333,7 @@ function gpush(){
     fi
 }
 
-alias gdiff='ydiff -s -w0'
+
 
 function gcommit(){
     local MSG="$@"
@@ -366,11 +372,6 @@ function gcbi(){
         echo "Invalid type"
     fi
 }
-alias grecent=gcorecent
-alias gclean='git clean -fd && git checkout -- .'
-alias glast-tag='git describe --tags --abbrev=0'
-alias gtree='git log --graph --online --decorate --all'
-alias gst='git status'
 
 function glast-tags-in-branch(){
     local BRANCH_NAME=${1?param missing - specify branch name}
@@ -416,7 +417,21 @@ function gmerge(){
 # source "/home/mmanivannan/.kubectl/completion"
 
 
+alias gitzip="git archive HEAD -o ${PWD##*/}.zip"
+alias bat="batcat"
+alias sz='source ~/.zshrc'
+alias gdiff='ydiff -s -w0'
+alias grecent=gcorecent
+alias gclean='git clean -fd && git checkout -- .'
+alias glast-tag='git describe --tags --abbrev=0'
+alias gtree='git log --graph --online --decorate --all'
+alias gst='git status'
 
+# Exports
+export DOCKER_BUILDKIT=0
+export COMPOSE_DOCKER_CLI_BUILD=0
+export PATH=${PATH}:~/.local/bin
+[ -d ~/.scripts ] && export PATH=$PATH:~/.scripts
 
 
 autoload -Uz compinit

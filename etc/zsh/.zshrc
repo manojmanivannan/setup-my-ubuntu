@@ -3,6 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_HIGHLIGHT_MAXLENGTH=500
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -10,8 +11,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="amuse"
 # ZSH_THEME="powerlevel9k/powerlevel9k"
-export DOCKER_BUILDKIT=0
-export COMPOSE_DOCKER_CLI_BUILD=0
+
 
 ##################################################################
 # # Theme: powerlevel9k
@@ -116,7 +116,7 @@ kubectl
 z
 virtualenv
 )
-export ZSH_HIGHLIGHT_MAXLENGTH=500
+
 source $ZSH/oh-my-zsh.sh
 
 bindkey '^j' forward-word

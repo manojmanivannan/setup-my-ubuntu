@@ -45,14 +45,12 @@ function setup_via_oh_my_zsh
     echo "source $HOME/.zshrc_addon" >> $HOME/.zshrc
     cp etc/zsh/amuse.zsh-theme "$HOME/.oh-my-zsh/themes/amuse.zsh-theme"
 
-    print_green "Loading GIT configuration to $HOME/.gitconfig"
-    cp etc/git/.gitconfig "$HOME/.gitconfig"
 
     print_green "Setting up zsh plugins"
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
     git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
-    # git clone https://github.com/manojmanivannan/zsh-aliases-exa.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-aliases-exa
+    git clone https://github.com/marlonrichert/zsh-autocomplete ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autocomplete
     git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
     # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
@@ -152,8 +150,13 @@ function setup_via_oh_my_zsh
           mkdir -p $HOME/.github
           cp -r $TEMP_DIR/home/manoj/.github/* $HOME/.github/.
         fi
-        cp $TEMP_DIR/home/manoj/.gitconfig $HOME/.gitconfig
         chmod 700 ~/.github
+      fi
+
+      # $HOME/.gitconfig
+      if [ -f "$TEMP_DIR/home/manoj/.gitconfig" ]; then
+        cp $TEMP_DIR/home/manoj/.gitconfig $HOME/.gitconfig
+        chmod 644 ~/.gitconfig
       fi
 
           # $HOME/.config
