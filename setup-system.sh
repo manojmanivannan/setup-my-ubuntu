@@ -151,7 +151,7 @@ then
     mkdir -p ~/.scripts
     python3 -m venv ~/.scripts/.venv
     ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
-    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
+    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-opener.git
 fi
 
 #####################################
