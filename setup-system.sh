@@ -150,8 +150,8 @@ then
     apt_get_install_all git curl wget make software-properties-common gpg  apt-transport-https bat vim pv fontconfig pipx fd-find python3-pip python3-venv #fonts-powerline
     mkdir -p ~/.scripts
     python3 -m venv ~/.scripts/.venv
-    ~/.scripts/.venv/bin/pip install pipx
-    ~/.scripts/.venv/bin/pipx install git+https://github.com/manojmanivannan/py-file-select.git
+    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
+    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
 fi
 
 #####################################
