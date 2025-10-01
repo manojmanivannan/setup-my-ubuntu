@@ -11,6 +11,10 @@ function setup_via_zsh4humans
 
 function setup_via_oh_my_zsh
 {
+  if [[ ${UNINSTALL} -eq 1 ]]; then
+    uninstall_zsh
+    exit 0
+  fi
   print_green "Installing ZSH"
 
   # install zsh and make it the default shell
@@ -72,6 +76,16 @@ function setup_via_oh_my_zsh
     print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
   fi
 
+
+}
+
+function uninstall_zsh
+{
+  print_green "Uninstalling ZSH"
+  uninstall_oh_my_zsh
+
+  #change the shell to bash
+  echo $SUDO_PASSWORD | sudo -S chsh $USER -s $(which bash)
 
 }
 
