@@ -11,6 +11,12 @@ function setup_via_zsh4humans
 function setup_via_oh_my_zsh
 {
   print_green "Installing ZSH";
+  
+  # create scripts folder and copy all scripts
+  print_green "Creating $HOME/.scripts and copying all scripts"
+  mkdir -p $HOME/.scripts
+  cp etc/scripts/* $HOME/.scripts/
+  chmod +x $HOME/.scripts/*.sh
 
   # install zsh and make it the default shell
   apt_get_install zsh
@@ -64,8 +70,7 @@ function setup_via_oh_my_zsh
   # ask user if they want to load from tar ball backup
   read -p "Do you want to load from a tarball backup? (y/n) " -n 1 -r
   echo    # (optional) move to a new line
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
       # prompt the user for full path of the backup file
       TEMP_DIR=/tmp/backup_extract
       read -e -p "Enter the full path of the tarball backup file: " backup_path
@@ -160,6 +165,8 @@ function setup_via_oh_my_zsh
 
 
           print_green "Loaded scripts from backup $backup_path"
+      fi
+  fi
 
 }
 
