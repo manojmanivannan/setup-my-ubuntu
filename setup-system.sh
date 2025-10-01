@@ -163,6 +163,10 @@ fi
 if [[ ${ZSH_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Setup ZSH"
+    if [[ ${UNINSTALL} -eq 1 ]]; then
+      uninstall_zsh
+      exit 0
+    fi
     # create a non-interactive way to proceed using env variables
     if [[ -n "$ZSH_INSTALL_TYPE" ]]; then
         if [[ "$ZSH_INSTALL_TYPE" == "zsh4humans" ]]; then

@@ -11,10 +11,7 @@ function setup_via_zsh4humans
 
 function setup_via_oh_my_zsh
 {
-  if [[ ${UNINSTALL} -eq 1 ]]; then
-    uninstall_zsh
-    exit 0
-  fi
+
   print_green "Installing ZSH"
 
   # install zsh and make it the default shell
@@ -82,10 +79,11 @@ function setup_via_oh_my_zsh
 function uninstall_zsh
 {
   print_green "Uninstalling ZSH"
-  uninstall_oh_my_zsh
+  command env ZSH="$ZSH" sh "$ZSH/tools/uninstall.sh"
 
   #change the shell to bash
   echo $SUDO_PASSWORD | sudo -S chsh $USER -s $(which bash)
+  print_green "Log off and log back in to have bash as your default shell"
 
 }
 
@@ -97,6 +95,7 @@ function setup_load_backup
 
   else
     # ask user if they want to load from tar ball backup
+    echo
     read -e -p "Do you want to load from a tarball backup? (y/n) " REPLY
     echo
   fi  
