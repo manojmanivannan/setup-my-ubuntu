@@ -11,12 +11,6 @@ function setup_via_zsh4humans
 function setup_via_oh_my_zsh
 {
   print_green "Installing ZSH";
-  
-  # create scripts folder and copy all scripts
-  print_green "Creating $HOME/.scripts and copying all scripts"
-  mkdir -p $HOME/.scripts
-  cp etc/scripts/* $HOME/.scripts/
-  chmod +x $HOME/.scripts/*.sh
 
   # install zsh and make it the default shell
   apt_get_install zsh
