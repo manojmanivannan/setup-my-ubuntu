@@ -69,13 +69,26 @@ function setup_via_oh_my_zsh
 
     print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
   fi
-  # ask user if they want to load from tar ball backup
-  read -p "Do you want to load from a tarball backup? (y/n) " -n 1 -r
-  echo    # (optional) move to a new line
+
+  if [[ -n "$PATH_TO_BACKUP_TAR" ]]; then
+    # ask user if they want to load from tar ball backup
+    read -e -p "Do you want to load from a tarball backup? (y/n) " REPLY
+    echo
+
+  else
+    REPLY="y"
+  fi  
+  
+
   if [[ $REPLY =~ ^[Yy]$ ]]; then
       # prompt the user for full path of the backup file
       TEMP_DIR=/tmp/backup_extract
-      read -e -p "Enter the full path of the tarball backup file: " backup_path
+      # if PATH_TO_BACKUP_TAR is set and file exists, use it
+      if [[ -n "$PATH_TO_BACKUP_TAR" && -f "$PATH_TO_BACKUP_TAR" ]]; then
+        backup_path="$PATH_TO_BACKUP_TAR"
+      else
+        read -e -p "Enter the full path of the tarball backup file: " backup_path
+      fi
       if [ -f "$backup_path" ]; then
           # extract the tarball to a temporary location /tmp/backup_extract
           mkdir -p $TEMP_DIR
