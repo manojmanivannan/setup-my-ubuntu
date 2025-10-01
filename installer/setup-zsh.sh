@@ -70,13 +70,14 @@ function setup_via_oh_my_zsh
     print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
   fi
 
-  if [[ -n "$PATH_TO_BACKUP_TAR" ]]; then
+  if [[ -n "$PATH_TO_BACKUP_TAR" ]] && [[ -f "$PATH_TO_BACKUP_TAR" ]]; then
+    
+    REPLY="y"
+
+  else
     # ask user if they want to load from tar ball backup
     read -e -p "Do you want to load from a tarball backup? (y/n) " REPLY
     echo
-
-  else
-    REPLY="y"
   fi  
   
 
