@@ -66,6 +66,107 @@ function setup_via_oh_my_zsh
   cd "$(dirname "$ROOT_DIR")"
 
   print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
+
+  # ask user if they want to load from tar ball backup
+  read -p "Do you want to load from a tarball backup? (y/n) " -n 1 -r
+  echo    # (optional) move to a new line
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+      # prompt the user for full path of the backup file
+      TEMP_DIR=/tmp/backup_extract
+      read -e -p "Enter the full path of the tarball backup file: " backup_path
+      if [ -f "$backup_path" ]; then
+          # extract the tarball to a temporary location /tmp/backup_extract
+          mkdir -p $TEMP_DIR
+          print_green "Extracting backup from $backup_path to $TEMP_DIR"
+          tar -xvzf "$backup_path" -C $TEMP_DIR
+          print_green "Backup extracted successfully."
+
+          # move to that directory
+          cd $TEMP_DIR
+          if [ -d "$HOME/Documents" ]; then
+              cp -r $TEMP_DIR/home/$USER/Documents/* $HOME/Documents/.
+          fi
+          if [ -d "$HOME/.ssh" ]; then
+              cp -r $TEMP_DIR/home/$USER/.ssh/* $HOME/.ssh/.
+          else
+              mkdir -p $HOME/.ssh
+              cp -r $TEMP_DIR/home/$USER/.ssh/* $HOME/.ssh/.
+              chmod 700 ~/.ssh
+              chmod 600 ~/.ssh/id_rsa
+              chmod 644 ~/.ssh/id_rsa.pub
+              chmod 600 ~/.ssh/authorized_keys
+              chmod 644 ~/.ssh/known_hosts
+              chmod 600 ~/.ssh/config
+          fi
+
+          if [ -d "$HOME/.docker" ]; then
+              cp -r $TEMP_DIR/home/$USER/.docker/* $HOME/.docker/.
+          else
+              mkdir -p $HOME/.docker
+              cp -r $TEMP_DIR/home/$USER/.docker/* $HOME/.docker/.
+              chmod 700 ~/.docker
+              chmod 600 ~/.docker/config.json
+          fi
+          # $HOME/.dockerhub
+          if [ -d "$HOME/.dockerhub" ]; then
+              cp -r $TEMP_DIR/home/$USER/.dockerhub/* $HOME/.dockerhub/.
+          else
+              mkdir -p $HOME/.dockerhub
+              cp -r $TEMP_DIR/home/$USER/.dockerhub/* $HOME/.dockerhub/.
+              chmod 700 ~/.dockerhub
+          fi
+
+          # $HOME/.github
+          if [ -d "$HOME/.github" ]; then
+              cp -r $TEMP_DIR/home/$USER/.github/* $HOME/.github/.
+              cp $TEMP_DIR/home/$USER/.gitconfig $HOME/.gitconfig
+          else
+              mkdir -p $HOME/.github
+              cp -r $TEMP_DIR/home/$USER/.github/* $HOME/.github/.
+              cp $TEMP_DIR/home/$USER/.gitconfig $HOME/.gitconfig
+              chmod 700 ~/.github
+          fi
+
+          # $HOME/.config
+          if [ -d "$HOME/.config" ]; then
+              cp -r $TEMP_DIR/home/$USER/.config/* $HOME/.config/.
+          else
+              mkdir -p $HOME/.config
+              cp -r $TEMP_DIR/home/$USER/.config/* $HOME/.config/.
+              chmod 700 ~/.config
+          fi
+
+          # $HOME/.api_key
+          if [ -d "$HOME/.api_key" ]; then
+              cp -r $TEMP_DIR/home/$USER/.api_key/* $HOME/.api_key/.
+          else
+              mkdir -p $HOME/.api_key
+              cp -r $TEMP_DIR/home/$USER/.api_key/* $HOME/.api_key/.
+              chmod 700 ~/.api_key
+          fi
+
+          # $HOME/.scripts
+          if [ -d "$HOME/.scripts" ]; then
+              cp -r $TEMP_DIR/home/$USER/.scripts/* $HOME/.scripts/.
+          else
+              mkdir -p $HOME/.scripts
+              cp -r $TEMP_DIR/home/$USER/.scripts/* $HOME/.scripts/.
+              chmod 700 ~/.scripts
+          fi
+
+          # $HOME/.local/bin
+          if [ -d "$HOME/.local/bin" ]; then
+              cp -r $TEMP_DIR/home/$USER/.local/bin/* $HOME/.local/bin/.
+          else
+              mkdir -p $HOME/.local/bin
+              cp -r $TEMP_DIR/home/$USER/.local/bin/* $HOME/.local/bin/.
+              chmod 700 ~/.local/bin
+          fi
+
+
+          print_green "Loaded scripts from backup $backup_path"
+
 }
 
 function setup_terminal
