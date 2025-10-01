@@ -147,7 +147,7 @@ fi
 if [[ ${ESSENTIAL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
-    apt_get_install_all git curl wget make software-properties-common gpg  apt-transport-https bat vim pv fontconfig pipx fd-find python3-pip python3-venv #fonts-powerline
+    apt_get_install_all git curl wget make software-properties-common gpg git-crypt apt-transport-https bat vim pv fontconfig pipx fd-find python3-pip python3-venv #fonts-powerline
     mkdir -p ~/.scripts
     python3 -m venv ~/.scripts/.venv
     ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
