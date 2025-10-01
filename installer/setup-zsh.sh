@@ -107,8 +107,9 @@ function setup_via_oh_my_zsh
               chmod 700 ~/.docker
               chmod 600 ~/.docker/config.json
           fi
-          # $HOME/.dockerhub
-          if [ -d "$HOME/.dockerhub" ]; then
+          # $HOME/.dockerhub if present and also $TEMP_DIR/home/manoj/.dockerhub exists
+
+          if [ -d "$HOME/.dockerhub" && -d "$TEMP_DIR/home/manoj/.dockerhub" ]; then
               cp -r $TEMP_DIR/home/manoj/.dockerhub/* $HOME/.dockerhub/.
           else
               mkdir -p $HOME/.dockerhub
