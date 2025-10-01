@@ -310,7 +310,7 @@ function wait_for()
 #TMOUT=300
 #TRAPALRM() { if command -v cmatrix &> /dev/null; then cmatrix -sb; fi }
 #
-#source /etc/profile.d/maven.sh
+
 
 # GIT Functions
 function gpush(){

@@ -17,10 +17,8 @@ source installer/setup-docker.sh
 source installer/setup-editor.sh
 source installer/setup-py.sh
 source installer/setup-zsh.sh
-source installer/setup-java.sh
 source installer/setup-ssh.sh
 source installer/print-helper.sh
-source installer/setup-misc.sh
 source installer/apt-helper.sh
 
 
@@ -30,17 +28,12 @@ UPDATE=0
 VSCODE_INSTALL=0
 PYENV_INSTALL=0
 UNINSTALL=0
-JAVA_INSTALL=0
 ALL_INSTALL=0
 SSH_KEY_INSTALL=0
-SPARK_INSTALL=0
-KAFKA_INSTALL=0
 DOCKER_INSTALL=0
 TERMINAL_INSTALL=0
 SUBLIME_TXT_INSTALL=0
-MAVEN_INSTALL=0
-VLC_INSTALL=0
-OBS_INSTALL=0
+LOAD_FROM_TAR=0
 
 function print_help
 {
@@ -59,18 +52,13 @@ Usage:
     ${Yellow}--essential${Color_Off}   Install essential packages
     ${Yellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
     ${Yellow}--pyenv${Color_Off}       Setup Python environment (UV)
-    ${Yellow}--java${Color_Off}        Setup Java
-    ${Yellow}--spark${Color_Off}       Setup Apache Spark
-    ${Yellow}--kakfa${Color_Off}       Setup Apache Kafka
-    ${Yellow}--maven${Color_Off}       Setup Maven
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
     ${Yellow}--docker${Color_Off}      Setup docker and docker-compose
-    ${Yellow}--vlc${Color_Off}         Setup VLC media player
-    ${Yellow}--obs${Color_Off}         Setup OBS
     ${Yellow}--terminal${Color_Off}    Setup Gnome terminator
     ${Yellow}--sublt${Color_Off}       Setup Sublime text
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
+    ${Yellow}--load-tar${Color_Off}    Load configuration from a tarball backup
     ${Yellow}--uninstall${Color_Off}   Uninstall any packages installed via this script
   "
 }
@@ -88,7 +76,7 @@ while [ "$#" -gt 0 ]; do
       ESSENTIAL=1;UPDATE=1;
       ;;
     --zsh)
-      ZSH_INSTALL=1;UPDATE=1;
+      ZSH_INSTALL=1;ESSENTIAL=1;UPDATE=1;
       ;;
     --vscode)
       VSCODE_INSTALL=1;UPDATE=1;
@@ -102,35 +90,20 @@ while [ "$#" -gt 0 ]; do
     --uninstall)
       UNINSTALL=1
       ;;
-    --java)
-      JAVA_INSTALL=1;UPDATE=1;
-      ;;
-    --spark)
-      SPARK_INSTALL=1;UPDATE=1;
-      ;;
-    --kafka)
-      KAFKA_INSTALL=1;UPDATE=1;
-      ;;
-    --maven)
-      MAVEN_INSTALL=1;UPDATE=1;
-      ;;
     --sshkey)
       SSH_KEY_INSTALL=1;UPDATE=1;
       ;;
     --docker)
       DOCKER_INSTALL=1;UPDATE=1;
       ;;
-    --vlc)
-      VLC_INSTALL=1;UPDATE=1;
-      ;;
-    --obs)
-      OBS_INSTALL=1;UPDATE=1;
-      ;;
     --terminal)
       TERMINAL_INSTALL=1;UPDATE=1;
       ;;
     --all)
       ALL_INSTALL=1;
+      ;;
+    --load-tar)
+      LOAD_FROM_TAR=1;
       ;;
     *)
       echo "Unknown parameter: $1"
@@ -226,26 +199,6 @@ then
   setup_py_env
 fi
     
-if [[ ${JAVA_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
-then
-  setup_java
-fi
-
-if [[ ${SPARK_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
-then
-  setup_spark
-fi
-
-if [[ ${KAFKA_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
-then
-  setup_kafka
-fi
-
-if [[ ${MAVEN_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
-then
-  setup_maven
-fi
-
 if [[ ${SSH_KEY_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_ssh_key
@@ -256,21 +209,17 @@ then
   setup_docker
 fi
 
-if [[ ${VLC_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
-then
-  setup_vlc
-fi
 
-if [[ ${OBS_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
-then
-  setup_obs
-fi
 
 if [[ ${TERMINAL_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_terminal
 fi
 
+if [[ ${LOAD_FROM_TAR} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
+then
+  setup_load_backup
+fi
 
 (trap - INT;)
 

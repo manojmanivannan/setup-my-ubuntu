@@ -54,13 +54,17 @@ function setup_via_oh_my_zsh
     git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
     # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
+    print_green "Copying scripts to $HOME/.scripts"
+    mkdir -p $HOME/.scripts
+    cp etc/scripts/* $HOME/.scripts/.
+    chmod +x $HOME/.scripts/*
+
     print_green "Setting up Fonts"
     FONT_DIR=~/.local/share/fonts
     mkdir -p $FONT_DIR/NerdFonts
     find etc/fonts/ -type f -name "*.ttf" -exec cp {} $FONT_DIR/NerdFonts/. \;
 
-
-    print_green "Installing"
+    print_green "Installing Fonts"
     echo $SUDO_PASSWORD | sudo -S fc-cache -fv $FONT_DIR
 
     cd "$(dirname "$ROOT_DIR")"
@@ -68,6 +72,11 @@ function setup_via_oh_my_zsh
     print_green "ZSH setup complete. LOG OFF AND LOG BACK IN to have zsh in your SHELL"
   fi
 
+
+}
+
+function setup_load_backup
+{
   if [[ -n "$PATH_TO_BACKUP_TAR" ]] && [[ -f "$PATH_TO_BACKUP_TAR" ]]; then
     
     REPLY="y"
@@ -207,9 +216,7 @@ function setup_via_oh_my_zsh
           print_green "Loaded scripts from backup $backup_path"
       fi
   fi
-
 }
-
 function setup_terminal
 {
   apt_add_repo ppa:gnome-terminator

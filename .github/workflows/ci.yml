@@ -36,7 +36,3 @@ jobs:
           echo "check Docker" && docker --version
           ## Check vscode
           echo "check vscode" && code --version
-          ## Check maven
-          echo "check Maven" && mvn --version
-          ## check vlc
-          echo "check VLC" && vlc --version
