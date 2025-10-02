@@ -115,6 +115,7 @@ web-search
 kubectl
 z
 virtualenv
+eza
 )
 
 source $ZSH/oh-my-zsh.sh
