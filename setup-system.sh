@@ -64,7 +64,7 @@ Usage:
 
   Note: 
   1. Load configuration from tarball backup before installing anything else.
-  2. Make sure you have set the hostname as `linux-machine` and username as `manoj` for the machine you are restoring.
+  2. Make sure you have set the hostname as 'linux-machine' and username as 'manoj' for the machine you are restoring.
   "
 }
 

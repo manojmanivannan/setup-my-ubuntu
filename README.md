@@ -34,7 +34,7 @@ Usage:
 
   OPTIONS:
     --essential   Install essential packages
-    --zsh         Setup zsh + oh-my-zsh
+    --zsh         Setup zsh + oh-my-zsh + [eza, gh, kopia, rclone]
     --pyenv       Setup Python environment (UV)
     --vscode      Setup Microsoft Visual Studio Code
     --sshkey      Setup ssh key pair
@@ -44,5 +44,10 @@ Usage:
     --all         Setup everything (same as passing all flags)
     --load-tar    Load configuration from a tarball backup
     --uninstall   Uninstall any packages installed via this script
+
+  Note: 
+  1. Load configuration from tarball backup before installing anything else.
+  2. Make sure you have set the hostname as 'linux-machine' and username as 'manoj' for the machine you are restoring.
+  
 ```
 
