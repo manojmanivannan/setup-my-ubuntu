@@ -116,6 +116,7 @@ kubectl
 z
 virtualenv
 eza
+gh
 )
 
 source $ZSH/oh-my-zsh.sh
