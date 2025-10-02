@@ -217,26 +217,6 @@ function setup_load_backup
             fi
             chmod 700 ~/.local/bin
           fi
-  
-          # $HOME/Apps
-          if [ -d "$TEMP_DIR/home/manoj/Apps" ]; then
-            if [ -d "$HOME/Apps" ]; then
-              cp -r $TEMP_DIR/home/manoj/Apps/* $HOME/Apps/.
-            else
-              mkdir -p $HOME/Apps
-              cp -r $TEMP_DIR/home/manoj/Apps/* $HOME/Apps/.
-            fi
-          fi
-
-          # $HOME/Documents/projects
-          if [ -d "$TEMP_DIR/home/manoj/Documents/projects" ]; then
-            if [ -d "$HOME/Documents/projects" ]; then
-              cp -r $TEMP_DIR/home/manoj/Documents/projects/* $HOME/Documents/projects/.
-            else
-              mkdir -p $HOME/Documents/projects
-              cp -r $TEMP_DIR/home/manoj/Documents/projects/* $HOME/Documents/projects/.
-            fi
-          fi
           print_green "Loaded scripts from backup $backup_path"
       fi
   fi

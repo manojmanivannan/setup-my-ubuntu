@@ -98,5 +98,10 @@ function install_misc()
             print_green "Setting up Kopia configuration"
             kopia --config-file=$HOME/.config/kopia/repository.config policy import --from-file $HOME/.config/kopia/kopia-policy.json --global
         fi
+
+        if ! [ -d $HOME/Apps ]; then
+            kopia restore manoj@linux-machine:/home/manoj/Apps $HOME/Apps
+            kopia restore manoj@linux-machine:/home/manoj/Documents/projects $HOME/Documents/projects
+        fi
     fi
 }

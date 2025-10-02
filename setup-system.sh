@@ -39,6 +39,7 @@ LOAD_FROM_TAR=0
 function print_help
 {
   echo -e "Automatically Setup Linux Machine
+
 Usage:
   ${BCyan}bash${Color_Off} ${BBlue}setup-system.sh${Color_Off} ${Yellow}[OPTIONS]${Color_Off}
 
@@ -61,7 +62,9 @@ Usage:
     ${Yellow}--load-tar${Color_Off}    Load configuration from a tarball backup
     ${Yellow}--uninstall${Color_Off}   Uninstall any packages installed via this script
 
-  Note: Load configuration from tarball backup before installing anything else.
+  Note: 
+  1. Load configuration from tarball backup before installing anything else.
+  2. Make sure you have set the hostname as `linux-machine` and username as `manoj` for the machine you are restoring.
   "
 }
 
