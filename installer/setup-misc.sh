@@ -2,7 +2,8 @@
 
 
 
-function install_misc() {
+function install_misc()
+{
 
     ################################################################
     # Install eza (a modern replacement for ls)
@@ -94,7 +95,7 @@ function install_misc() {
 
         if [[ -f ~/.config/kopia/kopia-policy.json ]]; then
             print_green "Setting up Kopia configuration"
-            kopia --config-file=$HOME/.config/kopia/repository.config policy import --from-file ~/.config/kopia/kopia-policy.json --global
+            kopia --config-file=$HOME/.config/kopia/repository.config policy import --from-file $HOME/.config/kopia/kopia-policy.json --global
         fi
     fi
 }
