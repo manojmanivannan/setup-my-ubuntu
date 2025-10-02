@@ -18,6 +18,7 @@ source installer/setup-editor.sh
 source installer/setup-py.sh
 source installer/setup-zsh.sh
 source installer/setup-ssh.sh
+source installer/setup-misc.sh
 source installer/print-helper.sh
 source installer/apt-helper.sh
 
@@ -147,10 +148,8 @@ if [[ ${ESSENTIAL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
     apt_get_install_all git curl wget make software-properties-common gpg git-crypt apt-transport-https bat vim pv fontconfig pipx fd-find python3-pip python3-venv #fonts-powerline
-    mkdir -p ~/.scripts
-    python3 -m venv ~/.scripts/.venv
-    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
-    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-opener.git
+    install_misc
+
 fi
 
 #####################################
