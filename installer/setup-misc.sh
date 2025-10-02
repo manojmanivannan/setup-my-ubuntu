@@ -14,7 +14,15 @@ function install_misc() {
 
     print_green "Setting virtual environment + scripts in ~/.scripts"
     mkdir -p ~/.scripts
-    python3 -m venv ~/.scripts/.venv
+
+    # if directory ~/.scripts/.venv already exists, then skip creating venv
+    if [[ -d ~/.scripts/.venv ]]; then
+        print_yellow "Virtual environment already exists, skipping creation"
+    else
+        print_green "Creating virtual environment"
+        python3 -m venv ~/.scripts/.venv
+    fi
+
     ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
     ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-opener.git
 }
