@@ -79,6 +79,7 @@ function install_misc()
         curl https://rclone.org/install.sh > install-rclone.sh
         chmod +x install-rclone.sh
         echo $SUDO_PASSWORD | sudo -S ./install-rclone.sh
+        rm install-rclone.sh
     fi
 
     #################################################################

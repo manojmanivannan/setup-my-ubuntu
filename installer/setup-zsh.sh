@@ -112,113 +112,131 @@ function setup_load_backup
 
           # move to that directory
           cd $TEMP_DIR
-      if [ -d "$TEMP_DIR/home/manoj/Documents" ]; then
-        if [ -d "$HOME/Documents" ]; then
-          cp -r $TEMP_DIR/home/manoj/Documents/* $HOME/Documents/.
-        else
-          mkdir -p $HOME/Documents
-          cp -r $TEMP_DIR/home/manoj/Documents/* $HOME/Documents/.
-        fi
-      fi
-      if [ -d "$TEMP_DIR/home/manoj/.ssh" ]; then
-        if [ -d "$HOME/.ssh" ]; then
-          cp -r $TEMP_DIR/home/manoj/.ssh/* $HOME/.ssh/.
-        else
-          mkdir -p $HOME/.ssh
-          cp -r $TEMP_DIR/home/manoj/.ssh/* $HOME/.ssh/.
-        fi
-        chmod 700 ~/.ssh
-        chmod 600 ~/.ssh/id_rsa
-        chmod 644 ~/.ssh/id_rsa.pub
-        chmod 600 ~/.ssh/authorized_keys
-        chmod 644 ~/.ssh/known_hosts
-        chmod 600 ~/.ssh/config
-      fi
-
-      if [ -d "$TEMP_DIR/home/manoj/.docker" ]; then
-        if [ -d "$HOME/.docker" ]; then
-          cp -r $TEMP_DIR/home/manoj/.docker/* $HOME/.docker/.
-        else
-          mkdir -p $HOME/.docker
-          cp -r $TEMP_DIR/home/manoj/.docker/* $HOME/.docker/.
-        fi
-        chmod 700 ~/.docker
-        chmod 600 ~/.docker/config.json
-      fi
-          # $HOME/.dockerhub if present and also $TEMP_DIR/home/manoj/.dockerhub exists
-
-          if [ -d "$TEMP_DIR/home/manoj/.dockerhub" ]; then
-              if [ -d "$HOME/.dockerhub" ]; then
-                cp -r $TEMP_DIR/home/manoj/.dockerhub/* $HOME/.dockerhub/.
-              else
-                mkdir -p $HOME/.dockerhub
-                cp -r $TEMP_DIR/home/manoj/.dockerhub/* $HOME/.dockerhub/.
-              fi
-              chmod 700 ~/.dockerhub
+          if [ -d "$TEMP_DIR/home/manoj/Documents" ]; then
+            if [ -d "$HOME/Documents" ]; then
+              cp -r $TEMP_DIR/home/manoj/Documents/* $HOME/Documents/.
+            else
+              mkdir -p $HOME/Documents
+              cp -r $TEMP_DIR/home/manoj/Documents/* $HOME/Documents/.
+            fi
+          fi
+          if [ -d "$TEMP_DIR/home/manoj/.ssh" ]; then
+            if [ -d "$HOME/.ssh" ]; then
+              cp -r $TEMP_DIR/home/manoj/.ssh/* $HOME/.ssh/.
+            else
+              mkdir -p $HOME/.ssh
+              cp -r $TEMP_DIR/home/manoj/.ssh/* $HOME/.ssh/.
+            fi
+            chmod 700 ~/.ssh
+            chmod 600 ~/.ssh/id_rsa
+            chmod 644 ~/.ssh/id_rsa.pub
+            chmod 600 ~/.ssh/authorized_keys
+            chmod 644 ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/config
           fi
 
-          # $HOME/.github
-      if [ -d "$TEMP_DIR/home/manoj/.github" ]; then
-        if [ -d "$HOME/.github" ]; then
-          cp -r $TEMP_DIR/home/manoj/.github/* $HOME/.github/.
-        else
-          mkdir -p $HOME/.github
-          cp -r $TEMP_DIR/home/manoj/.github/* $HOME/.github/.
-        fi
-        chmod 700 ~/.github
-      fi
+          if [ -d "$TEMP_DIR/home/manoj/.docker" ]; then
+            if [ -d "$HOME/.docker" ]; then
+              cp -r $TEMP_DIR/home/manoj/.docker/* $HOME/.docker/.
+            else
+              mkdir -p $HOME/.docker
+              cp -r $TEMP_DIR/home/manoj/.docker/* $HOME/.docker/.
+            fi
+            chmod 700 ~/.docker
+            chmod 600 ~/.docker/config.json
+          fi
+              # $HOME/.dockerhub if present and also $TEMP_DIR/home/manoj/.dockerhub exists
 
-      # $HOME/.gitconfig
-      if [ -f "$TEMP_DIR/home/manoj/.gitconfig" ]; then
-        cp $TEMP_DIR/home/manoj/.gitconfig $HOME/.gitconfig
-        chmod 644 ~/.gitconfig
-      fi
+              if [ -d "$TEMP_DIR/home/manoj/.dockerhub" ]; then
+                  if [ -d "$HOME/.dockerhub" ]; then
+                    cp -r $TEMP_DIR/home/manoj/.dockerhub/* $HOME/.dockerhub/.
+                  else
+                    mkdir -p $HOME/.dockerhub
+                    cp -r $TEMP_DIR/home/manoj/.dockerhub/* $HOME/.dockerhub/.
+                  fi
+                  chmod 700 ~/.dockerhub
+              fi
 
-          # $HOME/.config
-      if [ -d "$TEMP_DIR/home/manoj/.config" ]; then
-        if [ -d "$HOME/.config" ]; then
-          cp -r $TEMP_DIR/home/manoj/.config/* $HOME/.config/.
-        else
-          mkdir -p $HOME/.config
-          cp -r $TEMP_DIR/home/manoj/.config/* $HOME/.config/.
-        fi
-        chmod 700 ~/.config
-      fi
+              # $HOME/.github
+          if [ -d "$TEMP_DIR/home/manoj/.github" ]; then
+            if [ -d "$HOME/.github" ]; then
+              cp -r $TEMP_DIR/home/manoj/.github/* $HOME/.github/.
+            else
+              mkdir -p $HOME/.github
+              cp -r $TEMP_DIR/home/manoj/.github/* $HOME/.github/.
+            fi
+            chmod 700 ~/.github
+          fi
 
-          # $HOME/.api_key
-      if [ -d "$TEMP_DIR/home/manoj/.api_key" ]; then
-        if [ -d "$HOME/.api_key" ]; then
-          cp -r $TEMP_DIR/home/manoj/.api_key/* $HOME/.api_key/.
-        else
-          mkdir -p $HOME/.api_key
-          cp -r $TEMP_DIR/home/manoj/.api_key/* $HOME/.api_key/.
-        fi
-        chmod 700 ~/.api_key
-      fi
+          # $HOME/.gitconfig
+          if [ -f "$TEMP_DIR/home/manoj/.gitconfig" ]; then
+            cp $TEMP_DIR/home/manoj/.gitconfig $HOME/.gitconfig
+            chmod 644 ~/.gitconfig
+          fi
 
-          # $HOME/.scripts
-      if [ -d "$TEMP_DIR/home/manoj/.scripts" ]; then
-        if [ -d "$HOME/.scripts" ]; then
-          cp -r $TEMP_DIR/home/manoj/.scripts/* $HOME/.scripts/.
-        else
-          mkdir -p $HOME/.scripts
-          cp -r $TEMP_DIR/home/manoj/.scripts/* $HOME/.scripts/.
-        fi
-        chmod 700 ~/.scripts
-      fi
+              # $HOME/.config
+          if [ -d "$TEMP_DIR/home/manoj/.config" ]; then
+            if [ -d "$HOME/.config" ]; then
+              cp -r $TEMP_DIR/home/manoj/.config/* $HOME/.config/.
+            else
+              mkdir -p $HOME/.config
+              cp -r $TEMP_DIR/home/manoj/.config/* $HOME/.config/.
+            fi
+            chmod 700 ~/.config
+          fi
 
-          # $HOME/.local/bin
-      if [ -d "$TEMP_DIR/home/manoj/.local/bin" ]; then
-        if [ -d "$HOME/.local/bin" ]; then
-          cp -r $TEMP_DIR/home/manoj/.local/bin/* $HOME/.local/bin/.
-        else
-          mkdir -p $HOME/.local/bin
-          cp -r $TEMP_DIR/home/manoj/.local/bin/* $HOME/.local/bin/.
-        fi
-        chmod 700 ~/.local/bin
-      fi
+              # $HOME/.api_key
+          if [ -d "$TEMP_DIR/home/manoj/.api_key" ]; then
+            if [ -d "$HOME/.api_key" ]; then
+              cp -r $TEMP_DIR/home/manoj/.api_key/* $HOME/.api_key/.
+            else
+              mkdir -p $HOME/.api_key
+              cp -r $TEMP_DIR/home/manoj/.api_key/* $HOME/.api_key/.
+            fi
+            chmod 700 ~/.api_key
+          fi
 
+              # $HOME/.scripts
+          if [ -d "$TEMP_DIR/home/manoj/.scripts" ]; then
+            if [ -d "$HOME/.scripts" ]; then
+              cp -r $TEMP_DIR/home/manoj/.scripts/* $HOME/.scripts/.
+            else
+              mkdir -p $HOME/.scripts
+              cp -r $TEMP_DIR/home/manoj/.scripts/* $HOME/.scripts/.
+            fi
+            chmod 700 ~/.scripts
+          fi
 
+              # $HOME/.local/bin
+          if [ -d "$TEMP_DIR/home/manoj/.local/bin" ]; then
+            if [ -d "$HOME/.local/bin" ]; then
+              cp -r $TEMP_DIR/home/manoj/.local/bin/* $HOME/.local/bin/.
+            else
+              mkdir -p $HOME/.local/bin
+              cp -r $TEMP_DIR/home/manoj/.local/bin/* $HOME/.local/bin/.
+            fi
+            chmod 700 ~/.local/bin
+          fi
+  
+          # $HOME/Apps
+          if [ -d "$TEMP_DIR/home/manoj/Apps" ]; then
+            if [ -d "$HOME/Apps" ]; then
+              cp -r $TEMP_DIR/home/manoj/Apps/* $HOME/Apps/.
+            else
+              mkdir -p $HOME/Apps
+              cp -r $TEMP_DIR/home/manoj/Apps/* $HOME/Apps/.
+            fi
+          fi
+
+          # $HOME/Documents/projects
+          if [ -d "$TEMP_DIR/home/manoj/Documents/projects" ]; then
+            if [ -d "$HOME/Documents/projects" ]; then
+              cp -r $TEMP_DIR/home/manoj/Documents/projects/* $HOME/Documents/projects/.
+            else
+              mkdir -p $HOME/Documents/projects
+              cp -r $TEMP_DIR/home/manoj/Documents/projects/* $HOME/Documents/projects/.
+            fi
+          fi
           print_green "Loaded scripts from backup $backup_path"
       fi
   fi
