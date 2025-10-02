@@ -66,18 +66,7 @@ function install_misc() {
         fi
     fi
 
-    #################################################################
-    # Install Kopia
-    #################################################################
-    if command -v kopia >/dev/null 2>&1; then
-        print_yellow "Kopia is already installed, skipping installation"
-    else
-        print_green "Installing Kopia"
-        curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
-        apt_get_update
-        apt_get_install kopia
-    fi
+
 
     #################################################################
     # Install rclone
@@ -89,4 +78,23 @@ function install_misc() {
         curl https://rclone.org/install.sh > install-rclone.sh
         chmod +x install-rclone.sh
         echo $SUDO_PASSWORD | sudo -S ./install-rclone.sh
+    fi
+
+    #################################################################
+    # Install Kopia
+    #################################################################
+    if command -v kopia >/dev/null 2>&1; then
+        print_yellow "Kopia is already installed, skipping installation"
+    else
+        print_green "Installing Kopia"
+        curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
+        apt_get_update
+        apt_get_install kopia
+
+        if [[ -f ~/.config/kopia/kopia-policy.json ]]; then
+            print_green "Setting up Kopia configuration"
+            kopia --config-file=$HOME/.config/kopia/repository.config policy import --from-file ~/.config/kopia/kopia-policy.json --global
+        fi
+    fi
 }
