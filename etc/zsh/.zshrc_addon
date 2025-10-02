@@ -422,6 +422,7 @@ alias gclean='git clean -fd && git checkout -- .'
 alias glast-tag='git describe --tags --abbrev=0'
 alias gtree='git log --graph --online --decorate --all'
 alias gst='git status'
+alias update_upgrade_clean='sudo apt update && sudo apt upgrade && sudo apt autoremove && sudo apt clean'
 
 # Exports
 export DOCKER_BUILDKIT=0

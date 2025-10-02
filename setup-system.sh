@@ -50,7 +50,7 @@ Usage:
 
   OPTIONS:
     ${Yellow}--essential${Color_Off}   Install essential packages
-    ${Yellow}--zsh${Color_Off}         Setup zsh + oh-my-zsh
+    ${Yellow}--zsh${Color_Off}         Setup zsh + oh-my-zsh + [eza, gh, kopia, rclone]
     ${Yellow}--pyenv${Color_Off}       Setup Python environment (UV)
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
