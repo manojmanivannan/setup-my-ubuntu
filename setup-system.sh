@@ -43,14 +43,13 @@ Usage:
 
   Env variables:
     ${Yellow}SUDO_PASSWORD${Color_Off}              Your sudo password (if not provided, will be prompted)
-    ${Yellow}ZSH_INSTALL_TYPE${Color_Off}           Type of ZSH installation: 'zsh4humans' or 'oh-my-zsh' (if not provided, will be prompted)
     ${Yellow}VSCODE_INSTALL_FROM_SNAP${Color_Off}   Install vscode from snap if true (default: false) (if not provided, will be prompted)
     ${Yellow}SUBLIME_INSTALL_FROM_SNAP${Color_Off}  Install sublime text from snap if true (default: false) (if not provided, will be prompted)
     ${Yellow}PATH_TO_BACKUP_TAR${Color_Off}         Path to tarball backup of various configurations (if not provided, will be prompted)
 
   OPTIONS:
     ${Yellow}--essential${Color_Off}   Install essential packages
-    ${Yellow}--zsh${Color_Off}         Setup zsh via zsh4humans or oh-my-zsh
+    ${Yellow}--zsh${Color_Off}         Setup zsh + oh-my-zsh
     ${Yellow}--pyenv${Color_Off}       Setup Python environment (UV)
     ${Yellow}--vscode${Color_Off}      Setup Microsoft Visual Studio Code
     ${Yellow}--sshkey${Color_Off}      Setup ssh key pair
@@ -167,28 +166,8 @@ then
       uninstall_zsh
       exit 0
     fi
-    # create a non-interactive way to proceed using env variables
-    if [[ -n "$ZSH_INSTALL_TYPE" ]]; then
-        if [[ "$ZSH_INSTALL_TYPE" == "zsh4humans" ]]; then
-            setup_via_zsh4humans
-        elif [[ "$ZSH_INSTALL_TYPE" == "oh-my-zsh" ]]; then
-            setup_via_oh_my_zsh
-        else
-            print_red "Invalid ZSH_INSTALL_TYPE: $ZSH_INSTALL_TYPE. Valid options are 'zsh4humans' or 'oh-my-zsh'"
-            exit 1
-        fi
-    else
-      echo "How do you wish to install ZSH?"
-      options=("zsh4humans" "oh-my-zsh" "quit")
-      select opt in "${options[@]}"; do
-          case $opt in
-              "zsh4humans" ) setup_via_zsh4humans; break;;
-              "oh-my-zsh" ) setup_via_oh_my_zsh; break;;
-              "quit" ) exit;;
-              * ) echo "Invalid input. Please select 1, 2, or 3";;
-          esac
-      done
-    fi
+
+    setup_via_oh_my_zsh
 fi
 
 if [[ ${VSCODE_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
@@ -215,8 +194,6 @@ if [[ ${DOCKER_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_docker
 fi
-
-
 
 if [[ ${TERMINAL_INSTALL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then

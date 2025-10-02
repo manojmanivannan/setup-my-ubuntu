@@ -1,14 +1,5 @@
 #!/bin/bash
 
-function setup_via_zsh4humans
-{
-  print_green "Setup ZSH via zsh4humans";
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)";  # https://github.com/romkatv/zsh4humans 
-
-  cp etc/zsh/.zshrc_addon $HOME/.zshrc_addon
-  echo "source $HOME/.zshrc_addon" >> $HOME/.zshrc
-}
-
 function setup_via_oh_my_zsh
 {
 
@@ -53,6 +44,7 @@ function setup_via_oh_my_zsh
     git clone https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
     git clone https://github.com/marlonrichert/zsh-autocomplete ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autocomplete
     git clone https://github.com/agkozak/zsh-z ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-z
+    git clone https://github.com/eza-community/eza ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/eza
     # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
     print_green "Copying scripts to $HOME/.scripts"
