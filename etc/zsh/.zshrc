@@ -117,6 +117,8 @@ z
 virtualenv
 eza
 gh
+zsh-history-substring-search
+zsh-interactive-cd
 )
 
 source $ZSH/oh-my-zsh.sh

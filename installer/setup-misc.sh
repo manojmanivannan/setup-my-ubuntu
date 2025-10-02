@@ -42,6 +42,11 @@ function install_misc() {
     #################################################################
     if command -v gh >/dev/null 2>&1; then
         print_yellow "GitHub CLI (gh) is already installed, skipping installation"
+        gh auth status
+        if [[ $? -ne 0 && -f ~/.github/token ]]; then
+            print_green "Authenticating gh"
+            gh auth login --with-token < ~/.github/token
+        fi
     else
         print_green "Installing GitHub CLI (gh)"
         (type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)) \
@@ -53,5 +58,11 @@ function install_misc() {
             && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
         apt_get_update
         apt_get_install gh
+
+        
+        if [[ -f ~/.github/token ]]; then
+            print_green "Authenticating gh"
+            gh auth login --with-token < ~/.github/token
+        fi
     fi
 }

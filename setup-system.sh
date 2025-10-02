@@ -60,6 +60,8 @@ Usage:
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
     ${Yellow}--load-tar${Color_Off}    Load configuration from a tarball backup
     ${Yellow}--uninstall${Color_Off}   Uninstall any packages installed via this script
+
+  Note: Load configuration from tarball backup before installing anything else.
   "
 }
 
@@ -147,7 +149,7 @@ fi
 if [[ ${ESSENTIAL} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
     print_green "Installing Essentials"
-    apt_get_install_all git curl wget make software-properties-common gpg git-crypt apt-transport-https bat vim pv fontconfig pipx fd-find python3-pip python3-venv #fonts-powerline
+    apt_get_install_all git curl wget make software-properties-common gpg git-crypt apt-transport-https bat vim pv fontconfig fzf pipx fd-find python3-pip python3-venv #fonts-powerline
     install_misc
 
 fi
