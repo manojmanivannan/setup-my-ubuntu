@@ -122,6 +122,7 @@ zsh-interactive-cd
 )
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.scripts/vbox-completion.sh
 
 bindkey '^j' forward-word
 bindkey '^f' backward-word
