@@ -198,6 +198,17 @@ function setup_load_backup
             chmod 700 ~/.api_key
           fi
 
+              # $HOME/.gemini
+          if [ -d "$TEMP_DIR/home/manoj/.gemini" ]; then
+            if [ -d "$HOME/.gemini" ]; then
+              cp -r $TEMP_DIR/home/manoj/.gemini/* $HOME/.gemini/.
+            else
+              mkdir -p $HOME/.gemini
+              cp -r $TEMP_DIR/home/manoj/.gemini/* $HOME/.gemini/.
+            fi
+            chmod 700 ~/.gemini
+          fi
+
               # $HOME/.scripts
           if [ -d "$TEMP_DIR/home/manoj/.scripts" ]; then
             if [ -d "$HOME/.scripts" ]; then
