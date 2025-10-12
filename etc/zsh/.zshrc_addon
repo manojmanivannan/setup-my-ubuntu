@@ -137,10 +137,15 @@ function sxtract(){
 function f() {	
 	local regex=${1?param missing - specify string.} 
 	local location=${2?param missing - specify directory.}
-	location="$(realpath $location)"
-    
-    ~/.scripts/.venv/bin/py_file_select -l $regex $location
-
+	local full_location="$(realpath $location)"
+    local extra_args=${3:-empty}
+    if [[ $extra_args == *print* ]]; then
+        find "$full_location" -type f -iname "*$regex*" -print0
+        # ~/.scripts/.venv/bin/py_file_select -l $regex $full_location | tr '\n' ' '
+    else
+        find "$full_location" -type f -iname "*$regex*" | grep --color=auto --exclude-dir={.venv,.git} -i "$regex"
+        # ~/.scripts/.venv/bin/py_file_select -l $regex $full_location
+    fi
     }
 
 function fo(){
@@ -158,7 +163,6 @@ function fo(){
         while IFS=  read -r -d $'\0'; do
             array+=("$REPLY")
         done < <(f $regex $location "print")
-        #echo "Array ${array[@]}"
         ~/.scripts/.venv/bin/py-file-opener "$location" "${array[@]}"
     else
         echo "No files found matching: \"$1\""

@@ -48,8 +48,10 @@ function setup_via_oh_my_zsh
     git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
     # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
+
     print_green "Copying scripts to $HOME/.scripts"
     mkdir -p $HOME/.scripts
+    mkdir -p $HOME/.fzf
     cp etc/scripts/* $HOME/.scripts/.
     chmod +x $HOME/.scripts/*
 

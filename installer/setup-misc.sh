@@ -35,7 +35,7 @@ function install_misc()
         python3 -m venv ~/.scripts/.venv
     fi
 
-    ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
+    # ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-select.git
     ~/.scripts/.venv/bin/pip install git+https://github.com/manojmanivannan/py-file-opener.git
 
     #################################################################
