@@ -16,21 +16,24 @@ kopia server start \
 # use --tls-generate-cert if running for first time
 #
 # ~ $ cat /etc/systemd/system/kopia.service
-# [Unit]
-# Description=Kopia Start
-# After=network.target
-#
-# [Service]
-# ExecStart=/home/manoj/.local/bin/start_kopia.sh
-# Restart=always
-# RestartSec=15
-# User=manoj
-# WorkingDirectory=/home/manoj
-# StandardOutput=journal
-# StandardError=journal
-#
-# [Install]
-# WantedBy=multi-user.target
+#[Unit]
+#Description=Kopia Start
+#After=network.target
+
+#[Service]
+#ExecStart=/home/manoj/.local/bin/start_kopia.sh
+#ExecStop=/home/manoj/.local/bin/stop_kopia.sh
+#Restart=on-failure
+#RestartSec=30
+#TimeoutStopSec=15
+#User=manoj
+#WorkingDirectory=/home/manoj
+#StandardOutput=journal
+#StandardError=journal
+
+#[Install]
+#WantedBy=multi-user.target
+
 #
 # ~ $ sudo systemctl daemon-reload
 # ~ $ sudo systemctl enable myscript.service

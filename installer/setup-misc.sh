@@ -85,23 +85,26 @@ function install_misc()
     #################################################################
     # Install Kopia
     #################################################################
-    if command -v kopia >/dev/null 2>&1; then
-        print_yellow "Kopia is already installed, skipping installation"
-    else
-        print_green "Installing Kopia"
-        curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
-        apt_get_update
-        apt_get_install kopia
+    read -e -p "Do you want to install kopia? (y/n) " REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        if command -v kopia >/dev/null 2>&1; then
+            print_yellow "Kopia is already installed, skipping installation"
+        else
+            print_green "Installing Kopia"
+            curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
+            echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
+            apt_get_update
+            apt_get_install kopia
 
-        if [[ -f ~/.config/kopia/kopia-policy.json ]]; then
-            print_green "Setting up Kopia configuration"
-            kopia --config-file=$HOME/.config/kopia/repository.config policy import --from-file $HOME/.config/kopia/kopia-policy.json --global
-        fi
+            if [[ -f ~/.config/kopia/kopia-policy.json ]]; then
+                print_green "Setting up Kopia configuration"
+                kopia --config-file=$HOME/.config/kopia/repository.config policy import --from-file $HOME/.config/kopia/kopia-policy.json --global
+            fi
 
-        if ! [ -d $HOME/Apps ]; then
-            kopia restore manoj@linux-machine:/home/manoj/Apps $HOME/Apps
-            kopia restore manoj@linux-machine:/home/manoj/Documents/projects $HOME/Documents/projects
+            if ! [ -d $HOME/Apps ]; then
+                kopia restore manoj@linux-machine:/home/manoj/Apps $HOME/Apps
+                kopia restore manoj@linux-machine:/home/manoj/Documents/projects $HOME/Documents/projects
+            fi
         fi
     fi
 }
