@@ -1,0 +1,347 @@
+#cloud-config
+autoinstall:
+  #	PREPARATION INSTRUCTIONS (ARCH LINUX)
+  #	1. Install tools: sudo pacman -S dosfstools
+  #	2. Identify USB drive: lsblk (Note the device, e.g., /dev/sdb)
+  #	3. Partition (Optional but recommended): sudo fdisk /dev/sdb
+  #	Sequence: o (new table) -> n (new part) -> [Enter]x4 (defaults) -> t (type) -> b (FAT32) -> w (write)
+  #	4. Format & Label (Crucial): sudo mkfs.vfat -F 32 -n CIDATA /dev/sdb1
+  #	5. Copy files: Mount usb, copy user-data and meta-data to root.
+
+  version: 1
+  keyboard:
+    layout: "us"
+    variant: ""
+  locale: "en_US.UTF-8"
+  timezone: "Europe/London"
+
+  source:
+    id: ubuntu-desktop-minimal
+
+  # Dynamically parition the disk
+  # 50 GB root partition
+  # Swap size same as RAM
+  # Remainder set to home
+  early-commands:
+    - |
+      python3 - <<'EOF'
+      import subprocess, math, yaml, os
+
+      disks = subprocess.check_output(
+          ["lsblk", "-b", "-dn", "-o", "SIZE"],
+          text=True
+      ).strip().splitlines()
+
+      disk_bytes = max(int(d) for d in disks)
+      disk_gb = math.floor(disk_bytes / (1024**3))
+
+      root_gb = max(50, math.ceil(disk_gb * 0.10))
+      mem_gb = math.ceil(
+          os.sysconf("SC_PAGE_SIZE") *
+          os.sysconf("SC_PHYS_PAGES") /
+          (1024**3)
+      )
+      swap_size_gb = mem_gb
+      remainder_gb = disk_gb - root_gb - swap_size_gb
+
+      storage = {
+          "config": [
+              {"type": "disk", "id": "disk-primary",
+               "match": {"size": "largest"},
+               "ptable": "gpt", "wipe": "superblock-recursive",
+               "grub_device": True},
+
+              {"type": "partition", "id": "part-bios",
+               "device": "disk-primary", "size": "1M",
+               "flag": "bios_grub"},
+
+              {"type": "partition", "id": "part-efi",
+               "device": "disk-primary", "size": "500M",
+               "flag": "esp"},
+
+              {"type": "format", "id": "fmt-efi",
+               "volume": "part-efi", "fstype": "fat32"},
+
+              {"type": "mount", "id": "mnt-efi",
+               "device": "fmt-efi", "path": "/boot/efi"},
+
+              {"type": "partition", "id": "part-root",
+               "device": "disk-primary", "size": f"{root_gb}G"},
+
+              {"type": "format", "id": "fmt-root",
+               "volume": "part-root", "fstype": "ext4"},
+
+              {"type": "mount", "id": "mnt-root",
+               "device": "fmt-root", "path": "/"},
+
+              {"type": "partition", "id": "part-swap",
+               "device": "disk-primary",
+               "size": f"{swap_size_gb}G", "flag": "swap"},
+
+              {"type": "format", "id": "fmt-swap",
+               "volume": "part-swap", "fstype": "swap"},
+
+              {"type": "mount", "id": "mnt-swap",
+                "device": "fmt-swap", "path": "none"},
+
+              {"type": "partition", "id": "part-home",
+               "device": "disk-primary", "size": -1},
+
+              {"type": "format", "id": "fmt-home",
+               "volume": "part-home", "fstype": "ext4"},
+
+              {"type": "mount", "id": "mnt-home",
+               "device": "fmt-home", "path": "/home"},
+          ]
+      }
+
+      with open("/autoinstall.yaml") as f:
+          auto_data = yaml.safe_load(f)
+
+      auto_data["storage"] = storage
+
+      with open("/autoinstall.yaml", "w") as f:
+          yaml.safe_dump(auto_data, f, sort_keys=False)
+
+      print(
+          f"Disk: {disk_gb}G | Root: {root_gb}G | "
+          f"Home: {remainder_gb}G | Swap: {swap_size_gb}G"
+      )
+      EOF
+
+  package_update: true
+  package_upgrade: false
+
+  # User profile
+  user-data:
+    hostname: linux-laptop
+    users:
+      - name: username
+        gecos: "User Full Name"
+        # generate password using mkpasswd -m sha-512 "your password"
+        passwd: "$6$y4KC8t4Xk/kr6....."
+        shell: /bin/bash
+        sudo: "ALL=(ALL) NOPASSWD:ALL"
+        primary_group: username
+        groups: [adm, cdrom, dip, lxd, users, sudo, docker]
+        lock_passwd: false
+        ssh_authorized_keys: ["ssh-rsa AAAAB3NzaC1........... name@email.com"]
+
+  # Storage / Partitioning
+  storage:
+    #
+    # Disable python command in early-command & below config section and enable layout if auto partitioning with disk encryption
+    #
+    # layout:
+    #     name: lvm
+    #     sizing-policy: all
+    #     password: "Encryption Passphrase"
+    #     match:
+    #       size: largest
+    #
+    config:
+      - type: disk
+        id: disk-primary
+        match:
+          size: largest
+        ptable: gpt
+        wipe: superblock-recursive
+        grub_device: true
+
+      # BIOS Boot parition
+      - type: partition
+        id: part-bios
+        device: disk-primary
+        size: 1M
+        flag: bios_grub
+
+      # EFI (500M)
+      - type: partition
+        id: part-efi
+        device: disk-primary
+        size: 500M
+        flag: esp
+      - type: format
+        id: fmt-efi
+        volume: part-efi
+        fstype: fat32
+      - type: mount
+        id: mnt-efi
+        device: fmt-efi
+        path: /boot/efi
+
+      # Swap (Dynamic placeholder)
+      - type: partition
+        id: part-swap
+        device: disk-primary
+        size: 4G
+        flag: swap
+      - type: format
+        id: fmt-swap
+        volume: part-swap
+        fstype: swap
+      - type: mount
+        id: mnt-swap
+        device: fmt-swap
+        path: none
+
+      # Root (100G)
+      - type: partition
+        id: part-root
+        device: disk-primary
+        size: 80G
+      - type: format
+        id: fmt-root
+        volume: part-root
+        fstype: ext4
+      - type: mount
+        id: mnt-root
+        device: fmt-root
+        path: /
+
+      # Home (Remaining)
+      - type: partition
+        id: part-home
+        device: disk-primary
+        size: -1
+      - type: format
+        id: fmt-home
+        volume: part-home
+        fstype: ext4
+      - type: mount
+        id: mnt-home
+        device: fmt-home
+        path: /home
+
+  # Installer Environment SSH (Optional)
+  ssh:
+    install-server: true
+    allow-pw: true
+
+  # ubuntu-pro:
+  #   token: you_ubuntu_pro_token
+
+  # Network Configuration
+  network:
+    version: 2
+    renderer: NetworkManager
+
+    wifis:
+      wlans:
+        match:
+          name: wl*
+        dhcp4: false
+        addresses: [192.168.1.141/24]
+        nameservers:
+          addresses: [192.168.1.1]
+        routes:
+          - to: default
+            via: 192.168.1.1
+            metric: 100
+        access-points:
+          "toob-CB70F8":
+            password: "your-wifi-password"
+
+    ethernets:
+      eths:
+        match:
+          name: et*
+        dhcp4: false
+        addresses: [192.168.1.142/24]
+        nameservers:
+          addresses: [192.168.1.1]
+        routes:
+          - to: default
+            via: 192.168.1.1
+            metric: 200
+
+  # Desktop Specifics
+  codecs:
+    install: true
+  drivers:
+    install: true
+
+  # Apt Mirrors
+  apt:
+    preserve_sources_list: false
+    mirror-selection:
+      primary:
+        - country-mirror
+        - arches: [default]
+          uri: http://archive.ubuntu.com/ubuntu
+    geoip: true
+
+    sources:
+      # We will add APT repo without signing key for docker installation since adding signing key here is not support.
+      # Later in the installation, in late-commands section, we will add the repo properly
+      docker:
+        source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+        key: |-
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+          mQINBFit2ioBEADhWpZ8/wvZ6hUTiXOwQHXMAlaFHcPH9hAtr4F1y2+OYdbtMuth
+          lqqwp028AqyY+PRfVMtSYMbjuQuu5byyKR01BbqYhuS3jtqQmljZ/bJvXqnmiVXh
+          38UuLa+z077PxyxQhu5BbqntTPQMfiyqEiU+BKbq2WmANUKQf+1AmZY/IruOXbnq
+          L4C1+gJ8vfmXQt99npCaxEjaNRVYfOS8QcixNzHUYnb6emjlANyEVlZzeqo7XKl7
+          .....
+          M8ssD1jFheOJf3hODnkKU+HKjvMROl1DK7zdmLdNzA1cvtZH/nCC9KPj1z8QC47S
+          xx+dTZSx4ONAhwbS/LN3PoKtn8LPjY9NP9uDWI+TWYquS2U+KHDrBDlsgozDbs/O
+          jCxcpDzNmXpWQHEtHU7649OXHP7UeNST1mCUCH5qdank0V1iejF6/CfTFU4MfcrG
+          YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
+          =0YYh
+          -----END PGP PUBLIC KEY BLOCK-----
+
+  # Install VS Code
+  snaps:
+    - name: code
+      classic: true
+      channel: stable
+    - name: vlc
+      channel: stable
+    - name: sublime-text
+      channel: stable
+      classic: true
+    - name: sublime-merge
+      channel: stable
+      classic: true
+
+  # Package Installation
+  packages:
+    - git
+    - curl
+    - zsh
+    - python3-pip
+    - python3-venv
+    - apt-transport-https
+    - ca-certificates
+    - gnupg-agent
+    - software-properties-common
+    - docker.io
+    - docker-compose-plugin
+
+  groups:
+    - docker: [username]
+
+  # TODO: investigate curtin in-target -- $SHELL_CMD
+  late-commands:
+    # Setup APT source for docker
+    - /target/usr/bin/curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /target/usr/share/keyrings/docker-archive-keyring.gpg
+    - rm -f /target/etc/apt/sources.list.d/docker.sources
+    - |
+      CODENAME="$(. /etc/os-release && echo ${UBUNTU_CODENAME:-$VERSION_CODENAME})"
+
+      cat > /target/etc/apt/sources.list.d/docker.sources <<EOF
+      Types: deb
+      URIs: https://download.docker.com/linux/ubuntu
+      Suites: ${CODENAME}
+      Components: stable
+      Signed-By: /usr/share/keyrings/docker-archive-keyring.gpg
+      EOF
+
+  updates: all
+
+  shutdown: poweroff
+
+  error-commands: # A list of commands to run after the installation has failed.
+    - tar -czf /installer-logs.tar.gz /var/log/installer # For example, collect installer logs in /var/log/installer
+    - journalctl -b > /installer-journal.log # Collect the live system journal tool
