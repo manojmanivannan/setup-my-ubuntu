@@ -1,12 +1,76 @@
 #cloud-config
 autoinstall:
-  #	PREPARATION INSTRUCTIONS (ARCH LINUX)
-  #	1. Install tools: sudo pacman -S dosfstools
-  #	2. Identify USB drive: lsblk (Note the device, e.g., /dev/sdb)
-  #	3. Partition (Optional but recommended): sudo fdisk /dev/sdb
-  #	Sequence: o (new table) -> n (new part) -> [Enter]x4 (defaults) -> t (type) -> b (FAT32) -> w (write)
-  #	4. Format & Label (Crucial): sudo mkfs.vfat -F 32 -n CIDATA /dev/sdb1
-  #	5. Copy files: Mount usb, copy user-data and meta-data to root.
+  #
+  # ==========================================================================
+  # UBUNTU UNATTENDED (AUTO) INSTALL — USB PREPARATION INSTRUCTIONS
+  # ==========================================================================
+  # This file is the subiquity "user-data" file for Ubuntu autoinstall.
+  # The installer does NOT read a file named "autoinstall.yaml" from the USB.
+  # It looks for a volume labelled `CIDATA` containing exactly two files at
+  # its ROOT:
+  #
+  #     user-data   <- THIS file, copied/renamed as "user-data"
+  #     meta-data   <- a small text file (can be empty), e.g.:
+  #                      instance-id: ubuntu-autoinstall-001
+  #                      local-hostname: linux-laptop
+  #
+  # meta-data MUST exist even if empty, otherwise autoinstall is not detected.
+  # This file must keep `#cloud-config` as its very first line.
+  #
+  # --------------------------------------------------------------------------
+  # EXPECTED USB STRUCTURE
+  # --------------------------------------------------------------------------
+  #
+  #     USB drive (e.g. /dev/sdb)                          <- ALL DATA WIPED
+  #     ├── p1: Ubuntu ISO (written raw with dd)
+  #     └── p2: FAT32, label = CIDATA          <-- config partition
+  #           ├── user-data
+  #           └── meta-data
+  #
+  # --------------------------------------------------------------------------
+  # BUILD THE USB (ARCH LINUX)
+  # --------------------------------------------------------------------------
+  #
+  # 1. Install tools:
+  #        sudo pacman -S dosfstools
+  #
+  # 2. Identify the USB drive (here assumed /dev/sdb) and confirm it is the
+  #    right one — everything on it is destroyed:
+  #        lsblk
+  #
+  # 3. Write the Ubuntu ISO to the whole stick (this creates partition 1):
+  #        sudo dd if=ubuntu-<version>-desktop-amd64.iso of=/dev/sdb \
+  #                bs=4M status=progress oflag=sync,direct
+  #
+  # 4. Create partition 2 in the free space after the ISO and label it CIDATA:
+  #        sudo parted /dev/sdb --script print free        # note the free start
+  #        sudo parted /dev/sdb --script mkpart CIDATA fat32 <start> 100%
+  #        sudo mkfs.vfat -F 32 -n CIDATA /dev/sdb2
+  #    The label MUST be exactly `CIDATA` — this is how the installer finds it.
+  #
+  # 5. Copy the two config files to the ROOT of partition 2 (not inside a
+  #    subfolder):
+  #        sudo mount /dev/sdb2 /mnt
+  #        sudo cp autoinstall.yaml /mnt/user-data
+  #        sudo cp meta-data       /mnt/meta-data
+  #        sudo umount /mnt && sync
+  #
+  # --------------------------------------------------------------------------
+  # BOOT BEHAVIOUR
+  # --------------------------------------------------------------------------
+  #   * Ubuntu DESKTOP ISO (22.04+): the installer auto-detects the CIDATA
+  #     volume and offers/starts the automated install — no extra input.
+  #   * Ubuntu SERVER ISO: boot to GRUB, press `e` on the first entry and add
+  #     `autoinstall` to the end of the `linux` line, then Ctrl+X to boot.
+  #   * The target disk is wiped automatically — double-check the config first.
+  #   * On failure, logs are collected per the `error-commands` block below
+  #     (/var/log/installer + journal).
+  #
+  # NOTE: during early-commands, subiquity exposes this file at
+  # /autoinstall.yaml in the live environment, so the disk-sizing script
+  # below still works unchanged.
+  # ==========================================================================
+  #
 
   version: 1
   keyboard:
