@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -e
+# NOTE: do not use `set -e` here — this file is sourced by setup-system.sh,
+# which would switch errexit on for the entire script and silently abort it
+# on any benign non-zero exit (e.g. `gh auth status` when not logged in).
 
 function setup_vscode_dependencies
 {

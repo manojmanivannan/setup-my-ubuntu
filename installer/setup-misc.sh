@@ -43,8 +43,7 @@ function install_misc()
     #################################################################
     if command -v gh >/dev/null 2>&1; then
         print_yellow "GitHub CLI (gh) is already installed, skipping installation"
-        gh auth status
-        if [[ $? -ne 0 && -f ~/.github/token ]]; then
+        if ! gh auth status && [[ -f ~/.github/token ]]; then
             print_green "Authenticating gh"
             gh auth login --with-token < ~/.github/token
         fi
