@@ -122,7 +122,9 @@ zsh-interactive-cd
 )
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.scripts/vbox-completion.sh
+# vbox-completion.sh was removed from etc/scripts/ in the 2025-10 cleanup,
+# so guard the source in case the user still keeps the script around
+[ -f "$HOME/.scripts/vbox-completion.sh" ] && source "$HOME/.scripts/vbox-completion.sh"
 
 bindkey '^j' forward-word
 bindkey '^f' backward-word
