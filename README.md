@@ -43,6 +43,7 @@ Usage:
     --sublt       Setup Sublime text
     --all         Setup everything (same as passing all flags)
     --load-tar    Load configuration from a tarball backup
+    --save-tar    Interactively pick files/folders and create a --load-tar compatible tarball
     --uninstall   Uninstall any packages installed via this script
 
   Note: 

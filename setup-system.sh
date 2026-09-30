@@ -19,6 +19,7 @@ source installer/setup-py.sh
 source installer/setup-zsh.sh
 source installer/setup-ssh.sh
 source installer/setup-misc.sh
+source installer/setup-backup.sh
 source installer/print-helper.sh
 source installer/apt-helper.sh
 
@@ -35,6 +36,7 @@ DOCKER_INSTALL=0
 TERMINAL_INSTALL=0
 SUBLIME_TXT_INSTALL=0
 LOAD_FROM_TAR=0
+SAVE_TAR=0
 
 function print_help
 {
@@ -48,6 +50,8 @@ Usage:
     ${Yellow}VSCODE_INSTALL_FROM_SNAP${Color_Off}   Install vscode from snap if true (default: false) (if not provided, will be prompted)
     ${Yellow}SUBLIME_INSTALL_FROM_SNAP${Color_Off}  Install sublime text from snap if true (default: false) (if not provided, will be prompted)
     ${Yellow}PATH_TO_BACKUP_TAR${Color_Off}         Path to tarball backup of various configurations (if not provided, will be prompted)
+    ${Yellow}PATH_TO_SAVE_TAR${Color_Off}           Output path for --save-tar (default: ~/linux_backup_<date>.tar.gz)
+    ${Yellow}SAVE_TAR_ITEMS${Color_Off}             Paths for --save-tar, space separated (skips prompts)
 
   OPTIONS:
     ${Yellow}--essential${Color_Off}   Install essential packages
@@ -60,6 +64,7 @@ Usage:
     ${Yellow}--sublt${Color_Off}       Setup Sublime text
     ${Yellow}--all${Color_Off}         Setup everything (same as passing all flags)
     ${Yellow}--load-tar${Color_Off}    Load configuration from a tarball backup
+    ${Yellow}--save-tar${Color_Off}    Interactively pick files/folders and back them up into a tarball (compatible with --load-tar)
     ${Yellow}--uninstall${Color_Off}   Uninstall any packages installed via this script
 
   Note: 
@@ -109,6 +114,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --load-tar)
       LOAD_FROM_TAR=1;
+      ;;
+    --save-tar)
+      SAVE_TAR=1;
       ;;
     *)
       echo "Unknown parameter: $1"
@@ -207,6 +215,12 @@ fi
 if [[ ${LOAD_FROM_TAR} -eq 1 || ${ALL_INSTALL} -eq 1 ]]
 then
   setup_load_backup
+fi
+
+# note: --save-tar is deliberately NOT part of --all
+if [[ ${SAVE_TAR} -eq 1 ]]
+then
+  setup_save_backup
 fi
 
 (trap - INT;)
